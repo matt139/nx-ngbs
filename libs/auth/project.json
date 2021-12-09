@@ -1,0 +1,54 @@
+{
+  "projectType": "library",
+  "root": "libs/auth",
+  "sourceRoot": "libs/auth/src",
+  "prefix": "ngbs",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/auth"],
+      "options": {
+        "jestConfig": "libs/auth/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/auth/src/**/*.ts", "libs/auth/src/**/*.html"]
+      }
+    },
+    "storybook": {
+      "executor": "@nrwl/storybook:storybook",
+      "options": {
+        "uiFramework": "@storybook/angular",
+        "port": 4400,
+        "config": {
+          "configFolder": "libs/auth/.storybook"
+        }
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "build-storybook": {
+      "executor": "@nrwl/storybook:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "uiFramework": "@storybook/angular",
+        "outputPath": "dist/storybook/auth",
+        "config": {
+          "configFolder": "libs/auth/.storybook"
+        }
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

@@ -1,0 +1,38 @@
+<form class="p-5 bg-light border border-dark" (submit)="formSubmit$.next($event)">
+  <div class="mb-3">
+    <label for="input-email" class="form-label">Email address</label>
+    <input
+      type="email"
+      class="form-control"
+      id="input-email"
+      aria-describedby="emailHelp"
+    />
+    <div id="emailHelp" class="form-text">
+      We'll never share your email with anyone else.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="input-password" class="form-label">Password</label>
+    <input type="password" class="form-control" id="input-password" />
+  </div>
+  <div class="mb-3">
+    <label for="input-password-confirm" class="form-label"
+      >Confirm Password</label
+    >
+    <input type="password" class="form-control" id="input-password-confirm" />
+  </div>
+  <button
+    type="submit"
+    class="btn btn-primary me-2"
+    (click)="buttonClickSubmit$.next($event)"
+  >
+    Submit
+  </button>
+  <button
+    type="button"
+    class="btn btn-secondary ms-2"
+    (click)="buttonClickLogIn$.next($event)"
+  >
+    Log In
+  </button>
+</form>

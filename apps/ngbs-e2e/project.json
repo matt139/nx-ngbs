@@ -1,0 +1,28 @@
+{
+  "root": "apps/ngbs-e2e",
+  "sourceRoot": "apps/ngbs-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/ngbs-e2e/cypress.json",
+        "devServerTarget": "ngbs:serve:development"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "ngbs:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/ngbs-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["ngbs"]
+}
