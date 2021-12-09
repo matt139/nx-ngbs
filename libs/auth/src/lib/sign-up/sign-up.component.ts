@@ -1,8 +1,17 @@
 import { Component, Output } from '@angular/core';
-import { merge, ReplaySubject } from 'rxjs';
+import { merge, of, ReplaySubject, switchMap } from 'rxjs';
+import { map, withLatestFrom } from 'rxjs/operators';
+import { SignUpForm } from './sign-up.form';
 
 export class FormSubmitAction {
-  public type = '[SignUpFormComponent] Sign Up Form Submit';
+  public readonly type = '[SignUpFormComponent] Sign Up Form Submit';
+  constructor(
+    public readonly values: {
+      emailAddress: string;
+      password: string;
+      passwordConfirm: string;
+    }
+  ) {}
 }
 
 export class ButtonClickSubmitAction {
@@ -29,23 +38,41 @@ export type SignUpComponentActions =
   styleUrls: ['./sign-up.component.scss'],
 })
 export class SignUpFormComponent {
-  public readonly formSubmit$ = new ReplaySubject<FormSubmitAction>(1);
-  public readonly buttonClickSubmit$ =
+  private readonly formSubmit$ = new ReplaySubject<FormSubmitAction>(1);
+  private readonly buttonClickSubmit$ =
     new ReplaySubject<ButtonClickSubmitAction>(1);
-  public readonly buttonClickLogIn$ = new ReplaySubject<ButtonClickLogInAction>(
-    1
+  private readonly buttonClickLogIn$ =
+    new ReplaySubject<ButtonClickLogInAction>(1);
+
+  public readonly signUpForm$ = of(new SignUpForm());
+
+  private readonly formValues$ = this.signUpForm$.pipe(
+    switchMap((form) => form.valueChanges)
   );
+
+  private formSubmitAction$ = this.formSubmit$.pipe(
+    withLatestFrom(this.formValues$),
+    map(([, values]) => new FormSubmitAction(values))
+  );
+
+  a = this.signUpForm$
+    .pipe(switchMap((form) => form.valueChanges))
+    .subscribe((x) => console.log('a = this.signUpForm.valueChanges', x));
+
+  // a = this.signUpForm$
+  //   .pipe(switchMap((form) => form.valueChanges))
+  //   .subscribe((x) => console.log(x));
 
   @Output()
   public readonly action = merge(
     this.formSubmit$,
     this.buttonClickLogIn$,
-    this.buttonClickSubmit$,
+    this.buttonClickSubmit$
   );
 
   public readonly formSubmit = (event: Event) => {
     event.preventDefault();
-    this.formSubmit$.next(new FormSubmitAction());
+    this.formSubmit$.next(event);
   };
 
   public readonly buttonClickSubmit = () => {

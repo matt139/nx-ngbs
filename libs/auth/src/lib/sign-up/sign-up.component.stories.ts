@@ -1,3 +1,4 @@
+import { ReactiveFormsModule } from '@angular/forms';
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
 import { SignUpFormComponent } from './sign-up.component';
 
@@ -6,7 +7,7 @@ export default {
   component: SignUpFormComponent,
   decorators: [
     moduleMetadata({
-      imports: [],
+      imports: [ReactiveFormsModule],
       declarations: [SignUpFormComponent],
     }),
   ],

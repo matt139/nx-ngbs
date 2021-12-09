@@ -1,4 +1,9 @@
-<form class="p-5 bg-light border border-dark" (submit)="formSubmit($event)">
+<form
+  *ngIf="signUpForm$ | async as signUpForm"
+  class="p-5 bg-light border border-dark"
+  (ngSubmit)="formSubmit($event)"
+  [formGroup]="signUpForm"
+>
   <h5 class="mb-3 text-center">Sign Up</h5>
   <div class="mb-3">
     <label for="input-email" class="form-label">Email address</label>
@@ -7,6 +12,7 @@
       class="form-control"
       id="input-email"
       aria-describedby="emailHelp"
+      formControlName="emailAddress"
     />
     <div id="emailHelp" class="form-text">
       We'll never share your email with anyone else.
@@ -14,13 +20,23 @@
   </div>
   <div class="mb-3">
     <label for="input-password" class="form-label">Password</label>
-    <input type="password" class="form-control" id="input-password" />
+    <input
+      type="password"
+      formControlName="password"
+      class="form-control"
+      id="input-password"
+    />
   </div>
   <div class="mb-3">
     <label for="input-password-confirm" class="form-label"
       >Confirm Password</label
     >
-    <input type="password" class="form-control" id="input-passwgtord-confirm" />
+    <input
+      type="password"
+      formControlName="passwordConfirm"
+      class="form-control"
+      id="input-password-confirm"
+    />
   </div>
   <button
     type="submit"
