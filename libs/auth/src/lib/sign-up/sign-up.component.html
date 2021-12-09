@@ -1,4 +1,5 @@
-<form class="p-5 bg-light border border-dark" (submit)="formSubmit$.next($event)">
+<form class="p-5 bg-light border border-dark" (submit)="formSubmit($event)">
+  <h5 class="mb-3 text-center">Sign Up</h5>
   <div class="mb-3">
     <label for="input-email" class="form-label">Email address</label>
     <input
@@ -19,19 +20,19 @@
     <label for="input-password-confirm" class="form-label"
       >Confirm Password</label
     >
-    <input type="password" class="form-control" id="input-password-confirm" />
+    <input type="password" class="form-control" id="input-passwgtord-confirm" />
   </div>
   <button
     type="submit"
     class="btn btn-primary me-2"
-    (click)="buttonClickSubmit$.next($event)"
+    (click)="buttonClickSubmit($event)"
   >
     Submit
   </button>
   <button
     type="button"
     class="btn btn-secondary ms-2"
-    (click)="buttonClickLogIn$.next($event)"
+    (click)="buttonClickLogIn($event)"
   >
     Log In
   </button>

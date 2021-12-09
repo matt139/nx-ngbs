@@ -1,23 +1,24 @@
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
-import { SignUpComponent } from './sign-up.component';
+import { SignUpFormComponent } from './sign-up.component';
 
 export default {
   title: 'SignUpComponent',
-  component: SignUpComponent,
+  component: SignUpFormComponent,
   decorators: [
     moduleMetadata({
       imports: [],
+      declarations: [SignUpFormComponent],
     }),
   ],
   argTypes: {
-    actions: {
-      action: 'submit',
+    action: {
+      action: () => void 0,
     },
   },
-} as Meta<SignUpComponent>;
+} as Meta<SignUpFormComponent>;
 
-const Template: Story<SignUpComponent> = (args: SignUpComponent) => ({
-  component: SignUpComponent,
+const Template: Story<SignUpFormComponent> = (args: SignUpFormComponent) => ({
+  template: `<ngbs-sign-up (action)="action($event)"></ngbs-sign-up>`,
   props: args,
 });
 
