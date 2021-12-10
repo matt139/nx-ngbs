@@ -10,7 +10,7 @@ import { createAction, props } from '@ngrx/store';
  * a basic sign up form
  */
 @Component({
-  selector: 'ngbs-sign-up',
+  selector: 'ngbs-sign-up-form',
   templateUrl: './sign-up-form.component.html',
   styleUrls: ['./sign-up-form.component.scss'],
 })
@@ -47,11 +47,13 @@ export class SignUpFormComponent {
     this.formSubmit$.next(event);
   };
 
-  public readonly buttonClickSubmit = () => {
+  public readonly buttonClickSubmit = (event: Event) => {
+    event.preventDefault();
     this.buttonClickSubmit$.next(buttonClickSubmit());
   };
 
-  public readonly buttonClickLogIn = () => {
+  public readonly buttonClickLogIn = (event: Event) => {
+    event.preventDefault();
     this.buttonClickLogIn$.next(buttonClickLogIn());
   };
 }

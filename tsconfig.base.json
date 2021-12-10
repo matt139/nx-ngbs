@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@ngbs/auth": ["libs/auth/src/index.ts"]
+      "@ngbs/auth": ["libs/auth/src/index.ts"],
+      "@ngbs/utils": ["libs/utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

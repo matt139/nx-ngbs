@@ -46,11 +46,13 @@ export class LogInFormComponent {
     this.formSubmit$.next(event);
   };
 
-  public readonly buttonClickSubmit = () => {
+  public readonly buttonClickSubmit = (event: Event) => {
+    event.preventDefault();
     this.buttonClickSubmit$.next(buttonClickSubmit());
   };
 
-  public readonly buttonClickLogIn = () => {
+  public readonly buttonClickSignUp = (event: Event) => {
+    event.preventDefault();
     this.buttonClickSignUp$.next(buttonClickLogIn());
   };
 }

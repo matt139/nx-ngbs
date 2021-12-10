@@ -4,6 +4,8 @@
     "auth": "libs/auth",
     "auth-e2e": "apps/auth-e2e",
     "ngbs": "apps/ngbs",
-    "ngbs-e2e": "apps/ngbs-e2e"
+    "ngbs-e2e": "apps/ngbs-e2e",
+    "utils": "libs/utils",
+    "utils-e2e": "apps/utils-e2e"
   }
 }
