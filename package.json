@@ -25,6 +25,7 @@
     "@nrwl/linter": "13.2.4",
     "@nrwl/storybook": "^13.2.4",
     "@nrwl/tao": "13.2.4",
+    "@nrwl/web": "^13.3.0",
     "@nrwl/workspace": "13.2.4",
     "@storybook/addon-essentials": "~6.4.0-rc.3",
     "@storybook/angular": "~6.4.0-rc.3",
@@ -53,6 +54,7 @@
     "@angular/platform-browser": "^13.0.0",
     "@angular/platform-browser-dynamic": "^13.0.0",
     "@angular/router": "^13.0.0",
+    "@ngrx/store": "^13.0.2",
     "rxjs": "~7.4.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.4"

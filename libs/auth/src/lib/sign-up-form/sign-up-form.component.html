@@ -1,0 +1,82 @@
+<form
+  *ngIf="signUpForm$ | async as signUpForm"
+  (ngSubmit)="formSubmit($event)"
+  [formGroup]="signUpForm"
+>
+  <fieldset class="bg-light border border-dark p-5">
+    <div class="d-flex justify-content-between mb-3 align-items-end">
+      <legend class="mb-0">Sign Up</legend>
+      <a (click)="buttonClickLogIn($event)" class="flex-shrink-0"> Log In </a>
+    </div>
+
+    <div class="mb-3">
+      <label for="input-email" class="form-label">Email address</label>
+      <input
+        type="email"
+        class="form-control"
+        id="input-email"
+        aria-describedby="emailHelp"
+        formControlName="emailAddress"
+      />
+      <div id="emailHelp" class="form-text">
+        We'll never share your email with anyone else.
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="input-password" class="form-label">Password</label>
+      <input
+        type="password"
+        formControlName="password"
+        class="form-control"
+        id="input-password"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="input-password-confirm" class="form-label"
+        >Confirm Password</label
+      >
+      <input
+        type="password"
+        formControlName="passwordConfirm"
+        class="form-control"
+        id="input-password-confirm"
+      />
+    </div>
+    <button
+      type="submit"
+      class="btn btn-primary me-2"
+      (click)="buttonClickSubmit($event)"
+      [disabled]="!signUpForm.valid"
+    >
+      Sign Up
+    </button>
+    <ul [class.d-none]="signUpForm.valid || !signUpForm.touched" class="mb-0 mt-3">
+      <li
+        class="form-text text-danger"
+        [class.d-none]="!signUpForm.errors?.passwordMismatch"
+      >
+        Passwords must match
+      </li>
+
+      <li
+        class="form-text text-danger"
+        [class.d-none]="!signUpForm.controls.emailAddress.errors?.required || !signUpForm.controls.emailAddress.touched"
+      >
+        Email Address is required
+      </li>
+
+      <li
+        class="form-text text-danger"
+        [class.d-none]="!signUpForm.controls.password.errors?.required || !signUpForm.controls.password.touched"
+      >
+        Password is required
+      </li>
+      <li
+        class="form-text text-danger"
+        [class.d-none]="!signUpForm.controls.passwordConfirm.errors?.required || !signUpForm.controls.passwordConfirm.touched"
+      >
+        Confirm Password is required
+      </li>
+    </ul>
+  </fieldset>
+</form>

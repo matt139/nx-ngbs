@@ -12,6 +12,9 @@
         "passWithNoTests": true
       }
     },
+    "webpack": {
+      "executor": "@nrwl/web:webpack"
+    },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "options": {

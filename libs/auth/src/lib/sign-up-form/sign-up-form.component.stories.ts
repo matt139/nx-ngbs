@@ -1,6 +1,6 @@
 import { ReactiveFormsModule } from '@angular/forms';
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
-import { SignUpFormComponent } from './sign-up.component';
+import { SignUpFormComponent } from './sign-up-form.component';
 
 export default {
   title: 'SignUpComponent',

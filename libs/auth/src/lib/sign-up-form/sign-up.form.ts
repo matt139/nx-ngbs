@@ -21,13 +21,17 @@ export class SignUpForm extends FormGroup {
   }
 }
 
-export const passwordsMatchValidator: ValidatorFn = (
-  control: AbstractControl
-) => {
+export interface SignUpFormValues {
+  emailAddress: string;
+  password: string;
+  passwordConfirm: string;
+}
+
+const passwordsMatchValidator: ValidatorFn = (control: AbstractControl) => {
   const password = control.get('password');
   const passwordConfirm = control.get('passwordConfirm');
   const controlsTouched = password?.touched && passwordConfirm?.touched;
-  if (controlsTouched && password?.value === passwordConfirm?.value) {
+  if (!controlsTouched || password?.value === passwordConfirm?.value) {
     return null;
   } else {
     return {
