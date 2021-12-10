@@ -8,6 +8,8 @@ import {
 } from '@angular/core';
 import { combineLatest, fromEvent, of, ReplaySubject } from 'rxjs';
 
+const LINK_ID = 'link-ngbs-select-stylesheet';
+
 /**
  * Allow users to customize themes by selecting a stylesheet and update link in <head>
  */
@@ -18,7 +20,9 @@ import { combineLatest, fromEvent, of, ReplaySubject } from 'rxjs';
 export class SelectStylesheetDirective implements AfterViewInit {
   private readonly ngAfterViewInit$ = new ReplaySubject<void>(1);
 
-  private readonly linkElement = this.renderer.createElement('link');
+  private readonly linkElement =
+    this.document.querySelector(`#${LINK_ID}`) ||
+    this.renderer.createElement('link');
 
   constructor(
     private readonly elementRef: ElementRef<HTMLSelectElement>,
@@ -29,8 +33,8 @@ export class SelectStylesheetDirective implements AfterViewInit {
   private readonly options$ = of(
     stylesheets.map((stylesheet) => {
       const option = this.renderer.createElement('option');
-      option.value = stylesheet.value;
-      option.innerText = stylesheet.key;
+      option.value = stylesheet.url;
+      option.innerText = stylesheet.name;
       return option;
     })
   );
@@ -45,9 +49,16 @@ export class SelectStylesheetDirective implements AfterViewInit {
   );
 
   private readonly initLinkElement = this.ngAfterViewInit$.subscribe(() => {
-    const head = this.document.head;
+    this.renderer.setAttribute(this.linkElement, 'id', LINK_ID);
     this.renderer.setAttribute(this.linkElement, 'rel', 'stylesheet');
-    this.renderer.appendChild(head, this.linkElement);
+    const existingLinkElement = this.document.querySelector(`#${LINK_ID}`);
+    if (existingLinkElement) {
+      this.elementRef.nativeElement.value =
+        existingLinkElement.getAttribute('href')?.valueOf() || defaultUrl;
+    } else {
+      const head = this.document.head;
+      this.renderer.appendChild(head, this.linkElement);
+    }
   });
 
   private readonly updateStylesheet = fromEvent(
@@ -55,9 +66,10 @@ export class SelectStylesheetDirective implements AfterViewInit {
     'change'
   ).subscribe(() => {
     this.setLinkElement(this.elementRef.nativeElement.value);
+
   });
 
-  private setLinkElement(href: string = stylesheets[0].value) {
+  private setLinkElement(href: string = defaultUrl) {
     this.renderer.setAttribute(this.linkElement, 'href', href);
   }
 
@@ -69,108 +81,109 @@ export class SelectStylesheetDirective implements AfterViewInit {
 
 const stylesheets = [
   {
-    value:
-      'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css',
-    key: 'Bootstrap',
+    url: 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css',
+    name: 'Bootstrap',
   },
   {
-    value: 'https://bootswatch.com/5/cerulean/bootstrap.css',
-    key: 'cerulean',
+    url: 'https://bootswatch.com/5/cerulean/bootstrap.css',
+    name: 'cerulean',
   },
   {
-    value: 'https://bootswatch.com/5/cosmo/bootstrap.css',
-    key: 'cosmo',
+    url: 'https://bootswatch.com/5/cosmo/bootstrap.css',
+    name: 'cosmo',
   },
   {
-    value: 'https://bootswatch.com/5/cyborg/bootstrap.css',
-    key: 'cyborg',
+    url: 'https://bootswatch.com/5/cyborg/bootstrap.css',
+    name: 'cyborg',
   },
   {
-    value: 'https://bootswatch.com/5/darkly/bootstrap.css',
-    key: 'darkly',
+    url: 'https://bootswatch.com/5/darkly/bootstrap.css',
+    name: 'darkly',
   },
   {
-    value: 'https://bootswatch.com/5/flatly/bootstrap.css',
-    key: 'flatly',
+    url: 'https://bootswatch.com/5/flatly/bootstrap.css',
+    name: 'flatly',
   },
   {
-    value: 'https://bootswatch.com/5/journal/bootstrap.css',
-    key: 'journal',
+    url: 'https://bootswatch.com/5/journal/bootstrap.css',
+    name: 'journal',
   },
   {
-    value: 'https://bootswatch.com/5/litera/bootstrap.css',
-    key: 'litera',
+    url: 'https://bootswatch.com/5/litera/bootstrap.css',
+    name: 'litera',
   },
   {
-    value: 'https://bootswatch.com/5/lumen/bootstrap.css',
-    key: 'lumen',
+    url: 'https://bootswatch.com/5/lumen/bootstrap.css',
+    name: 'lumen',
   },
   {
-    value: 'https://bootswatch.com/5/lux/bootstrap.css',
-    key: 'lux',
+    url: 'https://bootswatch.com/5/lux/bootstrap.css',
+    name: 'lux',
   },
   {
-    value: 'https://bootswatch.com/5/materia/bootstrap.css',
-    key: 'materia',
+    url: 'https://bootswatch.com/5/materia/bootstrap.css',
+    name: 'materia',
   },
   {
-    value: 'https://bootswatch.com/5/minty/bootstrap.css',
-    key: 'minty',
+    url: 'https://bootswatch.com/5/minty/bootstrap.css',
+    name: 'minty',
   },
   {
-    value: 'https://bootswatch.com/5/morph/bootstrap.css',
-    key: 'morph',
+    url: 'https://bootswatch.com/5/morph/bootstrap.css',
+    name: 'morph',
   },
   {
-    value: 'https://bootswatch.com/5/pulse/bootstrap.css',
-    key: 'pulse',
+    url: 'https://bootswatch.com/5/pulse/bootstrap.css',
+    name: 'pulse',
   },
   {
-    value: 'https://bootswatch.com/5/quartz/bootstrap.css',
-    key: 'quartz',
+    url: 'https://bootswatch.com/5/quartz/bootstrap.css',
+    name: 'quartz',
   },
   {
-    value: 'https://bootswatch.com/5/sandstone/bootstrap.css',
-    key: 'sandstone',
+    url: 'https://bootswatch.com/5/sandstone/bootstrap.css',
+    name: 'sandstone',
   },
   {
-    value: 'https://bootswatch.com/5/simplex/bootstrap.css',
-    key: 'simplex',
+    url: 'https://bootswatch.com/5/simplex/bootstrap.css',
+    name: 'simplex',
   },
   {
-    value: 'https://bootswatch.com/5/sketchy/bootstrap.css',
-    key: 'sketchy',
+    url: 'https://bootswatch.com/5/sketchy/bootstrap.css',
+    name: 'sketchy',
   },
   {
-    value: 'https://bootswatch.com/5/slate/bootstrap.css',
-    key: 'slate',
+    url: 'https://bootswatch.com/5/slate/bootstrap.css',
+    name: 'slate',
   },
   {
-    value: 'https://bootswatch.com/5/solar/bootstrap.css',
-    key: 'solar',
+    url: 'https://bootswatch.com/5/solar/bootstrap.css',
+    name: 'solar',
   },
   {
-    value: 'https://bootswatch.com/5/spacelab/bootstrap.css',
-    key: 'spacelab',
+    url: 'https://bootswatch.com/5/spacelab/bootstrap.css',
+    name: 'spacelab',
   },
   {
-    value: 'https://bootswatch.com/5/superhero/bootstrap.css',
-    key: 'superhero',
+    url: 'https://bootswatch.com/5/superhero/bootstrap.css',
+    name: 'superhero',
   },
   {
-    value: 'https://bootswatch.com/5/united/bootstrap.css',
-    key: 'united',
+    url: 'https://bootswatch.com/5/united/bootstrap.css',
+    name: 'united',
   },
   {
-    value: 'https://bootswatch.com/5/vapor/bootstrap.css',
-    key: 'vapor',
+    url: 'https://bootswatch.com/5/vapor/bootstrap.css',
+    name: 'vapor',
   },
   {
-    value: 'https://bootswatch.com/5/yeti/bootstrap.css',
-    key: 'yeti',
+    url: 'https://bootswatch.com/5/yeti/bootstrap.css',
+    name: 'yeti',
   },
   {
-    value: 'https://bootswatch.com/5/zephyr/bootstrap.css',
-    key: 'zephyr',
+    url: 'https://bootswatch.com/5/zephyr/bootstrap.css',
+    name: 'zephyr',
   },
 ];
+
+const defaultUrl = stylesheets[0].url;

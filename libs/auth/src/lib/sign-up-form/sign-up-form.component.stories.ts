@@ -1,6 +1,7 @@
 import { ReactiveFormsModule } from '@angular/forms';
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
 import { SignUpFormComponent } from './sign-up-form.component';
+import { SelectStylesheetDirective } from '@ngbs/utils';
 
 export default {
   title: 'SignUpComponent',
@@ -8,7 +9,7 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [ReactiveFormsModule],
-      declarations: [SignUpFormComponent],
+      declarations: [SignUpFormComponent, SelectStylesheetDirective],
     }),
   ],
   argTypes: {
@@ -19,7 +20,10 @@ export default {
 } as Meta<SignUpFormComponent>;
 
 const Template: Story<SignUpFormComponent> = (args: SignUpFormComponent) => ({
-  template: `<ngbs-sign-up (action)="action($event)"></ngbs-sign-up>`,
+  template: `
+  <select class="form-select" ngbsSelectStylesheet>
+  </select>
+  <ngbs-sign-up-form (action)="action($event)"></ngbs-sign-up-form>`,
   props: args,
 });
 
