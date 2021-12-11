@@ -1,7 +1,7 @@
 {
   "hosting": [
     {
-      "target": "nx-ngbs",
+      "site": "ngbs-app",
       "public": "dist/apps/ngbs",
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "rewrites": [
@@ -12,7 +12,7 @@
       ]
     },
     {
-      "target": "ngbs-auth",
+      "site": "ngbs-auth",
       "public": "dist/storybook/auth",
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "rewrites": [
