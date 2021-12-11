@@ -1,11 +1,12 @@
 import { Component, Output } from '@angular/core';
+import { createAction, props } from '@ngrx/store';
 import { merge, of, ReplaySubject, switchMap } from 'rxjs';
 import { filter, map, withLatestFrom } from 'rxjs/operators';
+
 import { SignUpForm, SignUpFormValues } from './sign-up.form';
-import { createAction, props } from '@ngrx/store';
 
 /**
- * SignUpFormComponent
+ * NgbsSignUpFormComponent
  *
  * a basic sign up form
  */
@@ -14,7 +15,7 @@ import { createAction, props } from '@ngrx/store';
   templateUrl: './sign-up-form.component.html',
   styleUrls: ['./sign-up-form.component.scss'],
 })
-export class SignUpFormComponent {
+export class NgbsSignUpFormComponent {
   private readonly formSubmit$ = new ReplaySubject<Event>(1);
 
   private readonly buttonClickSubmit$ =

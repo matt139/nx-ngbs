@@ -1,2 +1,15 @@
-<select ngbsSelectStylesheet></select>
-<router-outlet></router-outlet>
+<div class="container">
+  <div class="mb-5">
+    <label for="select-stylesheet"> Select Stylesheet: </label>
+    <select
+      ngbsSelectStylesheet
+      class="form-select"
+      name="select-stylesheet"
+    ></select>
+    <div class="form-text col-12">
+      Demo themes by <a href="https://bootswatch.com">Bootswatch</a>
+    </div>
+  </div>
+
+  <router-outlet></router-outlet>
+</div>

@@ -6,6 +6,13 @@
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "rules": {
+        "@angular-eslint/component-class-suffix": [
+          "error",
+          {
+            "suffixes": ["Component","View"]
+          }
+        ],
+
         "@nrwl/nx/enforce-module-boundaries": [
           "error",
           {
