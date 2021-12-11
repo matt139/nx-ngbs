@@ -1,5 +1,15 @@
 {
   "projects": {
-    "default": "nx-ngbs"
+    "default": "nx-ngbs",
+    "nx-ngbs": "nx-ngbs"
+  },
+  "targets": {
+    "nx-ngbs": {
+      "hosting": {
+        "master": [
+          "ngbs-auth"
+        ]
+      }
+    }
   }
 }
