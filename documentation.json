@@ -1,0 +1,2630 @@
+{
+    "pipes": [],
+    "interfaces": [
+        {
+            "name": "AuthEntity",
+            "id": "interface-AuthEntity-6123c1fc894d405b8e3cbeaa3f90b2423e73e159e39a73d4672e2c6ba2cd211758434cdea338d735a4eb5cd299933aa12eca71ad829721de8d4c4ac53a94fbcb",
+            "file": "libs/auth/src/lib/+state/auth.models.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "export interface AuthEntity {\n  id: string | number; // Primary ID\n  name: string;\n}\n",
+            "properties": [
+                {
+                    "name": "id",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string | number",
+                    "optional": false,
+                    "description": "",
+                    "line": 5
+                },
+                {
+                    "name": "name",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 6
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 165,
+            "description": "<p>Interface for the &#39;Auth&#39; data</p>\n",
+            "rawdescription": "\n\nInterface for the 'Auth' data\n",
+            "methods": []
+        },
+        {
+            "name": "AuthPartialState",
+            "id": "interface-AuthPartialState-6432ab45bcc1e50d6c241f318371e609eebfc49e86518c5d7c8b9857370e460a760dcdff0baa1087df0c78c15c52a0f74b76f8169c4b15c3c8aad063d0301820",
+            "file": "libs/auth/src/lib/+state/auth.reducer.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';\nimport { createReducer, on, Action } from '@ngrx/store';\n\nimport * as AuthActions from './auth.actions';\nimport { AuthEntity } from './auth.models';\n\nexport const AUTH_FEATURE_KEY = 'auth';\n\nexport interface State extends EntityState<AuthEntity> {\n  selectedId?: string | number; // which Auth record has been selected\n  loaded: boolean; // has the Auth list been loaded\n  error?: string | null; // last known error (if any)\n}\n\nexport interface AuthPartialState {\n  readonly [AUTH_FEATURE_KEY]: State;\n}\n\nexport const authAdapter: EntityAdapter<AuthEntity> =\n  createEntityAdapter<AuthEntity>();\n\nexport const initialState: State = authAdapter.getInitialState({\n  // set initial required properties\n  loaded: false,\n});\n\nconst authReducer = createReducer(\n  initialState,\n  on(AuthActions.init, (state) => ({ ...state, loaded: false, error: null })),\n  on(AuthActions.loadAuthSuccess, (state, { auth }) =>\n    authAdapter.setAll(auth, { ...state, loaded: true })\n  ),\n  on(AuthActions.loadAuthFailure, (state, { error }) => ({ ...state, error }))\n);\n\nexport function reducer(state: State | undefined, action: Action) {\n  return authReducer(state, action);\n}\n",
+            "properties": [
+                {
+                    "name": "AUTH_FEATURE_KEY",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "State",
+                    "optional": false,
+                    "description": "",
+                    "line": 16,
+                    "modifierKind": [
+                        144
+                    ]
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 165,
+            "methods": []
+        },
+        {
+            "name": "LogInFormValues",
+            "id": "interface-LogInFormValues-e938efac509f30970a9f8d16ffe997b9706cfa365485f1a03aad180d4bbfb4aacac8bb667943e2c5f6be8dd2515baba1a3518c820bd3e856c1327c203192bad9",
+            "file": "libs/auth/src/lib/components/log-in-form/log-in.form.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "import { FormControl, FormGroup, Validators } from '@angular/forms';\n\nexport class LogInForm extends FormGroup {\n  constructor() {\n    super({\n      emailAddress: new FormControl('', Validators.required),\n      password: new FormControl('', Validators.required),\n    });\n  }\n}\n\nexport interface LogInFormValues {\n  emailAddress: string;\n  password: string;\n}\n",
+            "properties": [
+                {
+                    "name": "emailAddress",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 13
+                },
+                {
+                    "name": "password",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 14
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 165,
+            "methods": []
+        },
+        {
+            "name": "NgbsAvatarComponentProps",
+            "id": "interface-NgbsAvatarComponentProps-e35853938783db5e2f114eee9605f76020ee2424a00e82cb0240378ff68e0c32cd62e10c5b36789f2339bc68b938ff9a448bd8467a84b92cc37c9cb2bf06bf2f",
+            "file": "libs/auth/src/lib/components/avatar/avatar.component.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "import { Component, Input } from '@angular/core'\nimport { map, ReplaySubject } from 'rxjs'\nimport { anonymousUser } from '../../models/user'\n\n@Component({\n  selector: 'ngbs-avatar',\n  template: `\n    <details\n      class=\"position-relative\"\n      style=\"width: 5rem; height: 5rem;\"\n      *ngIf=\"user$ | async as user\"\n    >\n      <summary style=\"list-style: none;\">\n        <img\n          class=\"w-100 bi-person-circle rounded-circle\"\n          [src]=\"user.avatarUrl\"\n          aria-label=\"logged in\"\n        />\n      </summary>\n      <menu class=\"position-absolute bg-light\" style=\"width: 10rem;\">\n        <li>Profile</li>\n        <li>Log Out</li>\n      </menu>\n    </details>\n    <details\n      class=\"position-relative\"\n      style=\"width: 5rem; height: 5rem;\"\n      *ngIf=\"!(user$ | async)\"\n    >\n      <summary style=\"list-style: none;\">\n        <img\n          class=\"w-100 bi-person-circle rounded-circle\"\n          [src]=\"anonymousUser.avatarUrl\"\n          aria-label=\"logged out\"\n        />\n      </summary>\n      <menu class=\"position-absolute bg-light\" style=\"width: 10rem;\">\n        <li>Sign Up</li>\n        <li>Log In</li>\n      </menu>\n    </details>\n  `,\n})\nexport class NgbsAvatarComponent {\n  private readonly props$ = new ReplaySubject<NgbsAvatarComponentProps>(1)\n\n  @Input()\n  set props(props: NgbsAvatarComponentProps) {\n    if (!props) return\n    this.props$.next(props)\n  }\n\n  public readonly user$ = this.props$.pipe(map((props) => props.user))\n\n  public readonly anonymousUser = anonymousUser\n}\n\nexport interface NgbsAvatarComponentProps {\n  readonly user: NgbsUser\n}\n\nexport type NgbsUser = { displayName: string; avatarUrl: string }\n",
+            "properties": [
+                {
+                    "name": "user",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "NgbsUser",
+                    "optional": false,
+                    "description": "",
+                    "line": 59,
+                    "modifierKind": [
+                        144
+                    ]
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 165,
+            "methods": []
+        },
+        {
+            "name": "NgbsUser",
+            "id": "interface-NgbsUser-91fa8b0d6f5de6f45f52ab8356902d2d82b2402e849b1759394cae5ae05b7152ba1c59c0c5552e9b45b203df43742495ac0d8f0ab99b952b05a1c2d9e4973b22",
+            "file": "libs/auth/src/lib/models/user.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "export interface NgbsUser {\n  readonly displayName: string\n  readonly emailAddress: string\n  readonly avatarUrl: string\n}\n\nexport const anonymousUser: NgbsUser = {\n  displayName: 'ANONYMOUS USER',\n  emailAddress: 'anonymous@example.com',\n  avatarUrl: 'http://via.placeholder.com/400',\n}\n\n\nexport const testUser: NgbsUser = {\n  displayName: 'TEST USER',\n  emailAddress: 'test@example.com',\n  avatarUrl: 'https://blog.matttelliott.com/assets/selfie.jpeg',\n}\n",
+            "properties": [
+                {
+                    "name": "avatarUrl",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 4,
+                    "modifierKind": [
+                        144
+                    ]
+                },
+                {
+                    "name": "displayName",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 2,
+                    "modifierKind": [
+                        144
+                    ]
+                },
+                {
+                    "name": "emailAddress",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 3,
+                    "modifierKind": [
+                        144
+                    ]
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 165,
+            "methods": []
+        },
+        {
+            "name": "SignUpFormValues",
+            "id": "interface-SignUpFormValues-e8cb9fa0cbd76212c994cde975c8a7e5a50c695d1b0c72ffaa6e0e4a0cc1ea2544868ebdd8c3b19fe95ca14cbf14f763d1557d97d1865bb04fc78b1474dbdaf0",
+            "file": "libs/auth/src/lib/components/sign-up-form/sign-up.form.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "import {\n  AbstractControl,\n  FormControl,\n  FormGroup,\n  ValidatorFn,\n  Validators,\n} from '@angular/forms';\n\nexport class SignUpForm extends FormGroup {\n  constructor() {\n    super(\n      {\n        emailAddress: new FormControl('', Validators.required),\n        password: new FormControl('', Validators.required),\n        passwordConfirm: new FormControl('', Validators.required),\n      },\n      {\n        validators: passwordsMatchValidator,\n      }\n    );\n  }\n}\n\nexport interface SignUpFormValues {\n  emailAddress: string;\n  password: string;\n  passwordConfirm: string;\n}\n\nconst passwordsMatchValidator: ValidatorFn = (control: AbstractControl) => {\n  const password = control.get('password');\n  const passwordConfirm = control.get('passwordConfirm');\n  const controlsTouched = password?.touched && passwordConfirm?.touched;\n  if (!controlsTouched || password?.value === passwordConfirm?.value) {\n    return null;\n  } else {\n    return {\n      passwordMismatch: true,\n    };\n  }\n};\n",
+            "properties": [
+                {
+                    "name": "emailAddress",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 25
+                },
+                {
+                    "name": "password",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 26
+                },
+                {
+                    "name": "passwordConfirm",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 27
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 165,
+            "methods": []
+        },
+        {
+            "name": "State",
+            "id": "interface-State-6432ab45bcc1e50d6c241f318371e609eebfc49e86518c5d7c8b9857370e460a760dcdff0baa1087df0c78c15c52a0f74b76f8169c4b15c3c8aad063d0301820",
+            "file": "libs/auth/src/lib/+state/auth.reducer.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';\nimport { createReducer, on, Action } from '@ngrx/store';\n\nimport * as AuthActions from './auth.actions';\nimport { AuthEntity } from './auth.models';\n\nexport const AUTH_FEATURE_KEY = 'auth';\n\nexport interface State extends EntityState<AuthEntity> {\n  selectedId?: string | number; // which Auth record has been selected\n  loaded: boolean; // has the Auth list been loaded\n  error?: string | null; // last known error (if any)\n}\n\nexport interface AuthPartialState {\n  readonly [AUTH_FEATURE_KEY]: State;\n}\n\nexport const authAdapter: EntityAdapter<AuthEntity> =\n  createEntityAdapter<AuthEntity>();\n\nexport const initialState: State = authAdapter.getInitialState({\n  // set initial required properties\n  loaded: false,\n});\n\nconst authReducer = createReducer(\n  initialState,\n  on(AuthActions.init, (state) => ({ ...state, loaded: false, error: null })),\n  on(AuthActions.loadAuthSuccess, (state, { auth }) =>\n    authAdapter.setAll(auth, { ...state, loaded: true })\n  ),\n  on(AuthActions.loadAuthFailure, (state, { error }) => ({ ...state, error }))\n);\n\nexport function reducer(state: State | undefined, action: Action) {\n  return authReducer(state, action);\n}\n",
+            "properties": [
+                {
+                    "name": "error",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string | null",
+                    "optional": true,
+                    "description": "",
+                    "line": 12
+                },
+                {
+                    "name": "loaded",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "boolean",
+                    "optional": false,
+                    "description": "",
+                    "line": 11
+                },
+                {
+                    "name": "selectedId",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string | number",
+                    "optional": true,
+                    "description": "",
+                    "line": 10
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 165,
+            "methods": [],
+            "extends": "EntityState"
+        }
+    ],
+    "injectables": [
+        {
+            "name": "AuthEffects",
+            "id": "injectable-AuthEffects-55779edf57f94a935d10dd06d991d7651d18d6d38dfddc9496eea2db9bdeb454636e98f7637d00a89af46000ab73398913851369685aa9e98f36a2e51555f78a",
+            "file": "libs/auth/src/lib/+state/auth.effects.ts",
+            "properties": [
+                {
+                    "name": "init$",
+                    "defaultValue": "createEffect(() => this.actions$.pipe(ofType(AuthActions.init)))",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 10
+                }
+            ],
+            "methods": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "description": "",
+            "rawdescription": "\n",
+            "sourceCode": "import { Injectable } from '@angular/core';\nimport { createEffect, Actions, ofType } from '@ngrx/effects';\nimport { fetch } from '@nrwl/angular';\n\nimport * as AuthActions from './auth.actions';\nimport * as AuthFeature from './auth.reducer';\n\n@Injectable()\nexport class AuthEffects {\n  init$ = createEffect(() => this.actions$.pipe(ofType(AuthActions.init)));\n\n  constructor(private readonly actions$: Actions) {}\n}\n",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "actions$",
+                        "type": "Actions",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 10,
+                "jsdoctags": [
+                    {
+                        "name": "actions$",
+                        "type": "Actions",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            "type": "injectable"
+        },
+        {
+            "name": "AuthFacade",
+            "id": "injectable-AuthFacade-6405b2a30874763c998d758f38a149ba5b33d8850ae399c90761b407ba318d8861a570c7b6d3f082332eba626aecc83078469caa8da9227c92f90e4342dce549",
+            "file": "libs/auth/src/lib/auth.facade.ts",
+            "properties": [],
+            "methods": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "description": "",
+            "rawdescription": "\n",
+            "sourceCode": "import { Injectable } from \"@angular/core\";\n\n@Injectable()\nexport class AuthFacade {\n  constructor() {\n  }\n}\n",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [],
+                "line": 4
+            },
+            "type": "injectable"
+        },
+        {
+            "name": "AuthFacade",
+            "id": "injectable-AuthFacade-670834c6e2ddec4cd1bc398a92041aab5a2dba2efbc14f44ca6ec679b31c3d356564dcca7c0b024befca5598bdf7fba22d2a6adc97bfa85398ea345b85b53519-1",
+            "file": "libs/auth/src/lib/+state/auth.facade.ts",
+            "properties": [
+                {
+                    "name": "allAuth$",
+                    "defaultValue": "this.store.pipe(select(AuthSelectors.getAllAuth))",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 15
+                },
+                {
+                    "name": "loaded$",
+                    "defaultValue": "this.store.pipe(select(AuthSelectors.getAuthLoaded))",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "<p>Combine pieces of state using createSelector,\nand expose them as observables through the facade.</p>\n",
+                    "line": 14,
+                    "rawdescription": "\n\nCombine pieces of state using createSelector,\nand expose them as observables through the facade.\n"
+                },
+                {
+                    "name": "selectedAuth$",
+                    "defaultValue": "this.store.pipe(select(AuthSelectors.getSelected))",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 16
+                }
+            ],
+            "methods": [
+                {
+                    "name": "init",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 24,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nUse the initialization action to perform one\nor more tasks in your Effects.\n",
+                    "description": "<p>Use the initialization action to perform one\nor more tasks in your Effects.</p>\n"
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "description": "",
+            "rawdescription": "\n",
+            "sourceCode": "import { Injectable } from '@angular/core';\nimport { select, Store, Action } from '@ngrx/store';\n\nimport * as AuthActions from './auth.actions';\nimport * as AuthFeature from './auth.reducer';\nimport * as AuthSelectors from './auth.selectors';\n\n@Injectable()\nexport class AuthFacade {\n  /**\n   * Combine pieces of state using createSelector,\n   * and expose them as observables through the facade.\n   */\n  loaded$ = this.store.pipe(select(AuthSelectors.getAuthLoaded));\n  allAuth$ = this.store.pipe(select(AuthSelectors.getAllAuth));\n  selectedAuth$ = this.store.pipe(select(AuthSelectors.getSelected));\n\n  constructor(private readonly store: Store) {}\n\n  /**\n   * Use the initialization action to perform one\n   * or more tasks in your Effects.\n   */\n  init() {\n    this.store.dispatch(AuthActions.init());\n  }\n}\n",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "store",
+                        "type": "Store",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 16,
+                "jsdoctags": [
+                    {
+                        "name": "store",
+                        "type": "Store",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            "type": "injectable",
+            "isDuplicate": true,
+            "duplicateId": 1,
+            "duplicateName": "AuthFacade-1"
+        }
+    ],
+    "guards": [],
+    "interceptors": [],
+    "classes": [
+        {
+            "name": "LogInForm",
+            "id": "class-LogInForm-e938efac509f30970a9f8d16ffe997b9706cfa365485f1a03aad180d4bbfb4aacac8bb667943e2c5f6be8dd2515baba1a3518c820bd3e856c1327c203192bad9",
+            "file": "libs/auth/src/lib/components/log-in-form/log-in.form.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "class",
+            "sourceCode": "import { FormControl, FormGroup, Validators } from '@angular/forms';\n\nexport class LogInForm extends FormGroup {\n  constructor() {\n    super({\n      emailAddress: new FormControl('', Validators.required),\n      password: new FormControl('', Validators.required),\n    });\n  }\n}\n\nexport interface LogInFormValues {\n  emailAddress: string;\n  password: string;\n}\n",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [],
+                "line": 3
+            },
+            "properties": [],
+            "methods": [],
+            "indexSignatures": [],
+            "extends": "FormGroup",
+            "inputsClass": [],
+            "outputsClass": [],
+            "hostBindings": [],
+            "hostListeners": []
+        },
+        {
+            "name": "SignUpForm",
+            "id": "class-SignUpForm-e8cb9fa0cbd76212c994cde975c8a7e5a50c695d1b0c72ffaa6e0e4a0cc1ea2544868ebdd8c3b19fe95ca14cbf14f763d1557d97d1865bb04fc78b1474dbdaf0",
+            "file": "libs/auth/src/lib/components/sign-up-form/sign-up.form.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "class",
+            "sourceCode": "import {\n  AbstractControl,\n  FormControl,\n  FormGroup,\n  ValidatorFn,\n  Validators,\n} from '@angular/forms';\n\nexport class SignUpForm extends FormGroup {\n  constructor() {\n    super(\n      {\n        emailAddress: new FormControl('', Validators.required),\n        password: new FormControl('', Validators.required),\n        passwordConfirm: new FormControl('', Validators.required),\n      },\n      {\n        validators: passwordsMatchValidator,\n      }\n    );\n  }\n}\n\nexport interface SignUpFormValues {\n  emailAddress: string;\n  password: string;\n  passwordConfirm: string;\n}\n\nconst passwordsMatchValidator: ValidatorFn = (control: AbstractControl) => {\n  const password = control.get('password');\n  const passwordConfirm = control.get('passwordConfirm');\n  const controlsTouched = password?.touched && passwordConfirm?.touched;\n  if (!controlsTouched || password?.value === passwordConfirm?.value) {\n    return null;\n  } else {\n    return {\n      passwordMismatch: true,\n    };\n  }\n};\n",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [],
+                "line": 9
+            },
+            "properties": [],
+            "methods": [],
+            "indexSignatures": [],
+            "extends": "FormGroup",
+            "inputsClass": [],
+            "outputsClass": [],
+            "hostBindings": [],
+            "hostListeners": []
+        }
+    ],
+    "directives": [],
+    "components": [
+        {
+            "name": "AuthView",
+            "id": "component-AuthView-185c0356ad7e3b21666d9a6de9398ffcb4b8afdf9525827935255ded915c760c5d849d39ab96e7c525666cc5f573411d170860c29658b147c998680beafc127f",
+            "file": "libs/auth/src/lib/auth.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "styleUrls": [],
+            "styles": [],
+            "template": "<router-outlet></router-outlet>\n",
+            "templateUrl": [],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component } from \"@angular/core\";\nimport { Router } from \"@angular/router\";\n\n@Component({\n  template: `\n  <router-outlet></router-outlet>\n  `,\n})\nexport class AuthView {\n  constructor(private readonly router: Router) {\n  }\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "router",
+                        "type": "Router",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 9,
+                "jsdoctags": [
+                    {
+                        "name": "router",
+                        "type": "Router",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "LogInFormComponent",
+            "id": "component-LogInFormComponent-e0ed41edc89682e372835917c604ee99e1216a71e3b744530d57fd501278eb5064c5c841d120ac33db0e04c6f3a663718589a47300fc2b1e1b3f3e7575c1dc62",
+            "file": "libs/auth/src/lib/components/log-in-form/log-in-form.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "ngbs-log-in-form",
+            "styleUrls": [],
+            "styles": [],
+            "templateUrl": [
+                "./log-in-form.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [
+                {
+                    "name": "action",
+                    "defaultValue": "merge(\n    this.formSubmitAction$,\n    this.buttonClickSignUp$,\n    this.buttonClickSubmit$\n  )",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 38
+                }
+            ],
+            "propertiesClass": [
+                {
+                    "name": "buttonClickSignUp",
+                    "defaultValue": "() => {...}",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 54,
+                    "modifierKind": [
+                        123,
+                        144
+                    ]
+                },
+                {
+                    "name": "buttonClickSignUp$",
+                    "defaultValue": "new ReplaySubject<ButtonClickLogInAction>(1)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 22,
+                    "modifierKind": [
+                        121,
+                        144
+                    ]
+                },
+                {
+                    "name": "buttonClickSubmit",
+                    "defaultValue": "() => {...}",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 49,
+                    "modifierKind": [
+                        123,
+                        144
+                    ]
+                },
+                {
+                    "name": "buttonClickSubmit$",
+                    "defaultValue": "new ReplaySubject<ButtonClickSubmitAction>(1)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 19,
+                    "modifierKind": [
+                        121,
+                        144
+                    ]
+                },
+                {
+                    "name": "formSubmit",
+                    "defaultValue": "() => {...}",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 44,
+                    "modifierKind": [
+                        123,
+                        144
+                    ]
+                },
+                {
+                    "name": "formSubmit$",
+                    "defaultValue": "new ReplaySubject<Event>(1)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 17,
+                    "modifierKind": [
+                        121,
+                        144
+                    ]
+                },
+                {
+                    "name": "formSubmitAction$",
+                    "defaultValue": "this.formSubmit$.pipe(\n    withLatestFrom(this.logInForm$),\n    filter(([, form]) => form.valid),\n    map(([, form]) => formSubmitLogIn(form.value))\n  )",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 31,
+                    "modifierKind": [
+                        121
+                    ]
+                },
+                {
+                    "name": "formValues$",
+                    "defaultValue": "this.logInForm$.pipe(\n    switchMap((form) => form.valueChanges)\n  )",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 27,
+                    "modifierKind": [
+                        121,
+                        144
+                    ]
+                },
+                {
+                    "name": "logInForm$",
+                    "defaultValue": "of(new LogInForm())",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 25,
+                    "modifierKind": [
+                        123,
+                        144
+                    ]
+                }
+            ],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "<p>LogInFormComponent</p>\n<p>a basic log in form</p>\n",
+            "rawdescription": "\n\nLogInFormComponent\n\na basic log in form\n",
+            "type": "component",
+            "sourceCode": "import { Component, Output } from '@angular/core';\nimport { merge, of, ReplaySubject, switchMap } from 'rxjs';\nimport { filter, map, withLatestFrom } from 'rxjs/operators';\nimport { LogInForm, LogInFormValues } from './log-in.form';\nimport { createAction, props } from '@ngrx/store';\n\n/**\n * LogInFormComponent\n *\n * a basic log in form\n */\n@Component({\n  selector: 'ngbs-log-in-form',\n  templateUrl: './log-in-form.component.html',\n})\nexport class LogInFormComponent {\n  private readonly formSubmit$ = new ReplaySubject<Event>(1);\n\n  private readonly buttonClickSubmit$ =\n    new ReplaySubject<ButtonClickSubmitAction>(1);\n\n  private readonly buttonClickSignUp$ =\n    new ReplaySubject<ButtonClickLogInAction>(1);\n\n  public readonly logInForm$ = of(new LogInForm());\n\n  private readonly formValues$ = this.logInForm$.pipe(\n    switchMap((form) => form.valueChanges)\n  );\n\n  private formSubmitAction$ = this.formSubmit$.pipe(\n    withLatestFrom(this.logInForm$),\n    filter(([, form]) => form.valid),\n    map(([, form]) => formSubmitLogIn(form.value))\n  );\n\n  @Output()\n  public readonly action = merge(\n    this.formSubmitAction$,\n    this.buttonClickSignUp$,\n    this.buttonClickSubmit$\n  );\n\n  public readonly formSubmit = (event: Event) => {\n    event.preventDefault();\n    this.formSubmit$.next(event);\n  };\n\n  public readonly buttonClickSubmit = (event: Event) => {\n    event.preventDefault();\n    this.buttonClickSubmit$.next(buttonClickSubmit());\n  };\n\n  public readonly buttonClickSignUp = (event: Event) => {\n    event.preventDefault();\n    this.buttonClickSignUp$.next(buttonClickLogIn());\n  };\n}\n\nexport const formSubmitLogIn = createAction(\n  '[LogInFormComponent] Log In Form Submit',\n  props<LogInFormValues>()\n);\nexport type FormSubmitLogInAction = ReturnType<typeof formSubmitLogIn>;\n\nexport const buttonClickLogIn = createAction(\n  '[LogInFormComponent] Sign Up Button Clicked'\n);\nexport type ButtonClickLogInAction = ReturnType<typeof buttonClickLogIn>;\n\nexport const buttonClickSubmit = createAction(\n  '[LogInFormComponent] Submit Button Clicked'\n);\nexport type ButtonClickSubmitAction = ReturnType<typeof buttonClickSubmit>;\n\nexport type LogInComponentActions =\n  | FormSubmitLogInAction\n  | ButtonClickLogInAction\n  | ButtonClickSubmitAction;\n",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "templateData": "\n<form\n  *ngIf=\"logInForm$ | async as logInForm\"\n  (ngSubmit)=\"formSubmit($event)\"\n  [formGroup]=\"logInForm\"\n>\n  <fieldset class=\"bg-light border border-dark p-5\">\n    <div class=\"d-flex justify-content-between mb-3 align-items-end\">\n      <legend class=\"mb-0\">Log In</legend>\n      <a\n        (click)=\"buttonClickSignUp($event)\"\n        class=\"flex-shrink-0\"\n        routerLink=\"/auth/sign-up\"\n        >Sign Up\n      </a>\n    </div>\n\n    <div class=\"mb-3\">\n      <label for=\"input-email\" class=\"form-label\">Email address</label>\n      <input\n        type=\"email\"\n        class=\"form-control\"\n        id=\"input-email\"\n        aria-describedby=\"emailHelp\"\n        formControlName=\"emailAddress\"\n      />\n    </div>\n\n    <div class=\"mb-3\">\n      <label for=\"input-password\" class=\"form-label\">Password</label>\n      <input\n        type=\"password\"\n        formControlName=\"password\"\n        class=\"form-control\"\n        id=\"input-password\"\n      />\n    </div>\n\n    <div class=\"d-flex justify-content-between align-items-center\">\n      <button\n        type=\"submit\"\n        class=\"btn btn-primary me-2\"\n        (click)=\"buttonClickSubmit($event)\"\n        [disabled]=\"!logInForm.valid\"\n      >\n        Log In\n      </button>\n      <a routerLink=\"/auth/forgot-password\">Forgot Password</a>\n    </div>\n\n    <ul\n      [class.d-none]=\"logInForm.valid || !logInForm.touched\"\n      class=\"mb-0 mt-3\"\n    >\n      <li\n        class=\"form-text text-danger\"\n        [class.d-none]=\"!logInForm.controls.emailAddress.errors?.required || !logInForm.controls.emailAddress.touched\"\n      >\n        Email Address is required\n      </li>\n\n      <li\n        class=\"form-text text-danger\"\n        [class.d-none]=\"!logInForm.controls.password.errors?.required || !logInForm.controls.password.touched\"\n      >\n        Password is required\n      </li>\n    </ul>\n  </fieldset>\n</form>\n"
+        },
+        {
+            "name": "NgbsAvatarComponent",
+            "id": "component-NgbsAvatarComponent-e35853938783db5e2f114eee9605f76020ee2424a00e82cb0240378ff68e0c32cd62e10c5b36789f2339bc68b938ff9a448bd8467a84b92cc37c9cb2bf06bf2f",
+            "file": "libs/auth/src/lib/components/avatar/avatar.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "ngbs-avatar",
+            "styleUrls": [],
+            "styles": [],
+            "template": "<details\n  class=\"position-relative\"\n  style=\"width: 5rem; height: 5rem;\"\n  *ngIf=\"user$ | async as user\"\n>\n  <summary style=\"list-style: none;\">\n    <img\n      class=\"w-100 bi-person-circle rounded-circle\"\n      [src]=\"user.avatarUrl\"\n      aria-label=\"logged in\"\n    />\n  </summary>\n  <menu class=\"position-absolute bg-light\" style=\"width: 10rem;\">\n    <li>Profile</li>\n    <li>Log Out</li>\n  </menu>\n</details>\n<details\n  class=\"position-relative\"\n  style=\"width: 5rem; height: 5rem;\"\n  *ngIf=\"!(user$ | async)\"\n>\n  <summary style=\"list-style: none;\">\n    <img\n      class=\"w-100 bi-person-circle rounded-circle\"\n      [src]=\"anonymousUser.avatarUrl\"\n      aria-label=\"logged out\"\n    />\n  </summary>\n  <menu class=\"position-absolute bg-light\" style=\"width: 10rem;\">\n    <li>Sign Up</li>\n    <li>Log In</li>\n  </menu>\n</details>\n",
+            "templateUrl": [],
+            "viewProviders": [],
+            "inputsClass": [
+                {
+                    "name": "props",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 48,
+                    "type": "",
+                    "decorators": []
+                }
+            ],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "anonymousUser",
+                    "defaultValue": "anonymousUser",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 55,
+                    "modifierKind": [
+                        123,
+                        144
+                    ]
+                },
+                {
+                    "name": "props$",
+                    "defaultValue": "new ReplaySubject<NgbsAvatarComponentProps>(1)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 45,
+                    "modifierKind": [
+                        121,
+                        144
+                    ]
+                },
+                {
+                    "name": "user$",
+                    "defaultValue": "this.props$.pipe(map((props) => props.user))",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 53,
+                    "modifierKind": [
+                        123,
+                        144
+                    ]
+                }
+            ],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component, Input } from '@angular/core'\nimport { map, ReplaySubject } from 'rxjs'\nimport { anonymousUser } from '../../models/user'\n\n@Component({\n  selector: 'ngbs-avatar',\n  template: `\n    <details\n      class=\"position-relative\"\n      style=\"width: 5rem; height: 5rem;\"\n      *ngIf=\"user$ | async as user\"\n    >\n      <summary style=\"list-style: none;\">\n        <img\n          class=\"w-100 bi-person-circle rounded-circle\"\n          [src]=\"user.avatarUrl\"\n          aria-label=\"logged in\"\n        />\n      </summary>\n      <menu class=\"position-absolute bg-light\" style=\"width: 10rem;\">\n        <li>Profile</li>\n        <li>Log Out</li>\n      </menu>\n    </details>\n    <details\n      class=\"position-relative\"\n      style=\"width: 5rem; height: 5rem;\"\n      *ngIf=\"!(user$ | async)\"\n    >\n      <summary style=\"list-style: none;\">\n        <img\n          class=\"w-100 bi-person-circle rounded-circle\"\n          [src]=\"anonymousUser.avatarUrl\"\n          aria-label=\"logged out\"\n        />\n      </summary>\n      <menu class=\"position-absolute bg-light\" style=\"width: 10rem;\">\n        <li>Sign Up</li>\n        <li>Log In</li>\n      </menu>\n    </details>\n  `,\n})\nexport class NgbsAvatarComponent {\n  private readonly props$ = new ReplaySubject<NgbsAvatarComponentProps>(1)\n\n  @Input()\n  set props(props: NgbsAvatarComponentProps) {\n    if (!props) return\n    this.props$.next(props)\n  }\n\n  public readonly user$ = this.props$.pipe(map((props) => props.user))\n\n  public readonly anonymousUser = anonymousUser\n}\n\nexport interface NgbsAvatarComponentProps {\n  readonly user: NgbsUser\n}\n\nexport type NgbsUser = { displayName: string; avatarUrl: string }\n",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "accessors": {
+                "props": {
+                    "name": "props",
+                    "setSignature": {
+                        "name": "props",
+                        "type": "void",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "args": [
+                            {
+                                "name": "props",
+                                "type": "NgbsAvatarComponentProps",
+                                "deprecated": false,
+                                "deprecationMessage": ""
+                            }
+                        ],
+                        "returnType": "void",
+                        "line": 48,
+                        "jsdoctags": [
+                            {
+                                "name": "props",
+                                "type": "NgbsAvatarComponentProps",
+                                "deprecated": false,
+                                "deprecationMessage": "",
+                                "tagName": {
+                                    "text": "param"
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "name": "NgbsLogInView",
+            "id": "component-NgbsLogInView-4c234f3581ce923f6135c4c09ad2ac40b0e5f052a35c049d3a4d4b93368d98131774c507bf1827682fdc64cd5a87c68afac84ca76503a8f9d4d373f1ab3872fa",
+            "file": "libs/auth/src/lib/views/log-in/log-in.view.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "styleUrls": [],
+            "styles": [],
+            "template": "<ngbs-log-in-form></ngbs-log-in-form>\n",
+            "templateUrl": [],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component } from \"@angular/core\";\n\n@Component({\n  template: `\n  <ngbs-log-in-form></ngbs-log-in-form>\n  `\n})\nexport class NgbsLogInView {\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": ""
+        },
+        {
+            "name": "NgbsProfileComponent",
+            "id": "component-NgbsProfileComponent-98df010f8d05eee43cb92ada25bc398572b83ae61ab58b0c55b857a0fd15deece6a921494d7f59df860ff765fbe65eb7de1660067e1e74ee2a8aabbfd1b74bf1",
+            "file": "libs/auth/src/lib/components/profile/profile.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "ngbs-profile",
+            "styleUrls": [],
+            "styles": [],
+            "templateUrl": [],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component } from '@angular/core';\n\n@Component({\n  selector: 'ngbs-profile',\n})\nexport class NgbsProfileComponent {}\n",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": ""
+        },
+        {
+            "name": "NgbsSignUpFormComponent",
+            "id": "component-NgbsSignUpFormComponent-f49251cfe247b8330122fe016963c194b9a1c173f8a9bc56deffb847aa3bf566a6973d6012459cdd46906a2ae012051387fd9355f0656f53534f79ff2aef1af4",
+            "file": "libs/auth/src/lib/components/sign-up-form/sign-up-form.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "ngbs-sign-up-form",
+            "styleUrls": [
+                "./sign-up-form.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./sign-up-form.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [
+                {
+                    "name": "action",
+                    "defaultValue": "merge(\n    this.formSubmitAction$,\n    this.buttonClickLogIn$,\n    this.buttonClickSubmit$\n  )",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 40
+                }
+            ],
+            "propertiesClass": [
+                {
+                    "name": "buttonClickLogIn",
+                    "defaultValue": "() => {...}",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 56,
+                    "modifierKind": [
+                        123,
+                        144
+                    ]
+                },
+                {
+                    "name": "buttonClickLogIn$",
+                    "defaultValue": "new ReplaySubject<ButtonClickLogInAction>(1)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 24,
+                    "modifierKind": [
+                        121,
+                        144
+                    ]
+                },
+                {
+                    "name": "buttonClickSubmit",
+                    "defaultValue": "() => {...}",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 51,
+                    "modifierKind": [
+                        123,
+                        144
+                    ]
+                },
+                {
+                    "name": "buttonClickSubmit$",
+                    "defaultValue": "new ReplaySubject<ButtonClickSubmitAction>(1)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 21,
+                    "modifierKind": [
+                        121,
+                        144
+                    ]
+                },
+                {
+                    "name": "formSubmit",
+                    "defaultValue": "() => {...}",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 46,
+                    "modifierKind": [
+                        123,
+                        144
+                    ]
+                },
+                {
+                    "name": "formSubmit$",
+                    "defaultValue": "new ReplaySubject<Event>(1)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 19,
+                    "modifierKind": [
+                        121,
+                        144
+                    ]
+                },
+                {
+                    "name": "formSubmitAction$",
+                    "defaultValue": "this.formSubmit$.pipe(\n    withLatestFrom(this.signUpForm$),\n    filter(([, form]) => form.valid),\n    map(([, form]) => formSubmitSignUp(form.value))\n  )",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 33,
+                    "modifierKind": [
+                        121
+                    ]
+                },
+                {
+                    "name": "formValues$",
+                    "defaultValue": "this.signUpForm$.pipe(\n    switchMap((form) => form.valueChanges)\n  )",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 29,
+                    "modifierKind": [
+                        121,
+                        144
+                    ]
+                },
+                {
+                    "name": "signUpForm$",
+                    "defaultValue": "of(new SignUpForm())",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 27,
+                    "modifierKind": [
+                        123,
+                        144
+                    ]
+                }
+            ],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "<p>NgbsSignUpFormComponent</p>\n<p>a basic sign up form</p>\n",
+            "rawdescription": "\n\nNgbsSignUpFormComponent\n\na basic sign up form\n",
+            "type": "component",
+            "sourceCode": "import { Component, Output } from '@angular/core';\nimport { createAction, props } from '@ngrx/store';\nimport { merge, of, ReplaySubject, switchMap } from 'rxjs';\nimport { filter, map, withLatestFrom } from 'rxjs/operators';\n\nimport { SignUpForm, SignUpFormValues } from './sign-up.form';\n\n/**\n * NgbsSignUpFormComponent\n *\n * a basic sign up form\n */\n@Component({\n  selector: 'ngbs-sign-up-form',\n  templateUrl: './sign-up-form.component.html',\n  styleUrls: ['./sign-up-form.component.scss'],\n})\nexport class NgbsSignUpFormComponent {\n  private readonly formSubmit$ = new ReplaySubject<Event>(1);\n\n  private readonly buttonClickSubmit$ =\n    new ReplaySubject<ButtonClickSubmitAction>(1);\n\n  private readonly buttonClickLogIn$ =\n    new ReplaySubject<ButtonClickLogInAction>(1);\n\n  public readonly signUpForm$ = of(new SignUpForm());\n\n  private readonly formValues$ = this.signUpForm$.pipe(\n    switchMap((form) => form.valueChanges)\n  );\n\n  private formSubmitAction$ = this.formSubmit$.pipe(\n    withLatestFrom(this.signUpForm$),\n    filter(([, form]) => form.valid),\n    map(([, form]) => formSubmitSignUp(form.value))\n  );\n\n  @Output()\n  public readonly action = merge(\n    this.formSubmitAction$,\n    this.buttonClickLogIn$,\n    this.buttonClickSubmit$\n  );\n\n  public readonly formSubmit = (event: Event) => {\n    event.preventDefault();\n    this.formSubmit$.next(event);\n  };\n\n  public readonly buttonClickSubmit = (event: Event) => {\n    event.preventDefault();\n    this.buttonClickSubmit$.next(buttonClickSubmit());\n  };\n\n  public readonly buttonClickLogIn = (event: Event) => {\n    event.preventDefault();\n    this.buttonClickLogIn$.next(buttonClickLogIn());\n  };\n}\n\nexport const formSubmitSignUp = createAction(\n  '[SignUpFormComponent] Sign Up Form Submit',\n  props<SignUpFormValues>()\n);\nexport type FormSubmitSignUpAction = ReturnType<typeof formSubmitSignUp>;\n\nexport const buttonClickLogIn = createAction(\n  '[SignUpFormComponent] Log In Button Clicked'\n);\nexport type ButtonClickLogInAction = ReturnType<typeof buttonClickLogIn>;\n\nexport const buttonClickSubmit = createAction(\n  '[SignUpFormComponent] Submit Button Clicked'\n);\nexport type ButtonClickSubmitAction = ReturnType<typeof buttonClickSubmit>;\n\nexport type SignUpComponentActions =\n  | FormSubmitSignUpAction\n  | ButtonClickLogInAction\n  | ButtonClickSubmitAction;\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": "",
+                    "styleUrl": "./sign-up-form.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "templateData": "<form\n  *ngIf=\"signUpForm$ | async as signUpForm\"\n  (ngSubmit)=\"formSubmit($event)\"\n  [formGroup]=\"signUpForm\"\n>\n  <fieldset class=\"bg-light border border-dark p-5\">\n    <div class=\"d-flex justify-content-between mb-3 align-items-end\">\n      <legend class=\"mb-0\">Sign Up</legend>\n      <a (click)=\"buttonClickLogIn($event)\" class=\"flex-shrink-0\" routerLink=\"/auth/log-in\"> Log In </a>\n    </div>\n\n    <div class=\"mb-3\">\n      <label for=\"input-email\" class=\"form-label\">Email address</label>\n      <input\n        type=\"email\"\n        class=\"form-control\"\n        id=\"input-email\"\n        aria-describedby=\"emailHelp\"\n        formControlName=\"emailAddress\"\n      />\n      <div id=\"emailHelp\" class=\"form-text\">\n        We'll never share your email with anyone else.\n      </div>\n    </div>\n    <div class=\"mb-3\">\n      <label for=\"input-password\" class=\"form-label\">Password</label>\n      <input\n        type=\"password\"\n        formControlName=\"password\"\n        class=\"form-control\"\n        id=\"input-password\"\n      />\n    </div>\n    <div class=\"mb-3\">\n      <label for=\"input-password-confirm\" class=\"form-label\"\n        >Confirm Password</label\n      >\n      <input\n        type=\"password\"\n        formControlName=\"passwordConfirm\"\n        class=\"form-control\"\n        id=\"input-password-confirm\"\n      />\n    </div>\n    <button\n      type=\"submit\"\n      class=\"btn btn-primary me-2\"\n      (click)=\"buttonClickSubmit($event)\"\n      [disabled]=\"!signUpForm.valid\"\n    >\n      Sign Up\n    </button>\n    <ul [class.d-none]=\"signUpForm.valid || !signUpForm.touched\" class=\"mb-0 mt-3\">\n      <li\n        class=\"form-text text-danger\"\n        [class.d-none]=\"!signUpForm.errors?.passwordMismatch\"\n      >\n        Passwords must match\n      </li>\n\n      <li\n        class=\"form-text text-danger\"\n        [class.d-none]=\"!signUpForm.controls.emailAddress.errors?.required || !signUpForm.controls.emailAddress.touched\"\n      >\n        Email Address is required\n      </li>\n\n      <li\n        class=\"form-text text-danger\"\n        [class.d-none]=\"!signUpForm.controls.password.errors?.required || !signUpForm.controls.password.touched\"\n      >\n        Password is required\n      </li>\n      <li\n        class=\"form-text text-danger\"\n        [class.d-none]=\"!signUpForm.controls.passwordConfirm.errors?.required || !signUpForm.controls.passwordConfirm.touched\"\n      >\n        Confirm Password is required\n      </li>\n    </ul>\n  </fieldset>\n</form>\n"
+        },
+        {
+            "name": "NgbsSignUpView",
+            "id": "component-NgbsSignUpView-62ca9efe3095dc7083542e6f7ed99529b27a2c699e8d20c659b40e81900be53efd9e51a9ca13667b6ec39f660f687a80e609ab7bd39e3561aad780862c7d7d69",
+            "file": "libs/auth/src/lib/views/sign-up/sign-up.view.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "styleUrls": [],
+            "styles": [],
+            "template": "<ngbs-sign-up-form></ngbs-sign-up-form>\n",
+            "templateUrl": [],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component } from \"@angular/core\";\n\n@Component({\n  template: `\n  <ngbs-sign-up-form></ngbs-sign-up-form>\n  `\n})\nexport class NgbsSignUpView {\n}\n\n",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": ""
+        }
+    ],
+    "modules": [
+        {
+            "name": "AuthModule",
+            "id": "module-AuthModule-9b2cfeffd3e4d72cfed6f45b866d8420aa5fb011ebb8ee4875c8a059203f9829df58130383e03b3aca16e60571fd4a37385488a2e86cfc17917c463d7488872f",
+            "description": "",
+            "deprecationMessage": "",
+            "deprecated": false,
+            "file": "libs/auth/src/lib/auth.module.ts",
+            "methods": [],
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { ReactiveFormsModule } from '@angular/forms';\nimport { RouterModule } from '@angular/router';\n\nimport { AuthView } from './auth.component';\nimport { NgbsSignUpFormComponent } from './components/sign-up-form/sign-up-form.component';\nimport { LogInFormComponent } from './components/log-in-form/log-in-form.component';\nimport { NgbsLogInView } from './views/log-in/log-in.view';\nimport { NgbsSignUpView } from './views/sign-up/sign-up.view';\nimport { StoreModule } from '@ngrx/store';\nimport { EffectsModule } from '@ngrx/effects';\nimport * as fromAuth from './+state/auth.reducer';\nimport { AuthEffects } from './+state/auth.effects';\nimport { AuthFacade } from './+state/auth.facade';\nimport { NgbsAvatarModule } from './components/avatar/avatar.module';\n\n@NgModule({\n  imports: [\n    CommonModule,\n    NgbsAvatarModule,\n    ReactiveFormsModule,\n    RouterModule.forChild([\n      {\n        path: '',\n        component: AuthView,\n        children: [\n          {\n            path: 'sign-up',\n            component: NgbsSignUpView,\n          },\n          {\n            path: 'log-in',\n            component: NgbsLogInView,\n          },\n          {\n            path: '',\n            redirectTo: 'log-in',\n          },\n          {\n            path: '*',\n            redirectTo: 'log-in',\n          },\n        ],\n      },\n    ]),\n    StoreModule.forFeature(fromAuth.AUTH_FEATURE_KEY, fromAuth.reducer),\n    EffectsModule.forFeature([AuthEffects]),\n  ],\n  declarations: [\n    AuthView,\n    NgbsSignUpFormComponent,\n    LogInFormComponent,\n    NgbsLogInView,\n    NgbsSignUpView,\n  ],\n  providers: [AuthFacade],\n})\nexport class AuthModule {}\n",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": [
+                        {
+                            "name": "AuthFacade"
+                        }
+                    ]
+                },
+                {
+                    "type": "declarations",
+                    "elements": [
+                        {
+                            "name": "AuthView"
+                        },
+                        {
+                            "name": "LogInFormComponent"
+                        },
+                        {
+                            "name": "NgbsLogInView"
+                        },
+                        {
+                            "name": "NgbsSignUpFormComponent"
+                        },
+                        {
+                            "name": "NgbsSignUpView"
+                        }
+                    ]
+                },
+                {
+                    "type": "imports",
+                    "elements": [
+                        {
+                            "name": "NgbsAvatarModule"
+                        }
+                    ]
+                },
+                {
+                    "type": "exports",
+                    "elements": []
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        },
+        {
+            "name": "NgbsAvatarModule",
+            "id": "module-NgbsAvatarModule-c7be16b1af337613a7bcac796aca6300b499551d68812dd799dac6c1736101a1152719f96316f7c11f39ce444b7bf6a49829efbe90b5fff6c924cc86d1917c1e",
+            "description": "",
+            "deprecationMessage": "",
+            "deprecated": false,
+            "file": "libs/auth/src/lib/components/avatar/avatar.module.ts",
+            "methods": [],
+            "sourceCode": "import { CommonModule } from '@angular/common';\nimport { NgModule } from '@angular/core';\nimport { NgbsAvatarComponent } from './avatar.component';\n\n@NgModule({\n  imports: [CommonModule],\n  declarations: [NgbsAvatarComponent],\n  exports: [NgbsAvatarComponent],\n})\nexport class NgbsAvatarModule {}\n",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": [
+                        {
+                            "name": "NgbsAvatarComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "imports",
+                    "elements": []
+                },
+                {
+                    "type": "exports",
+                    "elements": [
+                        {
+                            "name": "NgbsAvatarComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        },
+        {
+            "name": "NgbsLogInFormModule",
+            "id": "module-NgbsLogInFormModule-da8d505422cf323f453440eae56c4627a2272e76f9134d629e064976a394593cac0f56a0174a1a94f3d25374b49eb325f451f104b65caf6d3690b51b7812ada9",
+            "description": "",
+            "deprecationMessage": "",
+            "deprecated": false,
+            "file": "libs/auth/src/lib/components/log-in-form/log-in-form.module.ts",
+            "methods": [],
+            "sourceCode": "import { NgModule } from \"@angular/core\";\nimport { LogInFormComponent } from \"./log-in-form.component\";\n\nexport * from \"./log-in-form.component\";\nexport * from './log-in.form'\n\n@NgModule({\n  declarations: [LogInFormComponent]\n})\nexport class NgbsLogInFormModule {}\n",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": [
+                        {
+                            "name": "LogInFormComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "imports",
+                    "elements": []
+                },
+                {
+                    "type": "exports",
+                    "elements": []
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        }
+    ],
+    "miscellaneous": {
+        "variables": [
+            {
+                "name": "anonymousUser",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/auth/src/lib/models/user.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "NgbsUser",
+                "defaultValue": "{\n  displayName: 'ANONYMOUS USER',\n  emailAddress: 'anonymous@example.com',\n  avatarUrl: 'http://via.placeholder.com/400',\n}"
+            },
+            {
+                "name": "AUTH_FEATURE_KEY",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/auth/src/lib/+state/auth.reducer.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "string",
+                "defaultValue": "'auth'"
+            },
+            {
+                "name": "authAdapter",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/auth/src/lib/+state/auth.reducer.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "EntityAdapter<AuthEntity>",
+                "defaultValue": "createEntityAdapter<AuthEntity>()"
+            },
+            {
+                "name": "authReducer",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/auth/src/lib/+state/auth.reducer.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "createReducer(\n  initialState,\n  on(AuthActions.init, (state) => ({ ...state, loaded: false, error: null })),\n  on(AuthActions.loadAuthSuccess, (state, { auth }) =>\n    authAdapter.setAll(auth, { ...state, loaded: true })\n  ),\n  on(AuthActions.loadAuthFailure, (state, { error }) => ({ ...state, error }))\n)"
+            },
+            {
+                "name": "buttonClickLogIn",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/auth/src/lib/components/log-in-form/log-in-form.component.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "createAction(\n  '[LogInFormComponent] Sign Up Button Clicked'\n)"
+            },
+            {
+                "name": "buttonClickLogIn",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/auth/src/lib/components/sign-up-form/sign-up-form.component.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "createAction(\n  '[SignUpFormComponent] Log In Button Clicked'\n)"
+            },
+            {
+                "name": "buttonClickSubmit",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/auth/src/lib/components/log-in-form/log-in-form.component.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "createAction(\n  '[LogInFormComponent] Submit Button Clicked'\n)"
+            },
+            {
+                "name": "buttonClickSubmit",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/auth/src/lib/components/sign-up-form/sign-up-form.component.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "createAction(\n  '[SignUpFormComponent] Submit Button Clicked'\n)"
+            },
+            {
+                "name": "formSubmitLogIn",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/auth/src/lib/components/log-in-form/log-in-form.component.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "createAction(\n  '[LogInFormComponent] Log In Form Submit',\n  props<LogInFormValues>()\n)"
+            },
+            {
+                "name": "formSubmitSignUp",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/auth/src/lib/components/sign-up-form/sign-up-form.component.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "createAction(\n  '[SignUpFormComponent] Sign Up Form Submit',\n  props<SignUpFormValues>()\n)"
+            },
+            {
+                "name": "getAllAuth",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/auth/src/lib/+state/auth.selectors.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "createSelector(getAuthState, (state: State) =>\n  selectAll(state)\n)"
+            },
+            {
+                "name": "getAuthEntities",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/auth/src/lib/+state/auth.selectors.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "createSelector(getAuthState, (state: State) =>\n  selectEntities(state)\n)"
+            },
+            {
+                "name": "getAuthError",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/auth/src/lib/+state/auth.selectors.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "createSelector(\n  getAuthState,\n  (state: State) => state.error\n)"
+            },
+            {
+                "name": "getAuthLoaded",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/auth/src/lib/+state/auth.selectors.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "createSelector(\n  getAuthState,\n  (state: State) => state.loaded\n)"
+            },
+            {
+                "name": "getAuthState",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/auth/src/lib/+state/auth.selectors.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "createFeatureSelector<State>(AUTH_FEATURE_KEY)"
+            },
+            {
+                "name": "getSelected",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/auth/src/lib/+state/auth.selectors.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "createSelector(\n  getAuthEntities,\n  getSelectedId,\n  (entities, selectedId) => (selectedId ? entities[selectedId] : undefined)\n)"
+            },
+            {
+                "name": "getSelectedId",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/auth/src/lib/+state/auth.selectors.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "createSelector(\n  getAuthState,\n  (state: State) => state.selectedId\n)"
+            },
+            {
+                "name": "init",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/auth/src/lib/+state/auth.actions.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "createAction('[Auth Page] Init')"
+            },
+            {
+                "name": "initialState",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/auth/src/lib/+state/auth.reducer.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "State",
+                "defaultValue": "authAdapter.getInitialState({\n  // set initial required properties\n  loaded: false,\n})"
+            },
+            {
+                "name": "loadAuthFailure",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/auth/src/lib/+state/auth.actions.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "createAction(\n  '[NgbsAuth] Load Auth Failure',\n  props<{ error: any }>()\n)"
+            },
+            {
+                "name": "loadAuthSuccess",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/auth/src/lib/+state/auth.actions.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "createAction(\n  '[NgbsAuth] Load Auth Success',\n  props<{ auth: AuthEntity[] }>()\n)"
+            },
+            {
+                "name": "passwordsMatchValidator",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/auth/src/lib/components/sign-up-form/sign-up.form.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "ValidatorFn",
+                "defaultValue": "(control: AbstractControl) => {\n  const password = control.get('password');\n  const passwordConfirm = control.get('passwordConfirm');\n  const controlsTouched = password?.touched && passwordConfirm?.touched;\n  if (!controlsTouched || password?.value === passwordConfirm?.value) {\n    return null;\n  } else {\n    return {\n      passwordMismatch: true,\n    };\n  }\n}"
+            },
+            {
+                "name": "Primary",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/auth/src/lib/components/avatar/avatar.component.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Primary",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/auth/src/lib/components/log-in-form/log-in-form.component.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Primary",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/auth/src/lib/components/sign-up-form/sign-up-form.component.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/auth/src/lib/components/avatar/avatar.component.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story<NgbsAvatarComponent>",
+                "defaultValue": "(args: NgbsAvatarComponent) => ({\n  template: `\n  <ngbs-avatar [props]=\"props\"></ngbs-avatar>`,\n  props: args,\n})"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/auth/src/lib/components/log-in-form/log-in-form.component.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story<LogInFormComponent>",
+                "defaultValue": "(args: LogInFormComponent) => ({\n  template: `<ngbs-log-in-form (action)=\"action($event)\"></ngbs-log-in-form>`,\n  props: args,\n})"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/auth/src/lib/components/sign-up-form/sign-up-form.component.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story<NgbsSignUpFormComponent>",
+                "defaultValue": "(args: NgbsSignUpFormComponent) => ({\n  template: `\n  <select class=\"form-select\" ngbsSelectStylesheet>\n  </select>\n  <ngbs-sign-up-form (action)=\"action($event)\"></ngbs-sign-up-form>`,\n  props: args,\n})"
+            },
+            {
+                "name": "testUser",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/auth/src/lib/models/user.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "NgbsUser",
+                "defaultValue": "{\n  displayName: 'TEST USER',\n  emailAddress: 'test@example.com',\n  avatarUrl: 'https://blog.matttelliott.com/assets/selfie.jpeg',\n}"
+            },
+            {
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/auth/src/lib/+state/auth.selectors.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "authAdapter.getSelectors()"
+            }
+        ],
+        "functions": [
+            {
+                "name": "reducer",
+                "file": "libs/auth/src/lib/+state/auth.reducer.ts",
+                "ctype": "miscellaneous",
+                "subtype": "function",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "args": [
+                    {
+                        "name": "state",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    },
+                    {
+                        "name": "action",
+                        "type": "Action",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "jsdoctags": [
+                    {
+                        "name": "state",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    },
+                    {
+                        "name": "action",
+                        "type": "Action",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            }
+        ],
+        "typealiases": [
+            {
+                "name": "ButtonClickLogInAction",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "ReturnType<>",
+                "file": "libs/auth/src/lib/components/log-in-form/log-in-form.component.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 177
+            },
+            {
+                "name": "ButtonClickLogInAction",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "ReturnType<>",
+                "file": "libs/auth/src/lib/components/sign-up-form/sign-up-form.component.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 177
+            },
+            {
+                "name": "ButtonClickSubmitAction",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "ReturnType<>",
+                "file": "libs/auth/src/lib/components/log-in-form/log-in-form.component.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 177
+            },
+            {
+                "name": "ButtonClickSubmitAction",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "ReturnType<>",
+                "file": "libs/auth/src/lib/components/sign-up-form/sign-up-form.component.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 177
+            },
+            {
+                "name": "FormSubmitLogInAction",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "ReturnType<>",
+                "file": "libs/auth/src/lib/components/log-in-form/log-in-form.component.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 177
+            },
+            {
+                "name": "FormSubmitSignUpAction",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "ReturnType<>",
+                "file": "libs/auth/src/lib/components/sign-up-form/sign-up-form.component.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 177
+            },
+            {
+                "name": "LogInComponentActions",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "FormSubmitLogInAction | ButtonClickLogInAction | ButtonClickSubmitAction",
+                "file": "libs/auth/src/lib/components/log-in-form/log-in-form.component.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 186
+            },
+            {
+                "name": "NgbsUser",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "literal type",
+                "file": "libs/auth/src/lib/components/avatar/avatar.component.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 181
+            },
+            {
+                "name": "SignUpComponentActions",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "FormSubmitSignUpAction | ButtonClickLogInAction | ButtonClickSubmitAction",
+                "file": "libs/auth/src/lib/components/sign-up-form/sign-up-form.component.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 186
+            }
+        ],
+        "enumerations": [],
+        "groupedVariables": {
+            "libs/auth/src/lib/models/user.ts": [
+                {
+                    "name": "anonymousUser",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/auth/src/lib/models/user.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "NgbsUser",
+                    "defaultValue": "{\n  displayName: 'ANONYMOUS USER',\n  emailAddress: 'anonymous@example.com',\n  avatarUrl: 'http://via.placeholder.com/400',\n}"
+                },
+                {
+                    "name": "testUser",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/auth/src/lib/models/user.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "NgbsUser",
+                    "defaultValue": "{\n  displayName: 'TEST USER',\n  emailAddress: 'test@example.com',\n  avatarUrl: 'https://blog.matttelliott.com/assets/selfie.jpeg',\n}"
+                }
+            ],
+            "libs/auth/src/lib/+state/auth.reducer.ts": [
+                {
+                    "name": "AUTH_FEATURE_KEY",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/auth/src/lib/+state/auth.reducer.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "defaultValue": "'auth'"
+                },
+                {
+                    "name": "authAdapter",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/auth/src/lib/+state/auth.reducer.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "EntityAdapter<AuthEntity>",
+                    "defaultValue": "createEntityAdapter<AuthEntity>()"
+                },
+                {
+                    "name": "authReducer",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/auth/src/lib/+state/auth.reducer.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createReducer(\n  initialState,\n  on(AuthActions.init, (state) => ({ ...state, loaded: false, error: null })),\n  on(AuthActions.loadAuthSuccess, (state, { auth }) =>\n    authAdapter.setAll(auth, { ...state, loaded: true })\n  ),\n  on(AuthActions.loadAuthFailure, (state, { error }) => ({ ...state, error }))\n)"
+                },
+                {
+                    "name": "initialState",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/auth/src/lib/+state/auth.reducer.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "State",
+                    "defaultValue": "authAdapter.getInitialState({\n  // set initial required properties\n  loaded: false,\n})"
+                }
+            ],
+            "libs/auth/src/lib/components/log-in-form/log-in-form.component.ts": [
+                {
+                    "name": "buttonClickLogIn",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/auth/src/lib/components/log-in-form/log-in-form.component.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createAction(\n  '[LogInFormComponent] Sign Up Button Clicked'\n)"
+                },
+                {
+                    "name": "buttonClickSubmit",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/auth/src/lib/components/log-in-form/log-in-form.component.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createAction(\n  '[LogInFormComponent] Submit Button Clicked'\n)"
+                },
+                {
+                    "name": "formSubmitLogIn",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/auth/src/lib/components/log-in-form/log-in-form.component.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createAction(\n  '[LogInFormComponent] Log In Form Submit',\n  props<LogInFormValues>()\n)"
+                }
+            ],
+            "libs/auth/src/lib/components/sign-up-form/sign-up-form.component.ts": [
+                {
+                    "name": "buttonClickLogIn",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/auth/src/lib/components/sign-up-form/sign-up-form.component.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createAction(\n  '[SignUpFormComponent] Log In Button Clicked'\n)"
+                },
+                {
+                    "name": "buttonClickSubmit",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/auth/src/lib/components/sign-up-form/sign-up-form.component.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createAction(\n  '[SignUpFormComponent] Submit Button Clicked'\n)"
+                },
+                {
+                    "name": "formSubmitSignUp",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/auth/src/lib/components/sign-up-form/sign-up-form.component.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createAction(\n  '[SignUpFormComponent] Sign Up Form Submit',\n  props<SignUpFormValues>()\n)"
+                }
+            ],
+            "libs/auth/src/lib/+state/auth.selectors.ts": [
+                {
+                    "name": "getAllAuth",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/auth/src/lib/+state/auth.selectors.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createSelector(getAuthState, (state: State) =>\n  selectAll(state)\n)"
+                },
+                {
+                    "name": "getAuthEntities",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/auth/src/lib/+state/auth.selectors.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createSelector(getAuthState, (state: State) =>\n  selectEntities(state)\n)"
+                },
+                {
+                    "name": "getAuthError",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/auth/src/lib/+state/auth.selectors.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createSelector(\n  getAuthState,\n  (state: State) => state.error\n)"
+                },
+                {
+                    "name": "getAuthLoaded",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/auth/src/lib/+state/auth.selectors.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createSelector(\n  getAuthState,\n  (state: State) => state.loaded\n)"
+                },
+                {
+                    "name": "getAuthState",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/auth/src/lib/+state/auth.selectors.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createFeatureSelector<State>(AUTH_FEATURE_KEY)"
+                },
+                {
+                    "name": "getSelected",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/auth/src/lib/+state/auth.selectors.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createSelector(\n  getAuthEntities,\n  getSelectedId,\n  (entities, selectedId) => (selectedId ? entities[selectedId] : undefined)\n)"
+                },
+                {
+                    "name": "getSelectedId",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/auth/src/lib/+state/auth.selectors.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createSelector(\n  getAuthState,\n  (state: State) => state.selectedId\n)"
+                },
+                {
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/auth/src/lib/+state/auth.selectors.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "authAdapter.getSelectors()"
+                }
+            ],
+            "libs/auth/src/lib/+state/auth.actions.ts": [
+                {
+                    "name": "init",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/auth/src/lib/+state/auth.actions.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createAction('[Auth Page] Init')"
+                },
+                {
+                    "name": "loadAuthFailure",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/auth/src/lib/+state/auth.actions.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createAction(\n  '[NgbsAuth] Load Auth Failure',\n  props<{ error: any }>()\n)"
+                },
+                {
+                    "name": "loadAuthSuccess",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/auth/src/lib/+state/auth.actions.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createAction(\n  '[NgbsAuth] Load Auth Success',\n  props<{ auth: AuthEntity[] }>()\n)"
+                }
+            ],
+            "libs/auth/src/lib/components/sign-up-form/sign-up.form.ts": [
+                {
+                    "name": "passwordsMatchValidator",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/auth/src/lib/components/sign-up-form/sign-up.form.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "ValidatorFn",
+                    "defaultValue": "(control: AbstractControl) => {\n  const password = control.get('password');\n  const passwordConfirm = control.get('passwordConfirm');\n  const controlsTouched = password?.touched && passwordConfirm?.touched;\n  if (!controlsTouched || password?.value === passwordConfirm?.value) {\n    return null;\n  } else {\n    return {\n      passwordMismatch: true,\n    };\n  }\n}"
+                }
+            ],
+            "libs/auth/src/lib/components/avatar/avatar.component.stories.ts": [
+                {
+                    "name": "Primary",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/auth/src/lib/components/avatar/avatar.component.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/auth/src/lib/components/avatar/avatar.component.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<NgbsAvatarComponent>",
+                    "defaultValue": "(args: NgbsAvatarComponent) => ({\n  template: `\n  <ngbs-avatar [props]=\"props\"></ngbs-avatar>`,\n  props: args,\n})"
+                }
+            ],
+            "libs/auth/src/lib/components/log-in-form/log-in-form.component.stories.ts": [
+                {
+                    "name": "Primary",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/auth/src/lib/components/log-in-form/log-in-form.component.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/auth/src/lib/components/log-in-form/log-in-form.component.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<LogInFormComponent>",
+                    "defaultValue": "(args: LogInFormComponent) => ({\n  template: `<ngbs-log-in-form (action)=\"action($event)\"></ngbs-log-in-form>`,\n  props: args,\n})"
+                }
+            ],
+            "libs/auth/src/lib/components/sign-up-form/sign-up-form.component.stories.ts": [
+                {
+                    "name": "Primary",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/auth/src/lib/components/sign-up-form/sign-up-form.component.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/auth/src/lib/components/sign-up-form/sign-up-form.component.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<NgbsSignUpFormComponent>",
+                    "defaultValue": "(args: NgbsSignUpFormComponent) => ({\n  template: `\n  <select class=\"form-select\" ngbsSelectStylesheet>\n  </select>\n  <ngbs-sign-up-form (action)=\"action($event)\"></ngbs-sign-up-form>`,\n  props: args,\n})"
+                }
+            ]
+        },
+        "groupedFunctions": {
+            "libs/auth/src/lib/+state/auth.reducer.ts": [
+                {
+                    "name": "reducer",
+                    "file": "libs/auth/src/lib/+state/auth.reducer.ts",
+                    "ctype": "miscellaneous",
+                    "subtype": "function",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "args": [
+                        {
+                            "name": "state",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        },
+                        {
+                            "name": "action",
+                            "type": "Action",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "jsdoctags": [
+                        {
+                            "name": "state",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "action",
+                            "type": "Action",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        "groupedEnumerations": {},
+        "groupedTypeAliases": {
+            "libs/auth/src/lib/components/log-in-form/log-in-form.component.ts": [
+                {
+                    "name": "ButtonClickLogInAction",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "ReturnType<>",
+                    "file": "libs/auth/src/lib/components/log-in-form/log-in-form.component.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 177
+                },
+                {
+                    "name": "ButtonClickSubmitAction",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "ReturnType<>",
+                    "file": "libs/auth/src/lib/components/log-in-form/log-in-form.component.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 177
+                },
+                {
+                    "name": "FormSubmitLogInAction",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "ReturnType<>",
+                    "file": "libs/auth/src/lib/components/log-in-form/log-in-form.component.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 177
+                },
+                {
+                    "name": "LogInComponentActions",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "FormSubmitLogInAction | ButtonClickLogInAction | ButtonClickSubmitAction",
+                    "file": "libs/auth/src/lib/components/log-in-form/log-in-form.component.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 186
+                }
+            ],
+            "libs/auth/src/lib/components/sign-up-form/sign-up-form.component.ts": [
+                {
+                    "name": "ButtonClickLogInAction",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "ReturnType<>",
+                    "file": "libs/auth/src/lib/components/sign-up-form/sign-up-form.component.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 177
+                },
+                {
+                    "name": "ButtonClickSubmitAction",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "ReturnType<>",
+                    "file": "libs/auth/src/lib/components/sign-up-form/sign-up-form.component.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 177
+                },
+                {
+                    "name": "FormSubmitSignUpAction",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "ReturnType<>",
+                    "file": "libs/auth/src/lib/components/sign-up-form/sign-up-form.component.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 177
+                },
+                {
+                    "name": "SignUpComponentActions",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "FormSubmitSignUpAction | ButtonClickLogInAction | ButtonClickSubmitAction",
+                    "file": "libs/auth/src/lib/components/sign-up-form/sign-up-form.component.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 186
+                }
+            ],
+            "libs/auth/src/lib/components/avatar/avatar.component.ts": [
+                {
+                    "name": "NgbsUser",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "literal type",
+                    "file": "libs/auth/src/lib/components/avatar/avatar.component.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 181
+                }
+            ]
+        }
+    },
+    "routes": [],
+    "coverage": {
+        "count": 1,
+        "status": "low",
+        "files": [
+            {
+                "filePath": "libs/auth/src/lib/+state/auth.actions.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "init",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/+state/auth.actions.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "loadAuthFailure",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/+state/auth.actions.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "loadAuthSuccess",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/+state/auth.effects.ts",
+                "type": "injectable",
+                "linktype": "injectable",
+                "name": "AuthEffects",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/+state/auth.facade.ts",
+                "type": "injectable",
+                "linktype": "injectable",
+                "name": "AuthFacade",
+                "coveragePercent": 33,
+                "coverageCount": "2/6",
+                "status": "medium"
+            },
+            {
+                "filePath": "libs/auth/src/lib/+state/auth.models.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "AuthEntity",
+                "coveragePercent": 33,
+                "coverageCount": "1/3",
+                "status": "medium"
+            },
+            {
+                "filePath": "libs/auth/src/lib/+state/auth.reducer.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "AuthPartialState",
+                "coveragePercent": 0,
+                "coverageCount": "0/2",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/+state/auth.reducer.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "State",
+                "coveragePercent": 0,
+                "coverageCount": "0/4",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/+state/auth.reducer.ts",
+                "type": "function",
+                "linktype": "miscellaneous",
+                "linksubtype": "function",
+                "name": "reducer",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/+state/auth.reducer.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "AUTH_FEATURE_KEY",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/+state/auth.reducer.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "authAdapter",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/+state/auth.reducer.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "authReducer",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/+state/auth.reducer.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "initialState",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/+state/auth.selectors.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "getAllAuth",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/+state/auth.selectors.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "getAuthEntities",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/+state/auth.selectors.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "getAuthError",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/+state/auth.selectors.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "getAuthLoaded",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/+state/auth.selectors.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "getAuthState",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/+state/auth.selectors.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "getSelected",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/+state/auth.selectors.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "getSelectedId",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/+state/auth.selectors.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/auth.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "AuthView",
+                "coveragePercent": 0,
+                "coverageCount": "0/2",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/auth.facade.ts",
+                "type": "injectable",
+                "linktype": "injectable",
+                "name": "AuthFacade",
+                "coveragePercent": 0,
+                "coverageCount": "0/2",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/components/avatar/avatar.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Primary",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/components/avatar/avatar.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/components/avatar/avatar.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "NgbsAvatarComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/5",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/components/avatar/avatar.component.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "NgbsAvatarComponentProps",
+                "coveragePercent": 0,
+                "coverageCount": "0/2",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/components/log-in-form/log-in-form.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Primary",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/components/log-in-form/log-in-form.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/components/log-in-form/log-in-form.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "LogInFormComponent",
+                "coveragePercent": 9,
+                "coverageCount": "1/11",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/components/log-in-form/log-in-form.component.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "buttonClickLogIn",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/components/log-in-form/log-in-form.component.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "buttonClickSubmit",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/components/log-in-form/log-in-form.component.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "formSubmitLogIn",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/components/log-in-form/log-in.form.ts",
+                "type": "class",
+                "linktype": "classe",
+                "name": "LogInForm",
+                "coveragePercent": 0,
+                "coverageCount": "0/2",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/components/log-in-form/log-in.form.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "LogInFormValues",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/components/profile/profile.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "NgbsProfileComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/components/sign-up-form/sign-up-form.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Primary",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/components/sign-up-form/sign-up-form.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/components/sign-up-form/sign-up-form.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "NgbsSignUpFormComponent",
+                "coveragePercent": 9,
+                "coverageCount": "1/11",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/components/sign-up-form/sign-up-form.component.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "buttonClickLogIn",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/components/sign-up-form/sign-up-form.component.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "buttonClickSubmit",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/components/sign-up-form/sign-up-form.component.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "formSubmitSignUp",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/components/sign-up-form/sign-up.form.ts",
+                "type": "class",
+                "linktype": "classe",
+                "name": "SignUpForm",
+                "coveragePercent": 0,
+                "coverageCount": "0/2",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/components/sign-up-form/sign-up.form.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "SignUpFormValues",
+                "coveragePercent": 0,
+                "coverageCount": "0/4",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/components/sign-up-form/sign-up.form.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "passwordsMatchValidator",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/models/user.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "NgbsUser",
+                "coveragePercent": 0,
+                "coverageCount": "0/4",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/models/user.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "anonymousUser",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/models/user.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "testUser",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/views/log-in/log-in.view.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "NgbsLogInView",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/auth/src/lib/views/sign-up/sign-up.view.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "NgbsSignUpView",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            }
+        ]
+    }
+}

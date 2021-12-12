@@ -5,12 +5,14 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { RouterModule } from '@angular/router';
 import { UtilsModule } from '@ngbs/utils';
+import { NgbsAvatarModule } from '@ngbs/auth';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent],
   imports: [
     UtilsModule,
     BrowserModule,
+    NgbsAvatarModule,
     RouterModule.forRoot(
       [
         {

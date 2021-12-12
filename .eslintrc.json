@@ -9,7 +9,16 @@
         "@angular-eslint/component-class-suffix": [
           "error",
           {
-            "suffixes": ["Component","View"]
+            "suffixes": ["Component", "View"]
+          }
+        ],
+
+        "@angular-eslint/template/no-negated-async": 0,
+
+        "@angular-eslint/component-class-suffix": [
+          "error",
+          {
+            "suffixes": ["Component", "View"]
           }
         ],
 
