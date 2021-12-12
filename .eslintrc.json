@@ -13,7 +13,7 @@
           }
         ],
 
-        "@angular-eslint/template/no-negated-async": 0,
+        "@angular-eslint/template/no-negated-async": false,
 
         "@angular-eslint/component-class-suffix": [
           "error",

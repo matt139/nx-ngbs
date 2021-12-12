@@ -12,14 +12,15 @@ import { anonymousUser } from '../../models/user'
     >
       <summary style="list-style: none;">
         <img
-          class="w-100 bi-person-circle rounded-circle"
+          style="width: 5rem; height: 5rem;"
+          class="w-100 rounded-circle"
           [src]="user.avatarUrl"
           aria-label="logged in"
         />
       </summary>
       <menu class="position-absolute bg-light" style="width: 10rem;">
-        <li>Profile</li>
-        <li>Log Out</li>
+        <li><a routerLink="/auth/profile">Profile</a></li>
+        <li><a (click)="clickLogOut($event)">Log Out</a></li>
       </menu>
     </details>
     <details
@@ -29,14 +30,15 @@ import { anonymousUser } from '../../models/user'
     >
       <summary style="list-style: none;">
         <img
-          class="w-100 bi-person-circle rounded-circle"
+          style="width: 5rem; height: 5rem;"
+          class="w-100 rounded-circle"
           [src]="anonymousUser.avatarUrl"
           aria-label="logged out"
         />
       </summary>
       <menu class="position-absolute bg-light" style="width: 10rem;">
-        <li>Sign Up</li>
-        <li>Log In</li>
+        <li><a routerLink="/auth/sign-up">Sign Up</a></li>
+        <li><a routerLink="/auth/log-in">Log In</a></li>
       </menu>
     </details>
   `,
