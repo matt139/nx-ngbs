@@ -17,22 +17,19 @@ import * as AuthSelectors from './auth.selectors'
  */
 @Injectable()
 export class AuthFacade {
-  /**
-   * Combine pieces of state using createSelector,
-   * and expose them as observables through the facade.
-   */
-  public readonly loaded$ = this.store.pipe(select(AuthSelectors.getAuthLoaded))
-  public readonly allAuth$ = this.store.pipe(select(AuthSelectors.getAllAuth))
-  public readonly selectedAuth$ = this.store.pipe(
-    select(AuthSelectors.getSelected)
-  )
-
   constructor(private readonly store: Store) {}
 
-  /**
-   * Use the initialization action to perform one
-   * or more tasks in your Effects.
-   */
+  public readonly isAuthLoaded$ = this.store.pipe(
+    select(AuthSelectors.isAuthLoaded)
+  )
+
+  public readonly isLoggedIn$ = this.store.pipe(
+    select(AuthSelectors.isLoggedIn)
+  )
+
+  public readonly user$ = this.store.pipe(select(AuthSelectors.getUser))
+
+
   public init() {
     this.store.dispatch(AuthActions.init())
   }
@@ -46,6 +43,6 @@ export class AuthFacade {
   }
 
   public logOut() {
-    console.log('not implemented')
+    console.warn('AuthFacade:logOut() - not implemented')
   }
 }

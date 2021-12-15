@@ -15,13 +15,9 @@ interface TestSchema {
   auth: State
 }
 
-describe.only(AuthFacade.name, () => {
+describe(AuthFacade.name, () => {
   let facade: AuthFacade
   let store: Store<TestSchema>
-  const createAuthEntity = (id: string, name = ''): AuthEntity => ({
-    id,
-    name: name || `name-${id}`,
-  })
 
   describe('used in NgModule', () => {
     beforeEach(() => {
@@ -43,6 +39,12 @@ describe.only(AuthFacade.name, () => {
 
       store = TestBed.inject(Store)
       facade = TestBed.inject(AuthFacade)
+    })
+
+    describe(AuthFacade.prototype.logIn.name, () => {
+      it('should exist', () => {
+        expect(facade.logIn).toBeTruthy()
+      })
     })
 
     describe(AuthFacade.prototype.signUp.name, () => {
