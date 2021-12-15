@@ -7,11 +7,13 @@ import { RouterModule } from '@angular/router'
 import { UtilsModule } from '@ngbs/utils'
 import { AuthModule, NgbsAvatarModule } from '@ngbs/auth'
 import { StoreModule } from '@ngrx/store'
+import { StoreDevtoolsModule } from '@ngrx/store-devtools'
 import { EffectsModule } from '@ngrx/effects'
 import { AngularFireAuthModule } from '@angular/fire/compat/auth'
 import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app'
 import { getFirestore, provideFirestore } from '@angular/fire/firestore'
 import { getAuth, provideAuth } from '@angular/fire/auth'
+import { environment } from '../environments/environment'
 
 
 /*
@@ -67,6 +69,11 @@ const firebaseConfig = {
     ),
     StoreModule.forRoot({}),
     EffectsModule.forRoot(),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25, // Retains last 25 states
+      logOnly: environment.production, // Restrict extension to log-only mode
+      autoPause: true, // Pauses recording actions and state changes when the extension window is not open
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],

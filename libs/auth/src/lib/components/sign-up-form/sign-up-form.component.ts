@@ -37,7 +37,7 @@ export class NgbsSignUpFormComponent {
   )
 
   @Output()
-  public readonly action = merge(
+  public readonly action$ = merge(
     this.formSubmitAction$,
     this.buttonClickLogIn$,
     this.buttonClickSubmit$

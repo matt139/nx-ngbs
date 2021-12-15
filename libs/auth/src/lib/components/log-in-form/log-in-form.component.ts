@@ -35,7 +35,7 @@ export class LogInFormComponent {
   );
 
   @Output()
-  public readonly action = merge(
+  public readonly action$ = merge(
     this.formSubmitAction$,
     this.buttonClickSignUp$,
     this.buttonClickSubmit$
@@ -47,12 +47,10 @@ export class LogInFormComponent {
   };
 
   public readonly buttonClickSubmit = (event: Event) => {
-    event.preventDefault();
     this.buttonClickSubmit$.next(buttonClickSubmit());
   };
 
   public readonly buttonClickSignUp = (event: Event) => {
-    event.preventDefault();
     this.buttonClickSignUp$.next(buttonClickLogIn());
   };
 }
