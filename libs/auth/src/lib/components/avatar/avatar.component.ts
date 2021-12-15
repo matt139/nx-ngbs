@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core'
 import { map, ReplaySubject } from 'rxjs'
-import { anonymousUser } from '../../models/user'
+import { anonymousUser, NgbsUser } from '../../models/user'
 
 @Component({
   selector: 'ngbs-avatar',
@@ -66,4 +66,3 @@ export interface NgbsAvatarComponentProps {
   readonly user?: NgbsUser | null
 }
 
-export type NgbsUser = { displayName: string; avatarUrl: string }

@@ -10,7 +10,7 @@ import { createAction, props } from '@ngrx/store';
  * a basic log in form
  */
 @Component({
-  selector: 'ngbs-log-in-form',
+  selector: 'ngbs-auth-log-in-form',
   templateUrl: './log-in-form.component.html',
 })
 export class NgbsAuthLogInFormComponent {

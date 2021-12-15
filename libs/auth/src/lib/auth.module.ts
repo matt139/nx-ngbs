@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router'
 import { AuthView } from './auth.component'
 import { NgbsAuthSignUpFormComponent } from './components/sign-up-form/sign-up-form.component'
 import { NgbsAuthLogInFormComponent } from './components/log-in-form/log-in-form.component'
-import { NgbsLogInView } from './views/log-in/log-in.view'
+import { NgbsAuthLogInView } from './views/log-in/log-in.view'
 import { NgbsAuthSignUpView } from './views/sign-up/sign-up.view'
 import { StoreModule } from '@ngrx/store'
 import { EffectsModule } from '@ngrx/effects'
@@ -32,7 +32,7 @@ import { AuthService } from './auth.service'
           },
           {
             path: 'log-in',
-            component: NgbsLogInView,
+            component: NgbsAuthLogInView,
           },
           {
             path: '',
@@ -52,7 +52,7 @@ import { AuthService } from './auth.service'
     AuthView,
     NgbsAuthSignUpFormComponent,
     NgbsAuthLogInFormComponent,
-    NgbsLogInView,
+    NgbsAuthLogInView,
     NgbsAuthSignUpView,
   ],
   providers: [AuthFacade, AuthService],

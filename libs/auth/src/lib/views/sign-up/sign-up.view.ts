@@ -16,7 +16,7 @@ import {
  */
 @Component({
   template: `
-    <ngbs-sign-up-form (action$)="action$.next($event)"></ngbs-sign-up-form>
+    <ngbs-auth-sign-up-form (action$)="action$.next($event)"></ngbs-auth-sign-up-form>
   `,
 })
 export class NgbsAuthSignUpView implements OnDestroy {

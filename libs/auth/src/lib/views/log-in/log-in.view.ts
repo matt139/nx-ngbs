@@ -4,10 +4,10 @@ import { ReplaySubject } from "rxjs";
 
 @Component({
   template: `
-  <ngbs-log-in-form (action$)="action$.next($event)"></ngbs-log-in-form>
+  <ngbs-auth-log-in-form (action$)="action$.next($event)"></ngbs-auth-log-in-form>
   `
 })
-export class NgbsLogInView {
+export class NgbsAuthLogInView {
 
   private readonly ngOnDestroy$ = new ReplaySubject<void>(1)
 
