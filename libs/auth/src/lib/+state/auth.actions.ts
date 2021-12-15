@@ -1,14 +1,48 @@
-import { createAction, props } from '@ngrx/store';
-import { AuthEntity } from './auth.models';
+import { createAction, props } from '@ngrx/store'
+import { NgbsUser } from '../models/user'
+import { AuthEntity, NgbsAuthCredentials } from './auth.models'
 
-export const init = createAction('[Auth Page] Init');
+export const init = createAction('[Auth Page] Init')
+
 
 export const loadAuthSuccess = createAction(
   '[NgbsAuth] Load Auth Success',
   props<{ auth: AuthEntity[] }>()
-);
+)
 
 export const loadAuthFailure = createAction(
   '[NgbsAuth] Load Auth Failure',
   props<{ error: any }>()
-);
+)
+
+
+export const logInSubmit = createAction(
+  '[NgbsAuth] Log In Submit',
+  props<{ credentials: NgbsAuthCredentials }>()
+)
+
+export const logInSuccess = createAction(
+  '[NgbsAuth] Log In Success',
+  props<{ user: NgbsUser }>()
+)
+
+export const logInFailure = createAction(
+  '[NgbsAuth] Log In Failure',
+  props<{ error: any }>()
+)
+
+
+export const signUpSubmit = createAction(
+  '[NgbsAuth] Sign Up Submit',
+  props<{ credentials: NgbsAuthCredentials }>()
+)
+
+export const signUpSuccess = createAction(
+  '[NgbsAuth] Sign Up Success',
+  props<{ user: NgbsUser }>()
+)
+
+export const signUpFailure = createAction(
+  '[NgbsAuth] Sign Up Failure',
+  props<{ error: any }>()
+)

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component } from '@angular/core'
 
 @Component({
   selector: 'ngbs-root',
@@ -24,6 +24,4 @@ import { Component } from '@angular/core';
     </ul>
   `,
 })
-export class HomeComponent {
-  title = 'ngbs';
-}
+export class HomeComponent {}

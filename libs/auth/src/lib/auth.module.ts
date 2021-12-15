@@ -1,19 +1,20 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { ReactiveFormsModule } from '@angular/forms'
+import { RouterModule } from '@angular/router'
 
-import { AuthView } from './auth.component';
-import { NgbsSignUpFormComponent } from './components/sign-up-form/sign-up-form.component';
-import { LogInFormComponent } from './components/log-in-form/log-in-form.component';
-import { NgbsLogInView } from './views/log-in/log-in.view';
-import { NgbsSignUpView } from './views/sign-up/sign-up.view';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-import * as fromAuth from './+state/auth.reducer';
-import { AuthEffects } from './+state/auth.effects';
-import { AuthFacade } from './+state/auth.facade';
-import { NgbsAvatarModule } from './components/avatar/avatar.module';
+import { AuthView } from './auth.component'
+import { NgbsSignUpFormComponent } from './components/sign-up-form/sign-up-form.component'
+import { LogInFormComponent } from './components/log-in-form/log-in-form.component'
+import { NgbsLogInView } from './views/log-in/log-in.view'
+import { NgbsAuthSignUpView } from './views/sign-up/sign-up.view'
+import { StoreModule } from '@ngrx/store'
+import { EffectsModule } from '@ngrx/effects'
+import * as fromAuth from './+state/auth.reducer'
+import { AuthEffects } from './+state/auth.effects'
+import { AuthFacade } from './+state/auth.facade'
+import { NgbsAvatarModule } from './components/avatar/avatar.module'
+import { AuthService } from './auth.service'
 
 @NgModule({
   imports: [
@@ -27,7 +28,7 @@ import { NgbsAvatarModule } from './components/avatar/avatar.module';
         children: [
           {
             path: 'sign-up',
-            component: NgbsSignUpView,
+            component: NgbsAuthSignUpView,
           },
           {
             path: 'log-in',
@@ -52,8 +53,8 @@ import { NgbsAvatarModule } from './components/avatar/avatar.module';
     NgbsSignUpFormComponent,
     LogInFormComponent,
     NgbsLogInView,
-    NgbsSignUpView,
+    NgbsAuthSignUpView,
   ],
-  providers: [AuthFacade],
+  providers: [AuthFacade, AuthService],
 })
 export class AuthModule {}

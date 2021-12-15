@@ -11,7 +11,9 @@
     </div>
   </div>
 
-  <ngbs-avatar></ngbs-avatar>
+  <ngbs-avatar [props]="avatarProps$ | async"></ngbs-avatar>
 
   <router-outlet></router-outlet>
+
+  <pre>{{store$ | async | json }}</pre>
 </div>

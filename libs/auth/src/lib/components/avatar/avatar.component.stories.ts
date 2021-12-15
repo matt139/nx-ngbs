@@ -1,6 +1,6 @@
 import { ReactiveFormsModule } from '@angular/forms'
 import { moduleMetadata, Story, Meta } from '@storybook/angular'
-import { anonymousUser, testUser } from '../../models/user'
+import { testUser } from '../../models/user'
 import { NgbsAvatarComponent } from './avatar.component'
 
 export default {

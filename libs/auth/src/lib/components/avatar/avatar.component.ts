@@ -45,9 +45,10 @@ import { anonymousUser } from '../../models/user'
 })
 export class NgbsAvatarComponent {
   private readonly props$ = new ReplaySubject<NgbsAvatarComponentProps>(1)
+  private readonly clickLogOut$ = new ReplaySubject<Event>(1)
 
   @Input()
-  set props(props: NgbsAvatarComponentProps) {
+  set props(props: NgbsAvatarComponentProps | null) {
     if (!props) return
     this.props$.next(props)
   }
@@ -55,10 +56,14 @@ export class NgbsAvatarComponent {
   public readonly user$ = this.props$.pipe(map((props) => props.user))
 
   public readonly anonymousUser = anonymousUser
+
+  public clickLogOut(event: Event) {
+    this.clickLogOut$.next(event)
+  }
 }
 
 export interface NgbsAvatarComponentProps {
-  readonly user?: NgbsUser
+  readonly user?: NgbsUser | null
 }
 
 export type NgbsUser = { displayName: string; avatarUrl: string }

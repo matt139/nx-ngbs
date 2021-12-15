@@ -1,7 +1,7 @@
 export interface NgbsUser {
-  readonly displayName: string
   readonly emailAddress: string
-  readonly avatarUrl: string
+  readonly displayName?: string | null
+  readonly avatarUrl?: string | null
 }
 
 export const anonymousUser: NgbsUser = {
