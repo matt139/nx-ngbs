@@ -1,10 +1,10 @@
 import { NgModule } from "@angular/core";
-import { LogInFormComponent } from "./log-in-form.component";
+import { NgbsAuthLogInFormComponent } from "./log-in-form.component";
 
 export * from "./log-in-form.component";
 export * from './log-in.form'
 
 @NgModule({
-  declarations: [LogInFormComponent]
+  declarations: [NgbsAuthLogInFormComponent]
 })
 export class NgbsLogInFormModule {}

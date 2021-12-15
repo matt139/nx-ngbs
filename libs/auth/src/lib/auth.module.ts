@@ -4,8 +4,8 @@ import { ReactiveFormsModule } from '@angular/forms'
 import { RouterModule } from '@angular/router'
 
 import { AuthView } from './auth.component'
-import { NgbsSignUpFormComponent } from './components/sign-up-form/sign-up-form.component'
-import { LogInFormComponent } from './components/log-in-form/log-in-form.component'
+import { NgbsAuthSignUpFormComponent } from './components/sign-up-form/sign-up-form.component'
+import { NgbsAuthLogInFormComponent } from './components/log-in-form/log-in-form.component'
 import { NgbsLogInView } from './views/log-in/log-in.view'
 import { NgbsAuthSignUpView } from './views/sign-up/sign-up.view'
 import { StoreModule } from '@ngrx/store'
@@ -50,8 +50,8 @@ import { AuthService } from './auth.service'
   ],
   declarations: [
     AuthView,
-    NgbsSignUpFormComponent,
-    LogInFormComponent,
+    NgbsAuthSignUpFormComponent,
+    NgbsAuthLogInFormComponent,
     NgbsLogInView,
     NgbsAuthSignUpView,
   ],

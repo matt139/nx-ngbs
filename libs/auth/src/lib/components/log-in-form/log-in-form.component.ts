@@ -13,7 +13,7 @@ import { createAction, props } from '@ngrx/store';
   selector: 'ngbs-log-in-form',
   templateUrl: './log-in-form.component.html',
 })
-export class LogInFormComponent {
+export class NgbsAuthLogInFormComponent {
   private readonly formSubmit$ = new ReplaySubject<Event>(1);
 
   private readonly buttonClickSubmit$ =

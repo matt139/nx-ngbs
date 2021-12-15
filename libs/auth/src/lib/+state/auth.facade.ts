@@ -11,7 +11,7 @@ import * as AuthSelectors from './auth.selectors'
  *
  * The facade is injected into view components, which consume data from and
  * make function calls to the facade.
- * 
+ *
  * In this case the facade creates hooks into NgRx, but it may also consume
  * other services
  */
@@ -21,9 +21,11 @@ export class AuthFacade {
    * Combine pieces of state using createSelector,
    * and expose them as observables through the facade.
    */
-  loaded$ = this.store.pipe(select(AuthSelectors.getAuthLoaded))
-  allAuth$ = this.store.pipe(select(AuthSelectors.getAllAuth))
-  selectedAuth$ = this.store.pipe(select(AuthSelectors.getSelected))
+  public readonly loaded$ = this.store.pipe(select(AuthSelectors.getAuthLoaded))
+  public readonly allAuth$ = this.store.pipe(select(AuthSelectors.getAllAuth))
+  public readonly selectedAuth$ = this.store.pipe(
+    select(AuthSelectors.getSelected)
+  )
 
   constructor(private readonly store: Store) {}
 

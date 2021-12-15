@@ -6,16 +6,16 @@ import { filter, map, withLatestFrom } from 'rxjs/operators'
 import { SignUpForm, SignUpFormValues } from './sign-up.form'
 
 /**
- * NgbsSignUpFormComponent
+ * NgbsAuthSignUpFormComponent
  *
  * a basic sign up form
  */
 @Component({
-  selector: 'ngbs-sign-up-form',
+  selector: 'ngbs-auth-sign-up-form',
   templateUrl: './sign-up-form.component.html',
   styleUrls: ['./sign-up-form.component.scss'],
 })
-export class NgbsSignUpFormComponent {
+export class NgbsAuthSignUpFormComponent {
   private readonly formSubmit$ = new ReplaySubject<Event>(1)
 
   private readonly buttonClickSubmit$ =
@@ -33,7 +33,7 @@ export class NgbsSignUpFormComponent {
   private formSubmitAction$ = this.formSubmit$.pipe(
     withLatestFrom(this.signUpForm$),
     filter(([, form]) => form.valid),
-    map(([, form]) => formSubmitSignUp({values: form.value}))
+    map(([, form]) => formSubmitSignUp({ values: form.value }))
   )
 
   @Output()

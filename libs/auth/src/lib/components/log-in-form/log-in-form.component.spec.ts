@@ -1,20 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import { LogInFormComponent } from './log-in-form.component';
+import { NgbsAuthLogInFormComponent } from './log-in-form.component';
 
-describe('SignUpFormComponent', () => {
-  let component: LogInFormComponent;
-  let fixture: ComponentFixture<LogInFormComponent>;
+describe(NgbsAuthLogInFormComponent.name, () => {
+  let component: NgbsAuthLogInFormComponent;
+  let fixture: ComponentFixture<NgbsAuthLogInFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LogInFormComponent ]
+      imports: [ ReactiveFormsModule ],
+      declarations: [ NgbsAuthLogInFormComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LogInFormComponent);
+    fixture = TestBed.createComponent(NgbsAuthLogInFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

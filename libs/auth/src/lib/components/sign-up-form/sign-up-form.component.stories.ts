@@ -1,15 +1,15 @@
 import { ReactiveFormsModule } from '@angular/forms';
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
-import { NgbsSignUpFormComponent } from './sign-up-form.component';
+import { NgbsAuthSignUpFormComponent } from './sign-up-form.component';
 import { SelectStylesheetDirective } from '@ngbs/utils';
 
 export default {
   title: 'SignUpComponent',
-  component: NgbsSignUpFormComponent,
+  component: NgbsAuthSignUpFormComponent,
   decorators: [
     moduleMetadata({
       imports: [ReactiveFormsModule],
-      declarations: [NgbsSignUpFormComponent, SelectStylesheetDirective],
+      declarations: [NgbsAuthSignUpFormComponent, SelectStylesheetDirective],
     }),
   ],
   argTypes: {
@@ -17,9 +17,9 @@ export default {
       action: () => void 0,
     },
   },
-} as Meta<NgbsSignUpFormComponent>;
+} as Meta<NgbsAuthSignUpFormComponent>;
 
-const Template: Story<NgbsSignUpFormComponent> = (args: NgbsSignUpFormComponent) => ({
+const Template: Story<NgbsAuthSignUpFormComponent> = (args: NgbsAuthSignUpFormComponent) => ({
   template: `
   <select class="form-select" ngbsSelectStylesheet>
   </select>

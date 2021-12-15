@@ -1,14 +1,14 @@
 import { ReactiveFormsModule } from '@angular/forms';
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
-import { LogInFormComponent } from './log-in-form.component';
+import { NgbsAuthLogInFormComponent } from './log-in-form.component';
 
 export default {
   title: 'LogInComponent',
-  component: LogInFormComponent,
+  component: NgbsAuthLogInFormComponent,
   decorators: [
     moduleMetadata({
       imports: [ReactiveFormsModule],
-      declarations: [LogInFormComponent],
+      declarations: [NgbsAuthLogInFormComponent],
     }),
   ],
   argTypes: {
@@ -16,9 +16,9 @@ export default {
       action: () => void 0,
     },
   },
-} as Meta<LogInFormComponent>;
+} as Meta<NgbsAuthLogInFormComponent>;
 
-const Template: Story<LogInFormComponent> = (args: LogInFormComponent) => ({
+const Template: Story<NgbsAuthLogInFormComponent> = (args: NgbsAuthLogInFormComponent) => ({
   template: `<ngbs-log-in-form (action)="action($event)"></ngbs-log-in-form>`,
   props: args,
 });
