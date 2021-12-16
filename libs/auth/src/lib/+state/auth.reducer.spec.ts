@@ -2,9 +2,8 @@ import { Action } from '@ngrx/store'
 import { testUser } from '../models/user'
 
 import * as AuthActions from './auth.actions'
-import { AuthEntity } from './auth.models'
 import { State, initialState, reducer } from './auth.reducer'
-import { getUser, isLoggedIn } from './auth.selectors'
+import { getErrors, getUser, isLoggedIn } from './auth.selectors'
 
 describe('Auth Reducer', () => {
   let state: State = initialState
@@ -36,7 +35,7 @@ describe('Auth Reducer', () => {
 
         const action = AuthActions.signUpSuccess({ user: testUser })
         const result: State = reducer(initialState, action)
-        expect(result.user).toBe(testUser)
+        expect(getUser({auth: result})).toBe(testUser)
       })
     })
 
@@ -48,8 +47,10 @@ describe('Auth Reducer', () => {
       })
 
       describe(AuthActions.logInFailure.type, () => {
-        it('should exist', () => {
-          expect(AuthActions.logInFailure).toBeTruthy()
+        it('should create an error', () => {
+          const action = AuthActions.logInFailure({ error: 'test error' })
+          const result: State = reducer(initialState, action)
+          expect(getErrors({ auth: result }).length).toBeGreaterThan(0)
         })
       })
 
@@ -57,7 +58,6 @@ describe('Auth Reducer', () => {
         it('should update state with the logged in user', () => {
           expect(AuthActions.logInSubmit).toBeTruthy()
         })
-
         const action = AuthActions.logInSuccess({ user: testUser })
         const result: State = reducer(initialState, action)
         expect(getUser({ auth: result })).toBe(testUser)

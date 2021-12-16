@@ -1,6 +1,6 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity'
 import { createReducer, on, Action } from '@ngrx/store'
-import { NgbsUser } from '../models/user'
+import { NgbsUser } from './auth.models'
 
 import * as AuthActions from './auth.actions'
 import { AuthEntity } from './auth.models'

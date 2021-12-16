@@ -1,8 +1,4 @@
-export interface NgbsUser {
-  readonly emailAddress: string
-  readonly displayName?: string | null
-  readonly avatarUrl?: string | null
-}
+import { NgbsUser } from "../+state/auth.models"
 
 export const anonymousUser: NgbsUser = {
   displayName: 'ANONYMOUS USER',

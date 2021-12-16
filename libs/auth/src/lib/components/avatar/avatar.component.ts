@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core'
 import { map, ReplaySubject } from 'rxjs'
-import { anonymousUser, NgbsUser } from '../../models/user'
+import { anonymousUser } from '../../models/user'
+import { NgbsUser } from '../../+state/auth.models'
 
 @Component({
   selector: 'ngbs-avatar',
@@ -65,4 +66,3 @@ export class NgbsAvatarComponent {
 export interface NgbsAvatarComponentProps {
   readonly user?: NgbsUser | null
 }
-

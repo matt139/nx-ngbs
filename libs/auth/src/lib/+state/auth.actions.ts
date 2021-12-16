@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store'
-import { NgbsUser } from '../models/user'
+import { NgbsUser } from './auth.models'
 import { AuthEntity, NgbsAuthCredentials } from './auth.models'
 
 /*
@@ -57,3 +57,21 @@ export const logInFailure = createAction(
  * Log Out
  */
 export const logOut = createAction('[NgbsAuth] Log Out')
+
+/*
+ * Change Password
+ */
+export const changePasswordSubmit = createAction(
+  '[NgbsAuth] Change Password Submit',
+  props<{ credentials: NgbsAuthCredentials }>()
+)
+
+export const changePasswordSuccess = createAction(
+  '[NgbsAuth] Change Password Success',
+  props<{ user: NgbsUser }>()
+)
+
+export const changePasswordFailure = createAction(
+  '[NgbsAuth] Change Password Failure',
+  props<{ error: any }>()
+)
