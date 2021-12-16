@@ -10,6 +10,8 @@ import {
 
 @Injectable()
 export class AuthService {
+  constructor(private readonly angularFireAuth: Auth) {}
+
   public readonly logIn = ({ emailAddress, password }: NgbsAuthCredentials) =>
     from(
       signInWithEmailAndPassword(this.angularFireAuth, emailAddress, password)
@@ -23,6 +25,4 @@ export class AuthService {
         password
       )
     )
-
-  constructor(private readonly angularFireAuth: Auth) {}
 }

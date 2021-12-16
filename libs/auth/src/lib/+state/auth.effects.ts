@@ -19,19 +19,16 @@ export class AuthEffects {
     private readonly authService: AuthService
   ) {}
 
-  private readonly init$ = createEffect(() =>
+  public readonly init$ = createEffect(() =>
     this.actions$.pipe(ofType(AuthActions.init))
   )
 
-  private readonly logIn$ = createEffect(() =>
+  public readonly logIn$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.logInSubmit),
       switchMap((action) => this.authService.logIn(action.credentials)),
-      map((userCredential) =>
-        userCredential.user &&
-        userCredential.user.email &&
-        userCredential.user.displayName &&
-        userCredential.user.photoURL
+      map((userCredential) => {
+        return userCredential?.user?.email
           ? AuthActions.logInSuccess({
               user: {
                 emailAddress: userCredential.user?.email,
@@ -40,18 +37,18 @@ export class AuthEffects {
               },
             })
           : AuthActions.logInFailure({
-              error: 'no user',
+              error: 'AuthEffects.logIn$: missing user or user.email',
             })
-      )
+      })
     )
   )
 
-  private readonly signUp$ = createEffect(() =>
+  public readonly signUp$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.signUpSubmit),
       switchMap((action) => this.authService.signUp(action.credentials)),
       map((userCredential) =>
-        userCredential.user && userCredential.user.email
+        userCredential?.user?.email
           ? AuthActions.signUpSuccess({
               user: {
                 emailAddress: userCredential.user?.email,
@@ -60,7 +57,7 @@ export class AuthEffects {
               },
             })
           : AuthActions.signUpFailure({
-              error: 'AuthActions.signUpFailure : missing user or user.email',
+              error: 'AuthEffects.signUp$ : missing user or user.email',
             })
       ),
       catchError((error) => {
