@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core'
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core'
 import { ofType } from '@ngrx/effects'
 import { Action, Store } from '@ngrx/store'
 import { ReplaySubject, takeUntil, tap } from 'rxjs'
@@ -16,8 +16,11 @@ import {
  */
 @Component({
   template: `
-    <ngbs-auth-sign-up-form (action$)="action$.next($event)"></ngbs-auth-sign-up-form>
+    <ngbs-auth-sign-up-form
+      (action$)="action$.next($event)"
+    ></ngbs-auth-sign-up-form>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NgbsAuthSignUpView implements OnDestroy {
   private readonly ngOnDestroy$ = new ReplaySubject<void>(1)

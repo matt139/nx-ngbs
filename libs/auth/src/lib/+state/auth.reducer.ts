@@ -1,9 +1,7 @@
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity'
 import { createReducer, on, Action } from '@ngrx/store'
-import { NgbsUser } from './auth.models'
 
+import { NgbsUser } from './auth.models'
 import * as AuthActions from './auth.actions'
-import { AuthEntity } from './auth.models'
 
 export const AUTH_FEATURE_KEY = 'auth'
 
@@ -31,7 +29,9 @@ const authReducer = createReducer(
     errors: [...state.errors, error],
   })),
   on(AuthActions.logInSuccess, (state, { user }) => ({ ...state, user })),
+  on(AuthActions.logInFailure, (state, { error }) => ({ ...state, errors: [error, ...state.errors] })),
   on(AuthActions.signUpSuccess, (state, { user }) => ({ ...state, user })),
+  on(AuthActions.signUpFailure, (state, { error }) => ({ ...state, errors: [error, ...state.errors] })),
   on(AuthActions.logOut, (state) => ({ ...state, user: undefined }))
 )
 

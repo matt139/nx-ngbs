@@ -15,6 +15,10 @@ import { AuthEffects } from './+state/auth.effects'
 import { AuthFacade } from './+state/auth.facade'
 import { NgbsAvatarModule } from './components/avatar/avatar.module'
 import { AuthService } from './auth.service'
+import { NgbsAuthViewProfileView } from './views/view-profile/view-profile.view'
+import { NgbsAuthEditProfileView } from './views/edit-profile/edit-profile.view'
+import { NgbsAuthIsLoggedOutGuard } from './guards/is-logged-out.guard'
+import { NgbsAuthIsLoggedInGuard } from './guards/is-logged-in.guard'
 
 @NgModule({
   imports: [
@@ -29,10 +33,22 @@ import { AuthService } from './auth.service'
           {
             path: 'sign-up',
             component: NgbsAuthSignUpView,
+            canActivate: [NgbsAuthIsLoggedOutGuard],
           },
           {
             path: 'log-in',
             component: NgbsAuthLogInView,
+            canActivate: [NgbsAuthIsLoggedOutGuard],
+          },
+          {
+            path: 'profile',
+            component: NgbsAuthViewProfileView,
+            canActivate: [NgbsAuthIsLoggedInGuard],
+          },
+          {
+            path: 'profile/edit',
+            component: NgbsAuthEditProfileView,
+            canActivate: [NgbsAuthIsLoggedInGuard],
           },
           {
             path: '',
@@ -54,7 +70,14 @@ import { AuthService } from './auth.service'
     NgbsAuthLogInFormComponent,
     NgbsAuthLogInView,
     NgbsAuthSignUpView,
+    NgbsAuthViewProfileView,
+    NgbsAuthEditProfileView,
   ],
-  providers: [AuthFacade, AuthService],
+  providers: [
+    AuthFacade,
+    AuthService,
+    NgbsAuthIsLoggedInGuard,
+    NgbsAuthIsLoggedOutGuard,
+  ],
 })
 export class AuthModule {}

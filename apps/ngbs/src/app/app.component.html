@@ -1,18 +1,24 @@
 <div class="container">
-  <div class="mb-5">
-    <label for="select-stylesheet"> Select Stylesheet: </label>
-    <select
-      ngbsSelectStylesheet
-      class="form-select"
-      name="select-stylesheet"
-    ></select>
-    <div class="form-text col-12">
-      Demo themes by <a href="https://bootswatch.com">Bootswatch</a>
+  <div class="row mb-5">
+    <div class="col-9">
+      <label for="select-stylesheet"> Select Stylesheet: </label>
+      <select
+        ngbsSelectStylesheet
+        class="form-select"
+        name="select-stylesheet"
+      ></select>
+      <div class="form-text col-12">
+        Demo themes by <a href="https://bootswatch.com">Bootswatch</a>
+      </div>
+    </div>
+    <div class="col-3 d-flex justify-content-end">
+      <ngbs-avatar [props]="avatarProps$ | async"></ngbs-avatar>
     </div>
   </div>
 
-  <ngbs-avatar [props]="avatarProps$ | async"></ngbs-avatar>
-
   <router-outlet></router-outlet>
 
+  <ul>
+    <li *ngFor="let error of errors$ | async"><pre>{{error | json }}</pre></li>
+  </ul>
 </div>

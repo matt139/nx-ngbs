@@ -1,16 +1,10 @@
 import { Injectable } from '@angular/core'
 import { createEffect, Actions, ofType } from '@ngrx/effects'
-import { fetch } from '@nrwl/angular'
 import { of } from 'rxjs'
 import { catchError, map, switchMap } from 'rxjs/operators'
-import { AuthService } from '../auth.service'
-import { formSubmitLogIn } from '../components/log-in-form/log-in-form.component'
-import { formSubmitSignUp } from '../components/sign-up-form/sign-up-form.component'
-import { testUser } from '../models/user'
 
+import { AuthService } from '../auth.service'
 import * as AuthActions from './auth.actions'
-import { NgbsAuthCredentials } from './auth.models'
-import * as AuthFeature from './auth.reducer'
 
 @Injectable()
 export class AuthEffects {
@@ -39,6 +33,16 @@ export class AuthEffects {
           : AuthActions.logInFailure({
               error: 'AuthEffects.logIn$: missing user or user.email',
             })
+      }),
+      catchError((error) => {
+        console.error('AuthEffects.logIn$')
+        console.error(error)
+
+        return of(
+          AuthActions.signUpFailure({
+            error,
+          })
+        )
       })
     )
   )
@@ -61,6 +65,7 @@ export class AuthEffects {
             })
       ),
       catchError((error) => {
+        console.error('AuthEffects.signUp$')
         console.error(error)
 
         return of(
