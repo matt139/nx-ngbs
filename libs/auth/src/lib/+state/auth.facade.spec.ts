@@ -1,15 +1,10 @@
 import { NgModule } from '@angular/core'
 import { TestBed } from '@angular/core/testing'
-import { EffectsModule } from '@ngrx/effects'
 import { StoreModule, Store } from '@ngrx/store'
 import { NxModule } from '@nrwl/angular'
-import { readFirst } from '@nrwl/angular/testing'
 
-import * as AuthActions from './auth.actions'
 import { AuthFacade } from './auth.facade'
-import { AuthEntity } from './auth.models'
-import { AUTH_FEATURE_KEY, State, initialState, reducer } from './auth.reducer'
-import * as AuthSelectors from './auth.selectors'
+import { AUTH_FEATURE_KEY, State, reducer } from './auth.reducer'
 
 interface TestSchema {
   auth: State
@@ -44,6 +39,7 @@ describe(AuthFacade.name, () => {
     describe(AuthFacade.prototype.logIn.name, () => {
       it('should exist', () => {
         expect(facade.logIn).toBeTruthy()
+        expect(store).toBeTruthy()
       })
     })
 
