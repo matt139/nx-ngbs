@@ -1,15 +1,15 @@
 import { ReactiveFormsModule } from '@angular/forms'
 import { moduleMetadata, Story, Meta } from '@storybook/angular'
-import { testUser } from '../../models/user'
-import { NgbsAvatarComponent } from './avatar.component'
+import { testUser } from '../../test/user'
+import { NgbsAuthAvatarComponent } from './avatar.component'
 
 export default {
   title: 'AvatarComponent',
-  component: NgbsAvatarComponent,
+  component: NgbsAuthAvatarComponent,
   decorators: [
     moduleMetadata({
       imports: [ReactiveFormsModule],
-      declarations: [NgbsAvatarComponent],
+      declarations: [NgbsAuthAvatarComponent],
     }),
   ],
   argTypes: {
@@ -25,11 +25,11 @@ export default {
       control: { type: 'select' },
     },
   },
-} as Meta<NgbsAvatarComponent>
+} as Meta<NgbsAuthAvatarComponent>
 
-const Template: Story<NgbsAvatarComponent> = (args: NgbsAvatarComponent) => ({
+const Template: Story<NgbsAuthAvatarComponent> = (args: NgbsAuthAvatarComponent) => ({
   template: `
-  <ngbs-avatar [props]="props"></ngbs-avatar>`,
+  <ngbs-auth-avatar [props]="props"></ngbs-auth-avatar>`,
   props: args,
 })
 

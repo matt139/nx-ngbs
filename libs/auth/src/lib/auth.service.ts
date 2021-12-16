@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core'
-import { from, of } from 'rxjs'
+import { from } from 'rxjs'
 import { NgbsAuthCredentials } from './+state/auth.models'
-import { testUser } from './models/user'
 import {
   Auth,
   signInWithEmailAndPassword,

@@ -1,20 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
-import { ReactiveFormsModule } from '@angular/forms'
 
-import { NgbsAvatarComponent } from './avatar.component'
+import { NgbsAuthAvatarComponent } from './avatar.component'
 
-describe(NgbsAvatarComponent.name, () => {
-  let component: NgbsAvatarComponent
-  let fixture: ComponentFixture<NgbsAvatarComponent>
+describe(NgbsAuthAvatarComponent.name, () => {
+  let component: NgbsAuthAvatarComponent
+  let fixture: ComponentFixture<NgbsAuthAvatarComponent>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [NgbsAvatarComponent],
+      declarations: [NgbsAuthAvatarComponent],
     }).compileComponents()
   })
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NgbsAvatarComponent)
+    fixture = TestBed.createComponent(NgbsAuthAvatarComponent)
     component = fixture.componentInstance
     fixture.detectChanges()
   })

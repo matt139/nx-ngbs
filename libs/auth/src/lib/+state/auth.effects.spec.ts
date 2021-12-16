@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing'
-import { UserCredential } from '@angular/fire/auth'
 import { provideMockActions } from '@ngrx/effects/testing'
 import { Action } from '@ngrx/store'
 import { provideMockStore } from '@ngrx/store/testing'
@@ -7,7 +6,6 @@ import { NxModule } from '@nrwl/angular'
 import { hot } from 'jasmine-marbles'
 import { Observable, of } from 'rxjs'
 import { AuthService } from '../auth.service'
-import { testUser } from '../models/user'
 
 import * as AuthActions from './auth.actions'
 import { AuthEffects } from './auth.effects'
@@ -25,10 +23,10 @@ describe('AuthEffects', () => {
         {
           provide: AuthService,
           useValue: {
-            logIn: jest.fn((credentials: any) => {
+            logIn: jest.fn(() => {
               return of(userCredential)
             }),
-            signUp: jest.fn((credentials: any) => {
+            signUp: jest.fn(() => {
               return of(userCredential)
             }),
           },
@@ -70,7 +68,7 @@ describe('AuthEffects', () => {
 
       const expected = hot('-a-|', {
         a: AuthActions.logInSuccess({
-          user: { emailAddress: userCredential.user.email },
+          user: userCredential.user as any,
         }),
       })
 
@@ -91,7 +89,7 @@ describe('AuthEffects', () => {
 
       const expected = hot('-a-|', {
         a: AuthActions.signUpSuccess({
-          user: { emailAddress: userCredential.user.email },
+          user: userCredential.user as any,
         }),
       })
 

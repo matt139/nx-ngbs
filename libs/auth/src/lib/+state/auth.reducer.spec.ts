@@ -1,9 +1,12 @@
 import { Action } from '@ngrx/store'
-import { testUser } from '../models/user'
 
 import * as AuthActions from './auth.actions'
 import { State, initialState, reducer } from './auth.reducer'
 import { getErrors, getUser, isLoggedIn } from './auth.selectors'
+
+const testUser: any = {
+  email: 'test@example.com',
+}
 
 describe('Auth Reducer', () => {
   let state: State = initialState
@@ -13,8 +16,6 @@ describe('Auth Reducer', () => {
   })
 
   describe('valid Auth actions', () => {
-    describe('Init', () => {})
-
     describe('Sign Up', () => {
       describe(AuthActions.signUpSubmit.type, () => {
         it('should exist', () => {
@@ -35,7 +36,7 @@ describe('Auth Reducer', () => {
 
         const action = AuthActions.signUpSuccess({ user: testUser })
         const result: State = reducer(initialState, action)
-        expect(getUser({auth: result})).toBe(testUser)
+        expect(getUser({ auth: result })).toBe(testUser)
       })
     })
 

@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store'
-import { NgbsUser } from './auth.models'
-import { AuthEntity, NgbsAuthCredentials } from './auth.models'
+import { NgbsError, NgbsUser } from './auth.models'
+import { NgbsAuthCredentials } from './auth.models'
 
 /*
  * Init
@@ -9,12 +9,11 @@ export const init = createAction('[Auth Page] Init')
 
 export const loadAuthSuccess = createAction(
   '[NgbsAuth] Load Auth Success',
-  props<{ auth: AuthEntity[] }>()
 )
 
 export const loadAuthFailure = createAction(
   '[NgbsAuth] Load Auth Failure',
-  props<{ error: any }>()
+  props<{ error: NgbsError }>()
 )
 
 /*
@@ -32,7 +31,7 @@ export const signUpSuccess = createAction(
 
 export const signUpFailure = createAction(
   '[NgbsAuth] Sign Up Failure',
-  props<{ error: any }>()
+  props<{ error: NgbsError }>()
 )
 
 /*
@@ -50,7 +49,7 @@ export const logInSuccess = createAction(
 
 export const logInFailure = createAction(
   '[NgbsAuth] Log In Failure',
-  props<{ error: any }>()
+  props<{ error: NgbsError }>()
 )
 
 /*
@@ -73,5 +72,5 @@ export const changePasswordSuccess = createAction(
 
 export const changePasswordFailure = createAction(
   '[NgbsAuth] Change Password Failure',
-  props<{ error: any }>()
+  props<{ error: NgbsError }>()
 )

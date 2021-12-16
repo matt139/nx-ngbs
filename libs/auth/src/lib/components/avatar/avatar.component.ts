@@ -1,10 +1,10 @@
-import { Component, Input } from '@angular/core'
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core'
 import { map, ReplaySubject } from 'rxjs'
-import { anonymousUser } from '../../models/user'
 import { NgbsUser } from '../../+state/auth.models'
 
 @Component({
-  selector: 'ngbs-avatar',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'ngbs-auth-avatar',
   template: `
     <details
       class="position-relative"
@@ -15,7 +15,7 @@ import { NgbsUser } from '../../+state/auth.models'
         <img
           style="width: 5rem; height: 5rem;"
           class="w-100 rounded-circle"
-          [src]="user.avatarUrl"
+          [src]="user.photoURL"
           aria-label="logged in"
         />
       </summary>
@@ -23,6 +23,7 @@ import { NgbsUser } from '../../+state/auth.models'
         <li><a routerLink="/auth/profile">Profile</a></li>
         <li><a (click)="clickLogOut($event)">Log Out</a></li>
       </menu>
+      <pre>{{user | json}}</pre>
     </details>
     <details
       class="position-relative"
@@ -33,7 +34,7 @@ import { NgbsUser } from '../../+state/auth.models'
         <img
           style="width: 5rem; height: 5rem;"
           class="w-100 rounded-circle"
-          [src]="anonymousUser.avatarUrl"
+          [src]="anonymousUser.photoURL"
           aria-label="logged out"
         />
       </summary>
@@ -44,7 +45,7 @@ import { NgbsUser } from '../../+state/auth.models'
     </details>
   `,
 })
-export class NgbsAvatarComponent {
+export class NgbsAuthAvatarComponent {
   private readonly props$ = new ReplaySubject<NgbsAvatarComponentProps>(1)
   private readonly clickLogOut$ = new ReplaySubject<Event>(1)
 
@@ -56,7 +57,9 @@ export class NgbsAvatarComponent {
 
   public readonly user$ = this.props$.pipe(map((props) => props.user))
 
-  public readonly anonymousUser = anonymousUser
+  public readonly anonymousUser = {
+    avatarUrl: 'anonymous.jpg',
+  }
 
   public clickLogOut(event: Event) {
     this.clickLogOut$.next(event)

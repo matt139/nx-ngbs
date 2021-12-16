@@ -1,3 +1,5 @@
+import { User } from '@angular/fire/auth'
+
 export type NgbsPassword = string
 export type NgbsEmailAddress = string
 
@@ -6,8 +8,6 @@ export interface NgbsAuthCredentials {
   password: NgbsPassword
 }
 
-export interface NgbsUser {
-  readonly emailAddress: NgbsEmailAddress
-  readonly displayName?: string | null
-  readonly avatarUrl?: string | null
-}
+export type NgbsUser = User
+
+export type NgbsError = any

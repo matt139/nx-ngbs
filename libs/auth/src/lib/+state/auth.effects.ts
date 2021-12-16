@@ -24,11 +24,7 @@ export class AuthEffects {
       map((userCredential) => {
         return userCredential?.user?.email
           ? AuthActions.logInSuccess({
-              user: {
-                emailAddress: userCredential.user?.email,
-                displayName: userCredential.user?.displayName,
-                avatarUrl: userCredential.user?.photoURL,
-              },
+              user: userCredential.user,
             })
           : AuthActions.logInFailure({
               error: 'AuthEffects.logIn$: missing user or user.email',
@@ -54,11 +50,7 @@ export class AuthEffects {
       map((userCredential) =>
         userCredential?.user?.email
           ? AuthActions.signUpSuccess({
-              user: {
-                emailAddress: userCredential.user?.email,
-                displayName: userCredential.user?.displayName,
-                avatarUrl: userCredential.user?.photoURL,
-              },
+              user: userCredential.user,
             })
           : AuthActions.signUpFailure({
               error: 'AuthEffects.signUp$ : missing user or user.email',
