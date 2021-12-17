@@ -17,10 +17,10 @@ export default {
       action: () => void 0,
     },
     props: {
-      options: ['anonymousUser', 'testUser'],
+      options: ['loggedIn', 'loggedOut'],
       mapping: {
-        anonymousUser: { user: null },
-        testUser: { user: testUser },
+        loggedIn: { user: testUser },
+        loggedOut: { user: null },
       },
       control: { type: 'select' },
     },

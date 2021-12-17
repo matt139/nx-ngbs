@@ -51,6 +51,22 @@
           "quiet": true
         }
       }
+    },
+    "build": {
+      "executor": "@nrwl/storybook:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "uiFramework": "@storybook/angular",
+        "outputPath": "dist/storybook/utils",
+        "config": {
+          "configFolder": "libs/utils/.storybook"
+        }
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
     }
   },
   "tags": []

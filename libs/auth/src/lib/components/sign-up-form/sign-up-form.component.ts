@@ -1,4 +1,5 @@
-import { Component, Output } from '@angular/core'
+import { ChangeDetectionStrategy, Component, Output } from '@angular/core'
+import { ComponentActions } from '@ngbs/utils'
 import { createAction, props } from '@ngrx/store'
 import { merge, of, ReplaySubject, switchMap } from 'rxjs'
 import { filter, map, withLatestFrom } from 'rxjs/operators'
@@ -14,15 +15,16 @@ import { SignUpForm, SignUpFormValues } from './sign-up.form'
   selector: 'ngbs-auth-sign-up-form',
   templateUrl: './sign-up-form.component.html',
   styleUrls: ['./sign-up-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgbsAuthSignUpFormComponent {
   private readonly formSubmit$ = new ReplaySubject<Event>(1)
 
   private readonly buttonClickSubmit$ =
-    new ReplaySubject<ButtonClickSubmitAction>(1)
+    new ReplaySubject(1)
 
   private readonly buttonClickLogIn$ =
-    new ReplaySubject<ButtonClickLogInAction>(1)
+    new ReplaySubject(1)
 
   public readonly signUpForm$ = of(new SignUpForm())
 
@@ -48,11 +50,11 @@ export class NgbsAuthSignUpFormComponent {
     this.formSubmit$.next(event)
   }
 
-  public readonly buttonClickSubmit = (event: Event) => {
+  public readonly buttonClickSubmit = () => {
     this.buttonClickSubmit$.next(buttonClickSubmit())
   }
 
-  public readonly buttonClickLogIn = (event: Event) => {
+  public readonly buttonClickLogIn = () => {
     this.buttonClickLogIn$.next(buttonClickLogIn())
   }
 }
@@ -72,25 +74,18 @@ export class NgbsAuthSignUpFormComponent {
  */
 
 export const formSubmitSignUp = createAction(
-  '[NgbsAuth/SignUpFormComponent] Sign Up Form Submit',
+  '[NgbsAuthSignUpFormComponent] Sign Up Form Submit',
   props<{ values: SignUpFormValues }>()
 )
 
-export type FormSubmitSignUpAction = ReturnType<typeof formSubmitSignUp>
-
 export const buttonClickLogIn = createAction(
-  '[NgbsAuth/SignUpFormComponent] Log In Button Clicked'
+  '[NgbsAuthSignUpFormComponent] Log In Button Clicked'
 )
-
-export type ButtonClickLogInAction = ReturnType<typeof buttonClickLogIn>
 
 export const buttonClickSubmit = createAction(
-  '[NgbsAuth/SignUpFormComponent] Submit Button Clicked'
+  '[NgbsAuthSignUpFormComponent] Submit Button Clicked'
 )
 
-export type ButtonClickSubmitAction = ReturnType<typeof buttonClickSubmit>
 
 export type NgbsAuthSignUpComponentAction =
-  | FormSubmitSignUpAction
-  | ButtonClickLogInAction
-  | ButtonClickSubmitAction
+  ComponentActions<NgbsAuthSignUpFormComponent>

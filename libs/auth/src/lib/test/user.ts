@@ -3,9 +3,11 @@ import * as faker from 'faker'
 import { NgbsUser } from '../+state/auth.models'
 
 export const userFactory = Factory.Sync.makeFactory<Partial<NgbsUser>>({
-  displayName: Factory.each(() => faker.name.firstName()),
+  displayName: Factory.each(
+    () => `${faker.name.firstName()} ${faker.name.lastName()}`
+  ),
   emailVerified: true,
-  photoURL: Factory.each(() => faker.image.dataUri()),
+  photoURL: 'https://blog.matttelliott.com/assets/cat1.jpeg',
   isAnonymous: false,
 })
 
