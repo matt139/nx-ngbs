@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, Output } from '@angular/core'
 import { ComponentActions } from '@ngbs/utils'
 import { createAction, props } from '@ngrx/store'
-import { merge, of, ReplaySubject, switchMap } from 'rxjs'
-import { filter, map, withLatestFrom } from 'rxjs/operators'
+import { merge, of, ReplaySubject } from 'rxjs'
+import { filter, map } from 'rxjs/operators'
 
-import { SignUpForm, SignUpFormValues } from './sign-up.form'
+import { SignUpForm } from './sign-up.form'
 
 /**
  * NgbsAuthSignUpFormComponent
@@ -15,48 +15,33 @@ import { SignUpForm, SignUpFormValues } from './sign-up.form'
   selector: 'ngbs-auth-sign-up-form',
   templateUrl: './sign-up-form.component.html',
   styleUrls: ['./sign-up-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NgbsAuthSignUpFormComponent {
-  private readonly formSubmit$ = new ReplaySubject<Event>(1)
-
-  private readonly buttonClickSubmit$ =
-    new ReplaySubject(1)
-
-  private readonly buttonClickLogIn$ =
-    new ReplaySubject(1)
-
   public readonly signUpForm$ = of(new SignUpForm())
 
-  private readonly formValues$ = this.signUpForm$.pipe(
-    switchMap((form) => form.valueChanges)
-  )
+  private readonly formSubmit$ = new ReplaySubject<{
+    event: Event
+    form: SignUpForm
+  }>(1)
 
-  private formSubmitAction$ = this.formSubmit$.pipe(
-    withLatestFrom(this.signUpForm$),
-    filter(([, form]) => form.valid),
-    map(([, form]) => formSubmitSignUp({ values: form.value }))
-  )
+  private readonly buttonClickSubmit$ = new ReplaySubject<{ event: Event }>(1)
+
+  private readonly buttonClickLogIn$ = new ReplaySubject<{ event: Event }>(1)
 
   @Output()
   public readonly action$ = merge(
-    this.formSubmitAction$,
-    this.buttonClickLogIn$,
-    this.buttonClickSubmit$
+    this.formSubmit$.pipe(
+      filter(({ form }) => form.valid),
+      map(formSubmitSignUp)
+    ),
+    this.buttonClickLogIn$.pipe(map(buttonClickLogIn)),
+    this.buttonClickSubmit$.pipe(map(buttonClickSubmit))
   )
 
-  public readonly formSubmit = (event: Event) => {
+  public readonly preventNavigation = this.formSubmit$.subscribe(({ event }) =>
     event.preventDefault()
-    this.formSubmit$.next(event)
-  }
-
-  public readonly buttonClickSubmit = () => {
-    this.buttonClickSubmit$.next(buttonClickSubmit())
-  }
-
-  public readonly buttonClickLogIn = () => {
-    this.buttonClickLogIn$.next(buttonClickLogIn())
-  }
+  )
 }
 
 /*
@@ -75,17 +60,18 @@ export class NgbsAuthSignUpFormComponent {
 
 export const formSubmitSignUp = createAction(
   '[NgbsAuthSignUpFormComponent] Sign Up Form Submit',
-  props<{ values: SignUpFormValues }>()
+  props<{ event: Event; form: SignUpForm }>()
 )
 
 export const buttonClickLogIn = createAction(
-  '[NgbsAuthSignUpFormComponent] Log In Button Clicked'
+  '[NgbsAuthSignUpFormComponent] Log In Button Clicked',
+  props<{ event: Event }>()
 )
 
 export const buttonClickSubmit = createAction(
-  '[NgbsAuthSignUpFormComponent] Submit Button Clicked'
+  '[NgbsAuthSignUpFormComponent] Submit Button Clicked',
+  props<{ event: Event }>()
 )
 
-
-export type NgbsAuthSignUpComponentAction =
+export type NgbsAuthSignUpFormComponentAction =
   ComponentActions<NgbsAuthSignUpFormComponent>

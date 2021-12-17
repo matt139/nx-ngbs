@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core'
 import { ofType } from '@ngrx/effects'
-import { Action, Store } from '@ngrx/store'
-import { ReplaySubject, takeUntil, tap } from 'rxjs'
+import { Store } from '@ngrx/store'
+import { ReplaySubject, takeUntil } from 'rxjs'
 import { AuthFacade } from '../../+state/auth.facade'
 import {
   formSubmitSignUp,
-  NgbsAuthSignUpComponentAction,
+  NgbsAuthSignUpFormComponentAction,
 } from '../../components/sign-up-form/sign-up-form.component'
 
 /*
@@ -25,7 +25,7 @@ import {
 export class NgbsAuthSignUpView implements OnDestroy {
   private readonly ngOnDestroy$ = new ReplaySubject<void>(1)
 
-  public readonly action$ = new ReplaySubject<NgbsAuthSignUpComponentAction>(1)
+  public readonly action$ = new ReplaySubject<NgbsAuthSignUpFormComponentAction>(1)
 
   constructor(
     private readonly authFacade: AuthFacade,
@@ -36,8 +36,8 @@ export class NgbsAuthSignUpView implements OnDestroy {
     .pipe(ofType(formSubmitSignUp), takeUntil(this.ngOnDestroy$))
     .subscribe((action) => {
       this.authFacade.signUp({
-        emailAddress: action.values.emailAddress,
-        password: action.values.password,
+        emailAddress: action.form.value.emailAddress,
+        password: action.form.value.password,
       })
     })
 

@@ -1,14 +1,13 @@
-
 <form
   *ngIf="logInForm$ | async as logInForm"
-  (ngSubmit)="formSubmit($event)"
   [formGroup]="logInForm"
+  (ngSubmit)="formSubmit$.next({event: $event, form: logInForm})"
 >
   <fieldset class="bg-light border border-dark p-5">
     <div class="d-flex justify-content-between mb-3 align-items-end">
       <legend class="mb-0">Log In</legend>
       <a
-        (click)="buttonClickSignUp($event)"
+        (click)="buttonClickSignUp$.next({event:$event})"
         class="flex-shrink-0"
         routerLink="/auth/sign-up"
         >Sign Up
@@ -40,7 +39,7 @@
       <button
         type="submit"
         class="btn btn-primary me-2"
-        (click)="buttonClickSubmit($event)"
+        (click)="buttonClickSubmit$.next({event:$event})"
         [disabled]="!logInForm.valid"
       >
         Log In
