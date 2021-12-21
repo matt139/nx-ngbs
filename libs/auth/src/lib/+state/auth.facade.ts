@@ -14,7 +14,7 @@ import * as AuthSelectors from './auth.selectors'
  * In this case the facade creates hooks into NgRx, but it may also consume
  * other services
  */
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class NgbsAuthFacade {
   constructor(private readonly store: Store) {
     console.log(store)
