@@ -2,6 +2,7 @@
   *ngIf="logInForm$ | async as logInForm"
   [formGroup]="logInForm"
   (ngSubmit)="formSubmit$.next({event: $event, form: logInForm})"
+  [class.border.border-danger]="!logInForm.valid"
 >
   <fieldset class="bg-light border border-dark p-5">
     <div class="d-flex justify-content-between mb-3 align-items-end">
@@ -10,6 +11,7 @@
         (click)="buttonClickSignUp$.next({event:$event})"
         class="flex-shrink-0"
         routerLink="/auth/sign-up"
+        data-test="log-in-form-link-sign-up"
         >Sign Up
       </a>
     </div>
@@ -20,6 +22,7 @@
         type="email"
         class="form-control"
         id="input-email"
+        data-test="log-in-form-input-email"
         aria-describedby="emailHelp"
         formControlName="emailAddress"
       />
@@ -32,6 +35,7 @@
         formControlName="password"
         class="form-control"
         id="input-password"
+        data-test="log-in-form-input-password"
       />
     </div>
 
@@ -39,6 +43,7 @@
       <button
         type="submit"
         class="btn btn-primary me-2"
+        data-test="log-in-form-button-submit"
         (click)="buttonClickSubmit$.next({event:$event})"
         [disabled]="!logInForm.valid"
       >
@@ -47,10 +52,7 @@
       <a routerLink="/auth/forgot-password">Forgot Password</a>
     </div>
 
-    <ul
-      [class.d-none]="logInForm.valid || !logInForm.touched"
-      class="mb-0 mt-3"
-    >
+    <ul [class.d-none]="logInForm.valid" class="mb-0 mt-3">
       <li
         class="form-text text-danger"
         [class.d-none]="!logInForm.controls.emailAddress.errors?.required || !logInForm.controls.emailAddress.touched"

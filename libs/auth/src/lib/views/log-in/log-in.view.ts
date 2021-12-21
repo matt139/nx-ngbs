@@ -1,6 +1,12 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core'
-import { Action } from '@ngrx/store'
-import { ReplaySubject } from 'rxjs'
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core'
+import { ofType } from '@ngrx/effects'
+import { Store } from '@ngrx/store'
+import { ReplaySubject, takeUntil } from 'rxjs'
+import { NgbsAuthFacade } from '../../+state/auth.facade'
+import {
+  formSubmitLogIn,
+  NgbsAuthLogInFormComponentAction,
+} from '../../components/log-in-form/log-in-form.component'
 
 @Component({
   template: `
@@ -10,8 +16,34 @@ import { ReplaySubject } from 'rxjs'
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NgbsAuthLogInView {
+export class NgbsAuthLogInView implements OnDestroy {
   private readonly ngOnDestroy$ = new ReplaySubject<void>(1)
 
-  public readonly action$ = new ReplaySubject<Action>(1)
+  public readonly action$ = new ReplaySubject<NgbsAuthLogInFormComponentAction>(
+    1
+  )
+
+  constructor(
+    private readonly authFacade: NgbsAuthFacade,
+    private readonly store: Store
+  ) {}
+
+  private readonly logIn = this.action$
+    .pipe(ofType(formSubmitLogIn), takeUntil(this.ngOnDestroy$))
+    .subscribe((action) => {
+      this.authFacade.logIn({
+        emailAddress: action.form.value.emailAddress,
+        password: action.form.value.password,
+      })
+    })
+
+  private readonly dispatchActions = this.action$.subscribe((action) => {
+    this.store.dispatch(action)
+  })
+
+  public ngOnDestroy() {
+    this.ngOnDestroy$.next()
+    this.ngOnDestroy$.complete()
+    this.action$.complete()
+  }
 }

@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'ngbs-profile',
+  selector: 'ngbs-auth-profile',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgbsProfileComponent {}

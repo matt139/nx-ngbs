@@ -20,14 +20,14 @@ import { SignUpForm } from './sign-up.form'
 export class NgbsAuthSignUpFormComponent {
   public readonly signUpForm$ = of(new SignUpForm())
 
-  private readonly formSubmit$ = new ReplaySubject<{
+  public readonly formSubmit$ = new ReplaySubject<{
     event: Event
     form: SignUpForm
   }>(1)
 
-  private readonly buttonClickSubmit$ = new ReplaySubject<{ event: Event }>(1)
+  public readonly buttonClickSubmit$ = new ReplaySubject<{ event: MouseEvent }>(1)
 
-  private readonly buttonClickLogIn$ = new ReplaySubject<{ event: Event }>(1)
+  public readonly buttonClickLogIn$ = new ReplaySubject<{ event: MouseEvent }>(1)
 
   @Output()
   public readonly action$ = merge(
@@ -65,12 +65,12 @@ export const formSubmitSignUp = createAction(
 
 export const buttonClickLogIn = createAction(
   '[NgbsAuthSignUpFormComponent] Log In Button Clicked',
-  props<{ event: Event }>()
+  props<{ event: MouseEvent }>()
 )
 
 export const buttonClickSubmit = createAction(
   '[NgbsAuthSignUpFormComponent] Submit Button Clicked',
-  props<{ event: Event }>()
+  props<{ event: MouseEvent }>()
 )
 
 export type NgbsAuthSignUpFormComponentAction =

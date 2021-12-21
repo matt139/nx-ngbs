@@ -21,6 +21,7 @@
         type="email"
         class="form-control"
         id="input-email"
+        data-test="sign-up-input-email"
         aria-describedby="emailHelp"
         formControlName="emailAddress"
       />
@@ -35,6 +36,7 @@
         formControlName="password"
         class="form-control"
         id="input-password"
+        data-test="sign-up-input-password"
       />
     </div>
     <div class="mb-3">
@@ -46,12 +48,14 @@
         formControlName="passwordConfirm"
         class="form-control"
         id="input-password-confirm"
+        data-test="sign-up-input-password-confirm"
       />
     </div>
     <button
       type="submit"
       class="btn btn-primary me-2"
       (click)="buttonClickSubmit$.next({event:$event})"
+      data-test="sign-up-button-submit"
       [disabled]="!signUpForm.valid"
     >
       Sign Up

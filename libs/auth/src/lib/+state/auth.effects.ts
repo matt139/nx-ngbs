@@ -22,6 +22,7 @@ export class AuthEffects {
       ofType(AuthActions.logInSubmit),
       switchMap((action) => this.authService.logIn(action.credentials)),
       map((userCredential) => {
+        console.log(userCredential)
         return userCredential?.user?.email
           ? AuthActions.logInSuccess({
               user: userCredential.user,

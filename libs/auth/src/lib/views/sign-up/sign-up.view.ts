@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core'
 import { ofType } from '@ngrx/effects'
 import { Store } from '@ngrx/store'
 import { ReplaySubject, takeUntil } from 'rxjs'
-import { AuthFacade } from '../../+state/auth.facade'
+import { NgbsAuthFacade } from '../../+state/auth.facade'
 import {
   formSubmitSignUp,
   NgbsAuthSignUpFormComponentAction,
@@ -28,7 +28,7 @@ export class NgbsAuthSignUpView implements OnDestroy {
   public readonly action$ = new ReplaySubject<NgbsAuthSignUpFormComponentAction>(1)
 
   constructor(
-    private readonly authFacade: AuthFacade,
+    private readonly authFacade: NgbsAuthFacade,
     private readonly store: Store
   ) {}
 

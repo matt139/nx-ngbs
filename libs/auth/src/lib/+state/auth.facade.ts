@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core'
-import { select, Store, Action } from '@ngrx/store'
+import { select, Store } from '@ngrx/store'
 
 import * as AuthActions from './auth.actions'
 import { NgbsAuthCredentials } from './auth.models'
-import * as AuthFeature from './auth.reducer'
 import * as AuthSelectors from './auth.selectors'
 
 /*
@@ -15,9 +14,11 @@ import * as AuthSelectors from './auth.selectors'
  * In this case the facade creates hooks into NgRx, but it may also consume
  * other services
  */
-@Injectable()
-export class AuthFacade {
-  constructor(private readonly store: Store) {}
+@Injectable({ providedIn: 'root' })
+export class NgbsAuthFacade {
+  constructor(private readonly store: Store) {
+    console.log(store)
+  }
 
   public readonly isAuthLoaded$ = this.store.pipe(
     select(AuthSelectors.isAuthLoaded)
@@ -29,6 +30,9 @@ export class AuthFacade {
 
   public readonly user$ = this.store.pipe(select(AuthSelectors.getUser))
 
+  public logOut() {
+    this.store.dispatch(AuthActions.logOut())
+  }
 
   public init() {
     this.store.dispatch(AuthActions.init())
@@ -40,9 +44,5 @@ export class AuthFacade {
 
   public logIn(credentials: NgbsAuthCredentials) {
     this.store.dispatch(AuthActions.logInSubmit({ credentials }))
-  }
-
-  public logOut() {
-    console.warn('AuthFacade:logOut() - not implemented')
   }
 }

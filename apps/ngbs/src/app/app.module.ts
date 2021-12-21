@@ -5,12 +5,11 @@ import { AppComponent } from './app.component'
 import { HomeComponent } from './home/home.component'
 import { RouterModule } from '@angular/router'
 import { UtilsModule } from '@ngbs/utils'
-import { AuthModule, NgbsAvatarModule } from '@ngbs/auth'
+import { NgbsAuthModule } from '@ngbs/auth'
 import { StoreModule } from '@ngrx/store'
 import { StoreDevtoolsModule } from '@ngrx/store-devtools'
 import { EffectsModule } from '@ngrx/effects'
-import { AngularFireAuthModule } from '@angular/fire/compat/auth'
-import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app'
+import { provideFirebaseApp, initializeApp } from '@angular/fire/app'
 import { getFirestore, provideFirestore } from '@angular/fire/firestore'
 import { getAuth, provideAuth } from '@angular/fire/auth'
 import { environment } from '../environments/environment'
@@ -42,7 +41,6 @@ const firebaseConfig = {
     provideAuth(() => getAuth()),
 
     BrowserModule,
-    NgbsAvatarModule,
     RouterModule.forRoot(
       [
         {
@@ -51,10 +49,10 @@ const firebaseConfig = {
         },
 
         // Eager load AuthModule because user is very likely to use it
-        {
-          path: 'auth',
-          loadChildren: () => Promise.resolve(AuthModule),
-        },
+        // {
+        //   path: 'auth',
+        //   loadChildren: () => Promise.resolve(AuthModule),
+        // },
         //lazy load other modules
         // {
         //   path: 'auth',
@@ -74,6 +72,7 @@ const firebaseConfig = {
       logOnly: environment.production, // Restrict extension to log-only mode
       autoPause: true, // Pauses recording actions and state changes when the extension window is not open
     }),
+    NgbsAuthModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

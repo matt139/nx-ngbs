@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="col-3 d-flex justify-content-end">
-      <ngbs-auth-avatar [props]="avatarProps$ | async"></ngbs-auth-avatar>
+      <ngbs-auth-avatar [props]="avatarProps$ | async" (action$)="action$.next($event)"></ngbs-auth-avatar>
     </div>
   </div>
 

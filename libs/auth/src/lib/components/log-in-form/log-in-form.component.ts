@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Output } from '@angular/core'
-import { merge, of, ReplaySubject, switchMap } from 'rxjs'
-import { filter, map, withLatestFrom } from 'rxjs/operators'
-import { LogInForm, LogInFormValues } from './log-in.form'
+import { merge, of, ReplaySubject } from 'rxjs'
+import { filter, map } from 'rxjs/operators'
+import { LogInForm } from './log-in.form'
 import { createAction, props } from '@ngrx/store'
 import { ComponentActions } from '@ngbs/utils'
 
@@ -16,14 +16,18 @@ import { ComponentActions } from '@ngbs/utils'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NgbsAuthLogInFormComponent {
-  private readonly formSubmit$ = new ReplaySubject<{
+  public readonly formSubmit$ = new ReplaySubject<{
     event: Event
     form: LogInForm
   }>(1)
 
-  private readonly buttonClickSubmit$ = new ReplaySubject<{ event: Event }>(1)
+  public readonly buttonClickSubmit$ = new ReplaySubject<{ event: MouseEvent }>(
+    1
+  )
 
-  private readonly buttonClickSignUp$ = new ReplaySubject<{ event: Event }>(1)
+  public readonly buttonClickSignUp$ = new ReplaySubject<{ event: MouseEvent }>(
+    1
+  )
 
   public readonly logInForm$ = of(new LogInForm())
 
@@ -37,8 +41,6 @@ export class NgbsAuthLogInFormComponent {
     this.buttonClickSubmit$.pipe(map(buttonClickSubmit))
   )
 
-  a = this.action$.subscribe(x => console.log('a = this.action$', x))
-
   public readonly preventNavigation = this.formSubmit$.subscribe(({ event }) =>
     event.preventDefault()
   )
@@ -51,13 +53,13 @@ export const formSubmitLogIn = createAction(
 
 export const buttonClickSignUp = createAction(
   '[NgbsAuthLogInFormComponent] Sign Up Button Clicked',
-  props<{ event: Event }>()
+  props<{ event: MouseEvent }>()
 )
 
 export const buttonClickSubmit = createAction(
   '[NgbsAuthLogInFormComponent] Submit Button Clicked',
-  props<{ event: Event }>()
+  props<{ event: MouseEvent }>()
 )
 
-export type NgbsAuthLogInFormComponentActions =
+export type NgbsAuthLogInFormComponentAction =
   ComponentActions<NgbsAuthLogInFormComponent>

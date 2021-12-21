@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { ReactiveFormsModule } from '@angular/forms'
-import { RouterModule } from '@angular/router'
+import { Route, RouterModule } from '@angular/router'
 
 import { AuthView } from './auth.component'
 import { NgbsAuthSignUpFormComponent } from './components/sign-up-form/sign-up-form.component'
@@ -12,7 +12,6 @@ import { StoreModule } from '@ngrx/store'
 import { EffectsModule } from '@ngrx/effects'
 import * as fromAuth from './+state/auth.reducer'
 import { AuthEffects } from './+state/auth.effects'
-import { AuthFacade } from './+state/auth.facade'
 import { NgbsAvatarModule } from './components/avatar/avatar.module'
 import { AuthService } from './auth.service'
 import { NgbsAuthViewProfileView } from './views/view-profile/view-profile.view'
@@ -20,47 +19,55 @@ import { NgbsAuthEditProfileView } from './views/edit-profile/edit-profile.view'
 import { NgbsAuthIsLoggedOutGuard } from './guards/is-logged-out.guard'
 import { NgbsAuthIsLoggedInGuard } from './guards/is-logged-in.guard'
 
+export const ngbsAuthRoutes: Route[] = [
+  {
+    path: 'auth',
+    component: AuthView,
+    children: [
+      {
+        path: 'sign-up',
+        pathMatch: 'full',
+        component: NgbsAuthSignUpView,
+        canActivate: [NgbsAuthIsLoggedOutGuard],
+      },
+      {
+        path: 'log-in',
+        pathMatch: 'full',
+        component: NgbsAuthLogInView,
+        canActivate: [NgbsAuthIsLoggedOutGuard],
+      },
+      {
+        path: 'profile',
+        pathMatch: 'full',
+        component: NgbsAuthViewProfileView,
+        canActivate: [NgbsAuthIsLoggedInGuard],
+      },
+      {
+        path: 'profile/edit',
+        pathMatch: 'full',
+        component: NgbsAuthEditProfileView,
+        canActivate: [NgbsAuthIsLoggedInGuard],
+      },
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'log-in',
+      },
+      {
+        path: '*',
+        pathMatch: 'full',
+        redirectTo: 'log-in',
+      },
+    ],
+  },
+]
+
 @NgModule({
   imports: [
     CommonModule,
     NgbsAvatarModule,
     ReactiveFormsModule,
-    RouterModule.forChild([
-      {
-        path: '',
-        component: AuthView,
-        children: [
-          {
-            path: 'sign-up',
-            component: NgbsAuthSignUpView,
-            canActivate: [NgbsAuthIsLoggedOutGuard],
-          },
-          {
-            path: 'log-in',
-            component: NgbsAuthLogInView,
-            canActivate: [NgbsAuthIsLoggedOutGuard],
-          },
-          {
-            path: 'profile',
-            component: NgbsAuthViewProfileView,
-            canActivate: [NgbsAuthIsLoggedInGuard],
-          },
-          {
-            path: 'profile/edit',
-            component: NgbsAuthEditProfileView,
-            canActivate: [NgbsAuthIsLoggedInGuard],
-          },
-          {
-            path: '',
-            redirectTo: 'log-in',
-          },
-          {
-            path: '*',
-            redirectTo: 'log-in',
-          },
-        ],
-      },
-    ]),
+    RouterModule.forChild(ngbsAuthRoutes),
     StoreModule.forFeature(fromAuth.AUTH_FEATURE_KEY, fromAuth.reducer),
     EffectsModule.forFeature([AuthEffects]),
   ],
@@ -73,11 +80,7 @@ import { NgbsAuthIsLoggedInGuard } from './guards/is-logged-in.guard'
     NgbsAuthViewProfileView,
     NgbsAuthEditProfileView,
   ],
-  providers: [
-    AuthFacade,
-    AuthService,
-    NgbsAuthIsLoggedInGuard,
-    NgbsAuthIsLoggedOutGuard,
-  ],
+  providers: [AuthService, NgbsAuthIsLoggedInGuard, NgbsAuthIsLoggedOutGuard],
+  exports: [NgbsAvatarModule],
 })
-export class AuthModule {}
+export class NgbsAuthModule {}
