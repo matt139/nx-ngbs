@@ -115,7 +115,7 @@ export class NgbsAuthAvatarComponent {
 
   public readonly logOut = this.action$
     .pipe(ofType(clickLogOut))
-    .subscribe(this.authFacade.logOut)
+    .subscribe(() => this.authFacade.logOut())
 }
 
 export interface NgbsAvatarComponentProps {

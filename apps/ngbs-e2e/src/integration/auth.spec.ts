@@ -35,7 +35,6 @@ describe('Auth', () => {
         'src',
         '/assets/logged-out.svg'
       )
-      cy.getBySel('avatar-img').click()
       cy.getBySel('avatar-link-log-in').click()
       cy.getBySel('log-in-form-input-email').type(email)
       cy.getBySel('log-in-form-input-password').type('password')

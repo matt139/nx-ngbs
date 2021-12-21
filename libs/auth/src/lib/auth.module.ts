@@ -18,6 +18,7 @@ import { NgbsAuthViewProfileView } from './views/view-profile/view-profile.view'
 import { NgbsAuthEditProfileView } from './views/edit-profile/edit-profile.view'
 import { NgbsAuthIsLoggedOutGuard } from './guards/is-logged-out.guard'
 import { NgbsAuthIsLoggedInGuard } from './guards/is-logged-in.guard'
+import { NgbsAuthFacade } from './+state/auth.facade'
 
 export const ngbsAuthRoutes: Route[] = [
   {
@@ -80,7 +81,12 @@ export const ngbsAuthRoutes: Route[] = [
     NgbsAuthViewProfileView,
     NgbsAuthEditProfileView,
   ],
-  providers: [AuthService, NgbsAuthIsLoggedInGuard, NgbsAuthIsLoggedOutGuard],
+  providers: [
+    NgbsAuthFacade,
+    AuthService,
+    NgbsAuthIsLoggedInGuard,
+    NgbsAuthIsLoggedOutGuard,
+  ],
   exports: [NgbsAvatarModule],
 })
 export class NgbsAuthModule {}
