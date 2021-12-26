@@ -3,22 +3,22 @@ import { TestBed } from '@angular/core/testing'
 import { StoreModule, Store } from '@ngrx/store'
 import { NxModule } from '@nrwl/angular'
 
-import { AuthFacade } from './auth.facade'
+import { NgbsAuthFacade } from './auth.facade'
 import { AUTH_FEATURE_KEY, State, reducer } from './auth.reducer'
 
 interface TestSchema {
   auth: State
 }
 
-describe(AuthFacade.name, () => {
-  let facade: AuthFacade
+describe(NgbsAuthFacade.name, () => {
+  let facade: NgbsAuthFacade
   let store: Store<TestSchema>
 
   describe('used in NgModule', () => {
     beforeEach(() => {
       @NgModule({
         imports: [StoreModule.forFeature(AUTH_FEATURE_KEY, reducer)],
-        providers: [AuthFacade],
+        providers: [NgbsAuthFacade],
       })
       class CustomFeatureModule {}
 
@@ -33,17 +33,17 @@ describe(AuthFacade.name, () => {
       TestBed.configureTestingModule({ imports: [RootModule] })
 
       store = TestBed.inject(Store)
-      facade = TestBed.inject(AuthFacade)
+      facade = TestBed.inject(NgbsAuthFacade)
     })
 
-    describe(AuthFacade.prototype.logIn.name, () => {
+    describe(NgbsAuthFacade.prototype.logIn.name, () => {
       it('should exist', () => {
         expect(facade.logIn).toBeTruthy()
         expect(store).toBeTruthy()
       })
     })
 
-    describe(AuthFacade.prototype.signUp.name, () => {
+    describe(NgbsAuthFacade.prototype.signUp.name, () => {
       it('should exist', () => {
         expect(facade.signUp).toBeTruthy()
       })

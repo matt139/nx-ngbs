@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing'
+import { RouterTestingModule } from '@angular/router/testing'
 import { provideMockActions } from '@ngrx/effects/testing'
 import { Action } from '@ngrx/store'
 import { provideMockStore } from '@ngrx/store/testing'
@@ -13,21 +14,25 @@ import { AuthEffects } from './auth.effects'
 describe('AuthEffects', () => {
   let actions: Observable<Action>
   let effects: AuthEffects
-  const userCredential = { user: { email: 'test@example.com' } }
+  const user = {
+    email: 'test@example.com',
+    photoURL: 'image.png',
+    displayName: 'userman',
+  }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NxModule.forRoot()],
+      imports: [NxModule.forRoot(), RouterTestingModule],
       providers: [
         AuthEffects,
         {
           provide: AuthService,
           useValue: {
             logIn: jest.fn(() => {
-              return of(userCredential)
+              return of(user)
             }),
             signUp: jest.fn(() => {
-              return of(userCredential)
+              return of(user)
             }),
           },
         },
@@ -68,7 +73,7 @@ describe('AuthEffects', () => {
 
       const expected = hot('-a-|', {
         a: AuthActions.logInSuccess({
-          user: userCredential.user as any,
+          user,
         }),
       })
 
@@ -89,7 +94,7 @@ describe('AuthEffects', () => {
 
       const expected = hot('-a-|', {
         a: AuthActions.signUpSuccess({
-          user: userCredential.user as any,
+          user,
         }),
       })
 
