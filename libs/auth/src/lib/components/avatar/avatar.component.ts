@@ -15,62 +15,7 @@ import { NgbsUser } from '../../+state/auth.models'
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngbs-auth-avatar',
-  template: `
-    <details class="position-relative" style="width: 5rem; height: 5rem;">
-      <summary style="list-style: none;">
-        <img
-          style="width: 5rem; height: 5rem;"
-          class="rounded-circle"
-          aria-label="avatar-user-menu"
-          data-test="avatar-img"
-          [src]="imgSrc$ | async"
-          [alt]="imgAlt$ | async"
-        />
-      </summary>
-      <menu
-        class="position-absolute bg-light"
-        style="width: 10rem;"
-        *ngIf="user$ | async as user; else loggedOutMenu"
-      >
-        <li>
-          <a
-            routerLink="/auth/profile"
-            data-test="avatar-link-profile"
-            (click)="clickProfile$.next({ event: $event })"
-            >Profile</a
-          >
-        </li>
-        <li>
-          <a
-            (click)="clickLogOut$.next({ event: $event })"
-            data-test="avatar-link-log-out"
-            >Log Out</a
-          >
-        </li>
-      </menu>
-
-      <ng-template #loggedOutMenu>
-        <menu class="position-absolute bg-light" style="width: 10rem;">
-          <li>
-            <a
-              routerLink="/auth/sign-up"
-              data-test="avatar-link-sign-up"
-              (click)="clickSignUp$.next({ event: $event })"
-              >Sign Up</a
-            >
-          </li>
-          <li>
-            <a
-              routerLink="/auth/log-in"
-              data-test="avatar-link-log-in"
-              (click)="clickLogIn$.next({ event: $event })"
-              >Log In</a
-            >
-          </li>
-        </menu>
-      </ng-template>
-    </details>
-  `,
+  templateUrl: './avatar.component.html',
 })
 export class NgbsAuthAvatarComponent {
   private readonly props$ = new ReplaySubject<NgbsAvatarComponentProps>(1)

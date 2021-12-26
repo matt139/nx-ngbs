@@ -16,9 +16,7 @@ import * as AuthSelectors from './auth.selectors'
  */
 @Injectable()
 export class NgbsAuthFacade {
-  constructor(private readonly store: Store) {
-    console.log(store)
-  }
+  constructor(private readonly store: Store) {}
 
   public readonly isAuthLoaded$ = this.store.pipe(
     select(AuthSelectors.isAuthLoaded)
@@ -43,6 +41,8 @@ export class NgbsAuthFacade {
   }
 
   public logIn(credentials: NgbsAuthCredentials) {
+    console.log('logIn', credentials)
     this.store.dispatch(AuthActions.logInSubmit({ credentials }))
+    console.log('dispatch')
   }
 }

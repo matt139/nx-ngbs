@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Output } from '@angular/core'
 import { ComponentActions } from '@ngbs/utils'
 import { createAction, props } from '@ngrx/store'
-import { merge, of, ReplaySubject } from 'rxjs'
+import { merge, ReplaySubject } from 'rxjs'
 import { filter, map } from 'rxjs/operators'
 
 import { SignUpForm } from './sign-up.form'
@@ -18,16 +18,20 @@ import { SignUpForm } from './sign-up.form'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NgbsAuthSignUpFormComponent {
-  public readonly signUpForm$ = of(new SignUpForm())
+  public readonly signUpForm = new SignUpForm()
 
   public readonly formSubmit$ = new ReplaySubject<{
     event: Event
     form: SignUpForm
   }>(1)
 
-  public readonly buttonClickSubmit$ = new ReplaySubject<{ event: MouseEvent }>(1)
+  public readonly buttonClickSubmit$ = new ReplaySubject<{ event: MouseEvent }>(
+    1
+  )
 
-  public readonly buttonClickLogIn$ = new ReplaySubject<{ event: MouseEvent }>(1)
+  public readonly buttonClickLogIn$ = new ReplaySubject<{ event: MouseEvent }>(
+    1
+  )
 
   @Output()
   public readonly action$ = merge(
@@ -39,9 +43,9 @@ export class NgbsAuthSignUpFormComponent {
     this.buttonClickSubmit$.pipe(map(buttonClickSubmit))
   )
 
-  public readonly preventNavigation = this.formSubmit$.subscribe(({ event }) =>
-    event.preventDefault()
-  )
+  // public readonly preventNavigation = this.formSubmit$.subscribe(({ event }) =>
+  //   event.preventDefault()
+  // )
 }
 
 /*

@@ -7,7 +7,6 @@ import { isLoggedIn } from '../+state/auth.selectors'
 export class NgbsAuthIsLoggedInGuard implements CanActivate {
   constructor(private readonly store: Store) {}
   public canActivate() {
-    console.log(this.store)
     return this.store.select(isLoggedIn)
   }
 }

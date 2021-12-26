@@ -1,4 +1,8 @@
-import { ChangeDetectionStrategy, Component, Output } from '@angular/core'
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Output,
+} from '@angular/core'
 import { merge, of, ReplaySubject } from 'rxjs'
 import { filter, map } from 'rxjs/operators'
 import { LogInForm } from './log-in.form'
@@ -30,6 +34,10 @@ export class NgbsAuthLogInFormComponent {
   )
 
   public readonly logInForm$ = of(new LogInForm())
+  public logInForm?: LogInForm
+  public readonly setLogInForm = this.logInForm$.subscribe(
+    (form) => (this.logInForm = form)
+  )
 
   @Output()
   public readonly action$ = merge(

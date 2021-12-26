@@ -1,5 +1,5 @@
 <form
-  *ngIf="logInForm$ | async as logInForm"
+  *ngIf="logInForm"
   [formGroup]="logInForm"
   (ngSubmit)="formSubmit$.next({event: $event, form: logInForm})"
   [class.border.border-danger]="!logInForm.valid"

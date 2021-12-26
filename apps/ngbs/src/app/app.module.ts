@@ -13,6 +13,7 @@ import { provideFirebaseApp, initializeApp } from '@angular/fire/app'
 import { getFirestore, provideFirestore } from '@angular/fire/firestore'
 import { getAuth, provideAuth } from '@angular/fire/auth'
 import { environment } from '../environments/environment'
+import { routerReducer, StoreRouterConnectingModule } from '@ngrx/router-store'
 
 
 /*
@@ -59,13 +60,15 @@ const firebaseConfig = {
         //   loadChildren: () => import('@ngbs/auth').then((m) => m.AuthModule),
         // },
         {
-          path: '*',
+          path: '**',
           redirectTo: '',
         },
       ],
       { initialNavigation: 'enabledBlocking' }
     ),
-    StoreModule.forRoot({}),
+    StoreModule.forRoot({
+      router: routerReducer
+    }),
     EffectsModule.forRoot(),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
@@ -73,6 +76,8 @@ const firebaseConfig = {
       autoPause: true, // Pauses recording actions and state changes when the extension window is not open
     }),
     NgbsAuthModule,
+    StoreRouterConnectingModule.forRoot(),
+
   ],
   providers: [],
   bootstrap: [AppComponent],

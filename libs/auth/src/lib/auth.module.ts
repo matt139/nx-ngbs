@@ -19,6 +19,7 @@ import { NgbsAuthEditProfileView } from './views/edit-profile/edit-profile.view'
 import { NgbsAuthIsLoggedOutGuard } from './guards/is-logged-out.guard'
 import { NgbsAuthIsLoggedInGuard } from './guards/is-logged-in.guard'
 import { NgbsAuthFacade } from './+state/auth.facade'
+import { NgbsAuthGuardView } from './views/guard/guard.view'
 
 export const ngbsAuthRoutes: Route[] = [
   {
@@ -26,16 +27,20 @@ export const ngbsAuthRoutes: Route[] = [
     component: AuthView,
     children: [
       {
+        path: 'guard',
+        pathMatch: 'full',
+        component: NgbsAuthGuardView,
+      },
+
+      {
         path: 'sign-up',
         pathMatch: 'full',
         component: NgbsAuthSignUpView,
-        canActivate: [NgbsAuthIsLoggedOutGuard],
       },
       {
         path: 'log-in',
         pathMatch: 'full',
         component: NgbsAuthLogInView,
-        canActivate: [NgbsAuthIsLoggedOutGuard],
       },
       {
         path: 'profile',
@@ -55,8 +60,7 @@ export const ngbsAuthRoutes: Route[] = [
         redirectTo: 'log-in',
       },
       {
-        path: '*',
-        pathMatch: 'full',
+        path: '**',
         redirectTo: 'log-in',
       },
     ],
