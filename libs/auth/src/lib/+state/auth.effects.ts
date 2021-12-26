@@ -82,7 +82,7 @@ export class AuthEffects {
           this.store.select(getSelectors().selectRouteData)
         ),
         tap(([, routeData]) => {
-          const targetUrl = routeData?.targetUrl || '/auth/profile'
+          const targetUrl = routeData?.targetUrl || '/auth/settings'
           this.router.navigateByUrl(targetUrl).catch((reason) => {
             /*
              * TODO: Diagnose Error

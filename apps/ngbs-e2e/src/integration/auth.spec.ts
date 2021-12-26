@@ -18,7 +18,7 @@ describe('Auth', () => {
         'src',
         '/assets/logged-in.svg'
       )
-      cy.url().should('contain', '/auth/profile')
+      cy.url().should('contain', '/auth/settings')
     })
 
     it('log out', () => {
@@ -51,7 +51,7 @@ describe('Auth', () => {
         'src',
         '/assets/logged-in.svg'
       )
-      cy.url().should('contain', '/auth/profile')
+      cy.url().should('contain', '/auth/settings')
     })
   })
 })

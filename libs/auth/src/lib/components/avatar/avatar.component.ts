@@ -23,7 +23,7 @@ export class NgbsAuthAvatarComponent {
   private readonly props$ = new ReplaySubject<NgbsAvatarComponentProps>(1)
   public readonly clickLogOut$ = new ReplaySubject<{ event: Event }>(1)
   public readonly clickLogIn$ = new ReplaySubject<{ event: Event }>(1)
-  public readonly clickProfile$ = new ReplaySubject<{ event: Event }>(1)
+  public readonly clickSettings$ = new ReplaySubject<{ event: Event }>(1)
   public readonly clickSignUp$ = new ReplaySubject<{ event: Event }>(1)
   private readonly toggleElement$ = new ReplaySubject<HTMLElement>(1)
 
@@ -46,7 +46,7 @@ export class NgbsAuthAvatarComponent {
     this.clickLogOut$.pipe(map(clickLogOut)),
     this.clickLogIn$.pipe(map(clickLogIn)),
     this.clickSignUp$.pipe(map(clickSignUp)),
-    this.clickProfile$.pipe(map(clickProfile))
+    this.clickSettings$.pipe(map(clickSettings))
   )
 
   public readonly user$ = this.props$.pipe(map((props) => props.user))
@@ -71,7 +71,7 @@ export class NgbsAuthAvatarComponent {
     this.clickLogOut$.pipe(map(clickLogOut)),
     this.clickLogIn$.pipe(map(clickLogIn)),
     this.clickSignUp$.pipe(map(clickSignUp)),
-    this.clickProfile$.pipe(map(clickProfile))
+    this.clickSettings$.pipe(map(clickSettings))
   )
     .pipe(withLatestFrom(this.toggleElement$))
     .subscribe(([, element]) => element.click())
@@ -100,8 +100,8 @@ export const clickSignUp = createAction(
   props<{ event: Event }>()
 )
 
-export const clickProfile = createAction(
-  `[NgbsAuthAvatarComponent] Profile Clicked`,
+export const clickSettings = createAction(
+  `[NgbsAuthAvatarComponent] Settings Clicked`,
   props<{ event: Event }>()
 )
 
