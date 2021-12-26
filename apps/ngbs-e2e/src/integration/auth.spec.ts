@@ -22,7 +22,11 @@ describe('Auth', () => {
     })
 
     it('log out', () => {
-      cy.getBySel('avatar-img').click()
+      cy.getBySel('avatar-img').should(
+        'have.attr',
+        'src',
+        '/assets/logged-in.svg'
+      ).click()
       cy.getBySel('avatar-link-log-out').click()
       cy.getBySel('avatar-img').should(
         'have.attr',
@@ -33,7 +37,6 @@ describe('Auth', () => {
     })
 
     it('log in', () => {
-      cy.visit('/')
       cy.getBySel('avatar-img').should(
         'have.attr',
         'src',

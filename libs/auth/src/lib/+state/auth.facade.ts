@@ -41,8 +41,6 @@ export class NgbsAuthFacade {
   }
 
   public logIn(credentials: NgbsAuthCredentials) {
-    console.log('logIn', credentials)
     this.store.dispatch(AuthActions.logInSubmit({ credentials }))
-    console.log('dispatch')
   }
 }

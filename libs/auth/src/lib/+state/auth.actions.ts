@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store'
-import { NgbsError, NgbsUser } from './auth.models'
+import { NgbsError } from './auth.models'
+import { NgbsUser } from '../models/user'
 import { NgbsAuthCredentials } from './auth.models'
 
 /*

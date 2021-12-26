@@ -1,14 +1,16 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   Input,
   Output,
+  ViewChild,
 } from '@angular/core'
 import { ComponentActions } from '@ngbs/utils'
 import { ofType } from '@ngrx/effects'
 import { createAction, props } from '@ngrx/store'
 import { merge, ReplaySubject } from 'rxjs'
-import { map } from 'rxjs/operators'
+import { map, withLatestFrom } from 'rxjs/operators'
 import { NgbsAuthFacade } from '../../+state/auth.facade'
 import { NgbsUser } from '../../+state/auth.models'
 
@@ -23,8 +25,15 @@ export class NgbsAuthAvatarComponent {
   public readonly clickLogIn$ = new ReplaySubject<{ event: Event }>(1)
   public readonly clickProfile$ = new ReplaySubject<{ event: Event }>(1)
   public readonly clickSignUp$ = new ReplaySubject<{ event: Event }>(1)
+  private readonly toggleElement$ = new ReplaySubject<HTMLElement>(1)
 
   constructor(private readonly authFacade: NgbsAuthFacade) {}
+
+  @ViewChild('toggle')
+  private set toggleElement(elementRef: ElementRef) {
+    if (!elementRef.nativeElement) return
+    this.toggleElement$.next(elementRef.nativeElement)
+  }
 
   @Input()
   set props(props: NgbsAvatarComponentProps | null) {
@@ -57,6 +66,15 @@ export class NgbsAuthAvatarComponent {
       return user.displayName
     })
   )
+
+  private closeMenu = merge(
+    this.clickLogOut$.pipe(map(clickLogOut)),
+    this.clickLogIn$.pipe(map(clickLogIn)),
+    this.clickSignUp$.pipe(map(clickSignUp)),
+    this.clickProfile$.pipe(map(clickProfile))
+  )
+    .pipe(withLatestFrom(this.toggleElement$))
+    .subscribe(([, element]) => element.click())
 
   public readonly logOut = this.action$
     .pipe(ofType(clickLogOut))

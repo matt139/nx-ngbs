@@ -26,10 +26,10 @@ export class AuthEffects {
     this.actions$.pipe(
       ofType(AuthActions.logInSubmit),
       switchMap((action) => this.authService.logIn(action.credentials)),
-      map((userCredential) => {
-        return userCredential?.user?.email
+      map((user) => {
+        return user?.email
           ? AuthActions.logInSuccess({
-              user: userCredential.user,
+              user,
             })
           : AuthActions.logInFailure({
               error: 'AuthEffects.logIn$: missing user or user.email',
@@ -52,10 +52,10 @@ export class AuthEffects {
     this.actions$.pipe(
       ofType(AuthActions.signUpSubmit),
       switchMap((action) => this.authService.signUp(action.credentials)),
-      map((userCredential) =>
-        userCredential?.user?.email
+      map((user) =>
+        user?.email
           ? AuthActions.signUpSuccess({
-              user: userCredential.user,
+              user,
             })
           : AuthActions.signUpFailure({
               error: 'AuthEffects.signUp$ : missing user or user.email',
@@ -103,6 +103,15 @@ export class AuthEffects {
             this.router.navigateByUrl(targetUrl)
           })
         })
+      ),
+    { dispatch: false }
+  )
+
+  public readonly logOutFromBackend = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.logOut),
+        switchMap(() => this.authService.logOut())
       ),
     { dispatch: false }
   )
