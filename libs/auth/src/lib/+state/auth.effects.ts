@@ -4,7 +4,7 @@ import { createEffect, Actions, ofType, concatLatestFrom } from '@ngrx/effects'
 import { getSelectors } from '@ngrx/router-store'
 import { Store } from '@ngrx/store'
 import { of } from 'rxjs'
-import { catchError, map, switchMap, tap } from 'rxjs/operators'
+import { catchError, map, switchMap, take, tap } from 'rxjs/operators'
 
 import { AuthService } from '../auth.service'
 import * as AuthActions from './auth.actions'
@@ -19,7 +19,10 @@ export class AuthEffects {
   ) {}
 
   public readonly init$ = createEffect(() =>
-    this.actions$.pipe(ofType(AuthActions.init))
+    this.authService.user$.pipe(
+      take(1),
+      map((user) => AuthActions.init({ user }))
+    )
   )
 
   public readonly logIn$ = createEffect(() =>
@@ -82,7 +85,7 @@ export class AuthEffects {
           this.store.select(getSelectors().selectRouteData)
         ),
         tap(([, routeData]) => {
-          const targetUrl = routeData?.targetUrl || '/auth/profile'
+          const targetUrl = routeData?.targetUrl || '/auth/settings'
           this.router.navigateByUrl(targetUrl).catch((reason) => {
             /*
              * TODO: Diagnose Error

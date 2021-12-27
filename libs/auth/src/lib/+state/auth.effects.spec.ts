@@ -34,6 +34,7 @@ describe('AuthEffects', () => {
             signUp: jest.fn(() => {
               return of(user)
             }),
+            user$: of(user),
           },
         },
         provideMockActions(() => actions),
@@ -50,10 +51,10 @@ describe('AuthEffects', () => {
 
   describe('init$', () => {
     it('should work', () => {
-      actions = hot('-a-|', { a: AuthActions.init() })
+      actions = hot('-a-|', { a: AuthActions.init({ user }) })
 
-      const expected = hot('-a-|', {
-        a: AuthActions.init(),
+      const expected = hot('(a|)', {
+        a: AuthActions.init({ user }),
       })
 
       expect(effects.init$).toBeObservable(expected)

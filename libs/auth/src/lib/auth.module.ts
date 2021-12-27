@@ -2,6 +2,12 @@ import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { ReactiveFormsModule } from '@angular/forms'
 import { Route, RouterModule } from '@angular/router'
+import {
+  AuthGuardModule,
+  canActivate,
+  redirectLoggedInTo,
+  redirectUnauthorizedTo,
+} from '@angular/fire/auth-guard'
 
 import { AuthView } from './auth.component'
 import { NgbsAuthSignUpFormComponent } from './components/sign-up-form/sign-up-form.component'
@@ -14,10 +20,7 @@ import * as fromAuth from './+state/auth.reducer'
 import { AuthEffects } from './+state/auth.effects'
 import { NgbsAvatarModule } from './components/avatar/avatar.module'
 import { AuthService } from './auth.service'
-import { NgbsAuthViewProfileView } from './views/view-profile/view-profile.view'
-import { NgbsAuthEditProfileView } from './views/edit-profile/edit-profile.view'
-import { NgbsAuthIsLoggedOutGuard } from './guards/is-logged-out.guard'
-import { NgbsAuthIsLoggedInGuard } from './guards/is-logged-in.guard'
+import { NgbsAuthSettingsView } from './views/settings/settings.view'
 import { NgbsAuthFacade } from './+state/auth.facade'
 import { NgbsAuthGuardView } from './views/guard/guard.view'
 
@@ -36,23 +39,19 @@ export const ngbsAuthRoutes: Route[] = [
         path: 'sign-up',
         pathMatch: 'full',
         component: NgbsAuthSignUpView,
+        ...canActivate(() => redirectLoggedInTo(['/auth/settings'])),
       },
       {
         path: 'log-in',
         pathMatch: 'full',
         component: NgbsAuthLogInView,
+        ...canActivate(() => redirectLoggedInTo(['/auth/settings'])),
       },
       {
-        path: 'profile',
+        path: 'settings',
         pathMatch: 'full',
-        component: NgbsAuthViewProfileView,
-        canActivate: [NgbsAuthIsLoggedInGuard],
-      },
-      {
-        path: 'profile/edit',
-        pathMatch: 'full',
-        component: NgbsAuthEditProfileView,
-        canActivate: [NgbsAuthIsLoggedInGuard],
+        component: NgbsAuthSettingsView,
+        ...canActivate(() => redirectUnauthorizedTo(['/auth/guard'])),
       },
       {
         path: '',
@@ -70,6 +69,7 @@ export const ngbsAuthRoutes: Route[] = [
 @NgModule({
   imports: [
     CommonModule,
+    AuthGuardModule,
     NgbsAvatarModule,
     ReactiveFormsModule,
     RouterModule.forChild(ngbsAuthRoutes),
@@ -82,15 +82,9 @@ export const ngbsAuthRoutes: Route[] = [
     NgbsAuthLogInFormComponent,
     NgbsAuthLogInView,
     NgbsAuthSignUpView,
-    NgbsAuthViewProfileView,
-    NgbsAuthEditProfileView,
+    NgbsAuthSettingsView,
   ],
-  providers: [
-    NgbsAuthFacade,
-    AuthService,
-    NgbsAuthIsLoggedInGuard,
-    NgbsAuthIsLoggedOutGuard,
-  ],
+  providers: [NgbsAuthFacade, AuthService],
   exports: [NgbsAvatarModule],
 })
 export class NgbsAuthModule {}
