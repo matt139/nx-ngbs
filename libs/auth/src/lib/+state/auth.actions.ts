@@ -8,7 +8,7 @@ import { NgbsAuthCredentials } from './auth.models'
  */
 export const init = createAction(
   '[NgbsAuth] Init',
-  props<{ user: NgbsUser | null }>()
+  props<{ user?: NgbsUser | null }>()
 )
 
 export const loadAuthSuccess = createAction('[NgbsAuth] Load Auth Success')
