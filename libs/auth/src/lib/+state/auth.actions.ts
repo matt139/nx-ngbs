@@ -6,11 +6,12 @@ import { NgbsAuthCredentials } from './auth.models'
 /*
  * Init
  */
-export const init = createAction('[Auth Page] Init')
-
-export const loadAuthSuccess = createAction(
-  '[NgbsAuth] Load Auth Success',
+export const init = createAction(
+  '[NgbsAuth] Init',
+  props<{ user: NgbsUser | null }>()
 )
+
+export const loadAuthSuccess = createAction('[NgbsAuth] Load Auth Success')
 
 export const loadAuthFailure = createAction(
   '[NgbsAuth] Load Auth Failure',

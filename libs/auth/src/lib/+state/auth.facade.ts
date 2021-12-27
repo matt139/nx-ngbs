@@ -32,10 +32,6 @@ export class NgbsAuthFacade {
     this.store.dispatch(AuthActions.logOut())
   }
 
-  public init() {
-    this.store.dispatch(AuthActions.init())
-  }
-
   public signUp(credentials: NgbsAuthCredentials) {
     this.store.dispatch(AuthActions.signUpSubmit({ credentials }))
   }

@@ -68,10 +68,10 @@ export class NgbsAuthAvatarComponent {
   )
 
   private closeMenu = merge(
-    this.clickLogOut$.pipe(map(clickLogOut)),
-    this.clickLogIn$.pipe(map(clickLogIn)),
-    this.clickSignUp$.pipe(map(clickSignUp)),
-    this.clickSettings$.pipe(map(clickSettings))
+    this.clickLogOut$,
+    this.clickLogIn$,
+    this.clickSignUp$,
+    this.clickSettings$
   )
     .pipe(withLatestFrom(this.toggleElement$))
     .subscribe(([, element]) => element.click())

@@ -8,7 +8,7 @@ export const AUTH_FEATURE_KEY = 'auth'
 export interface State {
   readonly loaded: boolean // has Auth been loaded
   readonly errors: ReadonlyArray<string> // last known errors (if any)
-  readonly user?: NgbsUser // currently active user, if logged in
+  readonly user?: NgbsUser | null // currently active user, if logged in
 }
 
 export interface AuthPartialState {
@@ -23,15 +23,26 @@ export const initialState: State = {
 
 const authReducer = createReducer(
   initialState,
-  on(AuthActions.init, (state) => ({ ...state, loaded: false, error: null })),
+  on(AuthActions.init, (state, { user }) => ({
+    ...state,
+    loaded: false,
+    error: null,
+    user,
+  })),
   on(AuthActions.loadAuthFailure, (state, { error }) => ({
     ...state,
     errors: [...state.errors, error],
   })),
   on(AuthActions.logInSuccess, (state, { user }) => ({ ...state, user })),
-  on(AuthActions.logInFailure, (state, { error }) => ({ ...state, errors: [error, ...state.errors] })),
+  on(AuthActions.logInFailure, (state, { error }) => ({
+    ...state,
+    errors: [error, ...state.errors],
+  })),
   on(AuthActions.signUpSuccess, (state, { user }) => ({ ...state, user })),
-  on(AuthActions.signUpFailure, (state, { error }) => ({ ...state, errors: [error, ...state.errors] })),
+  on(AuthActions.signUpFailure, (state, { error }) => ({
+    ...state,
+    errors: [error, ...state.errors],
+  })),
   on(AuthActions.logOut, (state) => ({ ...state, user: undefined }))
 )
 
