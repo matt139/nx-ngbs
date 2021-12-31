@@ -25,7 +25,7 @@ const authReducer = createReducer(
   initialState,
   on(AuthActions.init, (state, { user }) => ({
     ...state,
-    loaded: false,
+    loaded: true,
     error: null,
     user,
   })),
