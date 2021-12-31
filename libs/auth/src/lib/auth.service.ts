@@ -21,8 +21,6 @@ export class AuthService {
 
   public readonly user$ = new ReplaySubject<NgbsUser | null>(1)
 
-  a = this.user$.subscribe((x) => console.log('a = this.user$', x))
-
   public logIn({ emailAddress, password }: NgbsAuthCredentials) {
     return from(
       signInWithEmailAndPassword(this.angularFireAuth, emailAddress, password)
