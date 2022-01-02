@@ -7,7 +7,7 @@ describe('Auth', () => {
       return cy.clearIndexedDB().then(() => cy.visit('/'))
     })
 
-    it.only('sign up with email and password', () => {
+    it('sign up with email and password', () => {
       cy.getBySel('avatar-img').should(
         'have.attr',
         'src',
