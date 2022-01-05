@@ -12,13 +12,17 @@
       </div>
     </div>
     <div class="col-3 d-flex justify-content-end">
-      <ngbs-auth-avatar [props]="avatarProps$ | async" (action$)="action$.next($event)"></ngbs-auth-avatar>
+      <ngbs-auth-avatar-widget
+        (action$)="action$.next($event)"
+      ></ngbs-auth-avatar-widget>
     </div>
   </div>
 
   <router-outlet></router-outlet>
 
   <ul>
-    <li *ngFor="let error of errors$ | async"><pre>{{error | json }}</pre></li>
+    <li *ngFor="let error of errors$ | async">
+      <pre>{{ error | json }}</pre>
+    </li>
   </ul>
 </div>
