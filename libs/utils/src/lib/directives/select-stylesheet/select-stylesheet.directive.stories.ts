@@ -1,23 +1,22 @@
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
-import { SelectStylesheetDirective } from '../select-stylesheet.directive';
-import { SelectStylesheetComponent } from './select-stylesheet.component';
+import { SelectStylesheetDirective } from './select-stylesheet.directive';
 
 export default {
   title: 'SelectStylesheetComponent',
-  component: SelectStylesheetComponent,
+  component: SelectStylesheetDirective,
   decorators: [
     moduleMetadata({
       imports: [],
       declarations: [SelectStylesheetDirective],
     }),
   ],
-} as Meta<SelectStylesheetComponent>;
+} as Meta<SelectStylesheetDirective>;
 
-const Template: Story<SelectStylesheetComponent> = (
-  args: SelectStylesheetComponent
+const Template: Story<SelectStylesheetDirective> = (
+  args: SelectStylesheetDirective
 ) => ({
   template: `<select ngbsSelectStylesheet class="form-select"></select>`,
-  component: SelectStylesheetComponent,
+  component: SelectStylesheetDirective,
   props: args,
 });
 

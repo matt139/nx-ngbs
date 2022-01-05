@@ -39,16 +39,16 @@ export class SelectStylesheetDirective implements AfterViewInit {
     })
   );
 
-  private readonly setOptions = combineLatest(
+  public readonly setOptions = combineLatest([
     this.options$,
     this.ngAfterViewInit$
-  ).subscribe(([options]) =>
+  ]).subscribe(([options]) =>
     options.forEach((option) =>
       this.elementRef.nativeElement.appendChild(option)
     )
   );
 
-  private readonly initLinkElement = this.ngAfterViewInit$.subscribe(() => {
+  public readonly initLinkElement = this.ngAfterViewInit$.subscribe(() => {
     this.renderer.setAttribute(this.linkElement, 'id', LINK_ID);
     this.renderer.setAttribute(this.linkElement, 'rel', 'stylesheet');
     const existingLinkElement = this.document.querySelector(`#${LINK_ID}`);
@@ -61,7 +61,7 @@ export class SelectStylesheetDirective implements AfterViewInit {
     }
   });
 
-  private readonly updateStylesheet = fromEvent(
+  public readonly updateStylesheet = fromEvent(
     this.elementRef.nativeElement,
     'change'
   ).subscribe(() => {
