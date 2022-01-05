@@ -14,7 +14,7 @@ export default {
   ],
   argTypes: {
     action: {
-      action: () => void 0,
+      action: (x: unknown) => console.log(x)
     },
     props: {
       options: ['loggedIn', 'loggedOut'],
@@ -27,9 +27,11 @@ export default {
   },
 } as Meta<NgbsAuthAvatarComponent>
 
-const Template: Story<NgbsAuthAvatarComponent> = (args: NgbsAuthAvatarComponent) => ({
+const Template: Story<NgbsAuthAvatarComponent> = (
+  args: NgbsAuthAvatarComponent
+) => ({
   template: `
-  <ngbs-auth-avatar [props]="props"></ngbs-auth-avatar>`,
+  <ngbs-auth-avatar [props]="props" (action$)="action($event)"></ngbs-auth-avatar>`,
   props: args,
 })
 
