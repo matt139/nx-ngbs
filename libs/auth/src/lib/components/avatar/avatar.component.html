@@ -1,5 +1,5 @@
-<details class="position-relative" style="width: 5rem; height: 5rem">
-  <summary style="list-style: none" #toggle>
+<div class="position-relative" style="width: 5rem; height: 5rem">
+  <label style="list-style: none" for="avatar-menu">
     <img
       style="width: 5rem; height: 5rem"
       class="rounded-circle"
@@ -8,9 +8,10 @@
       [src]="imgSrc$ | async"
       [alt]="imgAlt$ | async"
     />
-  </summary>
+  </label>
+  <input type="checkbox" id="avatar-menu" class="d-none" ngbsUncheckOnDocumentClick>
   <menu
-    class="position-absolute bg-light"
+    class="d-none position-absolute bg-light"
     style="width: 10rem"
     *ngIf="user$ | async as user; else loggedOutMenu"
   >
@@ -51,4 +52,4 @@
       </li>
     </menu>
   </ng-template>
-</details>
+</div>

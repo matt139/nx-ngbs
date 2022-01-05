@@ -16,6 +16,11 @@ import { NgbsUser } from '../../+state/auth.models'
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngbs-auth-avatar',
   templateUrl: './avatar.component.html',
+  styles: [`
+    input:checked + menu.d-none {
+    display: block !important;
+    }
+  `]
 })
 export class NgbsAuthAvatarComponent {
   private readonly props$ = new ReplaySubject<NgbsAvatarComponentProps>(1)
@@ -23,13 +28,6 @@ export class NgbsAuthAvatarComponent {
   public readonly clickLogIn$ = new ReplaySubject<{ event: Event }>(1)
   public readonly clickSettings$ = new ReplaySubject<{ event: Event }>(1)
   public readonly clickSignUp$ = new ReplaySubject<{ event: Event }>(1)
-  private readonly toggleElement$ = new ReplaySubject<HTMLElement>(1)
-
-  @ViewChild('toggle')
-  public set toggleElement(elementRef: ElementRef) {
-    if (!elementRef.nativeElement) return
-    this.toggleElement$.next(elementRef.nativeElement)
-  }
 
   @Input()
   public set props(props: NgbsAvatarComponentProps | null) {
@@ -62,15 +60,6 @@ export class NgbsAuthAvatarComponent {
       return user.displayName
     })
   )
-
-  public closeMenu = merge(
-    this.clickLogOut$,
-    this.clickLogIn$,
-    this.clickSignUp$,
-    this.clickSettings$
-  )
-    .pipe(withLatestFrom(this.toggleElement$))
-    .subscribe(([, element]) => element.click())
 }
 
 export interface NgbsAvatarComponentProps {

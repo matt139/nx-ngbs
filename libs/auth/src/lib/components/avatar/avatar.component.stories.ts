@@ -1,4 +1,4 @@
-import { ReactiveFormsModule } from '@angular/forms'
+import { UncheckOnDocumentClickDirective } from '@ngbs/utils'
 import { moduleMetadata, Story, Meta } from '@storybook/angular'
 import { testUser } from '../../test/user'
 import { NgbsAuthAvatarComponent } from './avatar.component'
@@ -8,8 +8,7 @@ export default {
   component: NgbsAuthAvatarComponent,
   decorators: [
     moduleMetadata({
-      imports: [ReactiveFormsModule],
-      declarations: [NgbsAuthAvatarComponent],
+      declarations: [NgbsAuthAvatarComponent, UncheckOnDocumentClickDirective],
     }),
   ],
   argTypes: {
