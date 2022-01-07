@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Output } from "@angular/core";
-import { clickLogOut, NgbsAuthAvatarComponentAction, NgbsAuthFacade, NgbsAvatarComponentProps } from "@ngbs/auth";
+import { clickLogOut, NgbsAuthAvatarComponentAction, NgbsAuthFacade } from "@ngbs/auth";
 import { ofType } from "@ngrx/effects";
 import { map, ReplaySubject } from "rxjs";
 
@@ -12,15 +12,17 @@ import { map, ReplaySubject } from "rxjs";
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngbs-auth-avatar-widget',
-  template: '<ngbs-auth-avatar [props]="props$ | async" (action$)="this.action$.next($event)"></ngbs-auth-avatar>',
+  template: '<ngbs-auth-avatar [props]="avatarProps$ | async" (action$)="this.action$.next($event)"></ngbs-auth-avatar>',
 })
 export class NgbsAuthAvatarWidget {
   constructor(private readonly authFacade: NgbsAuthFacade) {}
 
+  // actions are allowed to propagate outside of the widget to the app for
+// further handling as needed (ie logging)
   @Output()
   public readonly action$ = new ReplaySubject<NgbsAuthAvatarComponentAction>(1)
 
-  public readonly props$ = this.authFacade.user$.pipe(
+  public readonly avatarProps$ = this.authFacade.user$.pipe(
     map(user => ({user}))
   )
 

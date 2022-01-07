@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser'
 import { AppComponent } from './app.component'
 import { HomeComponent } from './home/home.component'
 import { RouterModule } from '@angular/router'
-import { UtilsModule } from '@ngbs/utils'
+import { NgbsUtilsModule } from '@ngbs/utils'
 import { NgbsAuthModule } from '@ngbs/auth'
 import { StoreModule } from '@ngrx/store'
 import { StoreDevtoolsModule } from '@ngrx/store-devtools'
@@ -36,7 +36,7 @@ const firebaseConfig = {
 @NgModule({
   declarations: [AppComponent, HomeComponent],
   imports: [
-    UtilsModule,
+    NgbsUtilsModule,
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
     provideFirestore(() => getFirestore()),
     provideAuth(() => getAuth()),

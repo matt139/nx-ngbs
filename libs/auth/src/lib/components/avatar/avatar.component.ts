@@ -1,15 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
   Input,
   Output,
-  ViewChild,
 } from '@angular/core'
 import { ComponentActions } from '@ngbs/utils'
 import { createAction, props } from '@ngrx/store'
 import { merge, ReplaySubject } from 'rxjs'
-import { map, withLatestFrom } from 'rxjs/operators'
+import { map } from 'rxjs/operators'
 import { NgbsUser } from '../../+state/auth.models'
 
 @Component({
