@@ -11,7 +11,7 @@ import {
 
 import { AuthView } from './auth.component'
 import { NgbsAuthSignUpFormComponent } from './components/sign-up-form/sign-up-form.component'
-import { NgbsAuthLogInFormComponent } from './components/log-in-form/log-in-form.component'
+import { NgbsAuthLogInFormModule } from './components/log-in-form/log-in-form.module'
 import { NgbsAuthLogInView } from './views/log-in/log-in.view'
 import { NgbsAuthSignUpView } from './views/sign-up/sign-up.view'
 import { StoreModule } from '@ngrx/store'
@@ -72,6 +72,7 @@ export const ngbsAuthRoutes: Route[] = [
     AuthGuardModule,
     NgbsAvatarModule,
     ReactiveFormsModule,
+    NgbsAuthLogInFormModule,
     RouterModule.forChild(ngbsAuthRoutes),
     StoreModule.forFeature(fromAuth.AUTH_FEATURE_KEY, fromAuth.reducer),
     EffectsModule.forFeature([AuthEffects]),
@@ -79,7 +80,6 @@ export const ngbsAuthRoutes: Route[] = [
   declarations: [
     AuthView,
     NgbsAuthSignUpFormComponent,
-    NgbsAuthLogInFormComponent,
     NgbsAuthLogInView,
     NgbsAuthSignUpView,
     NgbsAuthSettingsView,

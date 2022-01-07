@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Output } from "@angular/core";
-import { clickLogOut, NgbsAuthAvatarComponentAction, NgbsAuthFacade } from "@ngbs/auth";
+import { clickLogOut, NgbsAuthAvatarComponentAction } from "./avatar.component";
+import { NgbsAuthFacade } from "@ngbs/auth";
 import { ofType } from "@ngrx/effects";
 import { map, ReplaySubject } from "rxjs";
 
