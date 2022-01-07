@@ -6,6 +6,7 @@
     "start": "nx serve",
     "build": "nx affected:build --all",
     "test": "nx affected:test --all",
+    "docs": "compodoc -p ./libs/auth/tsconfig.json -d dist/compodoc/auth",
     "postinstall": "ngcc --properties es2015 browser module main",
     "docs:json": "compodoc -p ./libs/auth/tsconfig.json -e json -d ."
   },
