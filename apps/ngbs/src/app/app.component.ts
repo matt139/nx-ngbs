@@ -1,5 +1,5 @@
 import { Component } from '@angular/core'
-import { NgbsAuthAvatarComponentAction, getErrors, getUser } from '@ngbs/auth'
+import { NgbsAuthAvatarComponentAction, getErrors } from '@ngbs/auth'
 import { Store } from '@ngrx/store'
 import { map, ReplaySubject } from 'rxjs'
 
@@ -14,11 +14,9 @@ export class AppComponent {
 
   public readonly store$ = this.store
 
-  public readonly user$ = this.store.pipe(map(getUser))
   public readonly errors$ = this.store.pipe(map(getErrors))
-  public readonly avatarProps$ = this.user$.pipe(map((user) => ({ user })))
 
-  private readonly dispatchActions = this.action$.subscribe((action) =>
+  public readonly dispatchActions = this.action$.subscribe((action) =>
     this.store.dispatch(action)
   )
 }

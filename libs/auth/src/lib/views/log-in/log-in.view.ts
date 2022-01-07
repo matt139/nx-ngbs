@@ -28,7 +28,7 @@ export class NgbsAuthLogInView implements OnDestroy {
     private readonly store: Store
   ) {}
 
-  private readonly logIn = this.action$
+  public readonly logIn = this.action$
     .pipe(ofType(formSubmitLogIn), takeUntil(this.ngOnDestroy$))
     .subscribe((action) => {
       this.authFacade.logIn({
@@ -37,7 +37,7 @@ export class NgbsAuthLogInView implements OnDestroy {
       })
     })
 
-  private readonly dispatchActions = this.action$.subscribe((action) => {
+  public readonly dispatchActions = this.action$.subscribe((action) => {
     this.store.dispatch(action)
   })
 
