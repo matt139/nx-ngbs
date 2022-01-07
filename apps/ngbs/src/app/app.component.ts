@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'
-import { NgbsAuthAvatarComponentAction, getErrors } from '@ngbs/auth'
-import { Store } from '@ngrx/store'
+import { getErrors } from '@ngbs/auth'
+import { Action, Store } from '@ngrx/store'
 import { map, ReplaySubject } from 'rxjs'
 
 @Component({
@@ -8,7 +8,7 @@ import { map, ReplaySubject } from 'rxjs'
   templateUrl: './app.component.html',
 })
 export class AppComponent {
-  public readonly action$ = new ReplaySubject<NgbsAuthAvatarComponentAction>(1)
+  public readonly action$ = new ReplaySubject<Action>(1)
 
   constructor(private readonly store: Store) {}
 

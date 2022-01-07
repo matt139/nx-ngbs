@@ -1,14 +1,14 @@
 <form
-  *ngIf="logInForm"
+  *ngIf="logInForm$| async as logInForm"
   [formGroup]="logInForm"
-  (ngSubmit)="formSubmit$.next({event: $event, form: logInForm})"
-  [class.border.border-danger]="!logInForm.valid"
+  (ngSubmit)="formSubmit$.next({ event: $event, form: logInForm })"
+  [class.border.border-danger]="!logInForm?.valid"
 >
   <fieldset class="bg-light border border-dark p-5">
     <div class="d-flex justify-content-between mb-3 align-items-end">
       <legend class="mb-0">Log In</legend>
       <a
-        (click)="buttonClickSignUp$.next({event:$event})"
+        (click)="buttonClickSignUp$.next({ event: $event })"
         class="flex-shrink-0"
         routerLink="/auth/sign-up"
         data-test="log-in-form-link-sign-up"
@@ -44,7 +44,7 @@
         type="submit"
         class="btn btn-primary me-2"
         data-test="log-in-form-button-submit"
-        (click)="buttonClickSubmit$.next({event:$event})"
+        (click)="buttonClickSubmit$.next({ event: $event })"
         [disabled]="!logInForm.valid"
       >
         Log In
@@ -55,14 +55,20 @@
     <ul [class.d-none]="logInForm.valid" class="mb-0 mt-3">
       <li
         class="form-text text-danger"
-        [class.d-none]="!logInForm.controls.emailAddress.errors?.required || !logInForm.controls.emailAddress.touched"
+        [class.d-none]="
+          !logInForm.controls?.emailAddress?.errors?.required ||
+          !logInForm.controls?.emailAddress?.touched
+        "
       >
         Email Address is required
       </li>
 
       <li
         class="form-text text-danger"
-        [class.d-none]="!logInForm.controls.password.errors?.required || !logInForm.controls.password.touched"
+        [class.d-none]="
+          !logInForm.controls?.password?.errors?.required ||
+          !logInForm.controls?.password?.touched
+        "
       >
         Password is required
       </li>
