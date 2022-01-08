@@ -1,9 +1,9 @@
 import { FormControl, FormGroup } from '@angular/forms'
 
 export class UpdateEmailForm extends FormGroup {
-  constructor(init: { displayName?: string } = {}) {
+  constructor(init: { currentEmail?: string | null } = {}) {
     super({
-      displayName: new FormControl(init.displayName),
+      newEmail: new FormControl(init.currentEmail),
     })
   }
 }

@@ -1,25 +1,30 @@
 import { Injectable } from '@angular/core'
-import { from, map, ReplaySubject } from 'rxjs'
+import { filter, from, map, ReplaySubject, switchMap, take } from 'rxjs'
 import { NgbsAuthCredentials } from './+state/auth.models'
 import {
   Auth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  User,
   signOut,
+  updateEmail,
 } from '@angular/fire/auth'
-import { getUserFromResponse, getUserProperties, NgbsUser } from './models/user'
+import { getUserFromResponse, getUserProperties } from './models/user'
 
 @Injectable()
 export class AuthService {
   constructor(private readonly angularFireAuth: Auth) {
     this.angularFireAuth.onAuthStateChanged({
-      next: (user) => this.user$.next(user ? getUserProperties(user) : null),
-      error: (error) => this.user$.error(error),
-      complete: () => this.user$.complete(),
+      next: (user) => this.backendUser$.next(user),
+      error: (error) => this.backendUser$.error(error),
+      complete: () => this.backendUser$.complete(),
     })
   }
 
-  public readonly user$ = new ReplaySubject<NgbsUser | null>(1)
+  public readonly backendUser$ = new ReplaySubject<User | null>(1)
+  public readonly user$ = this.backendUser$.pipe(
+    map((user) => (user ? getUserProperties(user) : null))
+  )
 
   public logIn({ emailAddress, password }: NgbsAuthCredentials) {
     return from(
@@ -39,5 +44,13 @@ export class AuthService {
 
   public logOut() {
     return from(signOut(this.angularFireAuth))
+  }
+
+  public updateEmail(newEmail: string) {
+    return this.backendUser$.pipe(
+      take(1),
+      filter((user): user is User => !!user),
+      switchMap((user) => updateEmail(user, newEmail))
+    )
   }
 }

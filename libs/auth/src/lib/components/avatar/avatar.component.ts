@@ -15,8 +15,11 @@ import { NgbsUser } from '../../+state/auth.models'
   selector: 'ngbs-auth-avatar',
   templateUrl: './avatar.component.html',
   styles: [`
-    input:checked + menu.d-none {
-    display: block !important;
+    .input-toggle {
+      display: none;
+    }
+    input:checked + .input-toggle {
+      display: block !important;
     }
   `]
 })
@@ -42,6 +45,7 @@ export class NgbsAuthAvatarComponent {
   )
 
   public readonly user$ = this.props$.pipe(map((props) => props.user))
+  public readonly isLoggedIn$ = this.user$.pipe(map(user => !!user))
 
   public readonly imgSrc$ = this.user$.pipe(
     map((user) => {

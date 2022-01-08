@@ -23,6 +23,7 @@ import { AuthService } from './auth.service'
 import { NgbsAuthSettingsView } from './views/settings/settings.view'
 import { NgbsAuthFacade } from './+state/auth.facade'
 import { NgbsAuthGuardView } from './views/guard/guard.view'
+import { NgbsAuthUpdateEmailFormModule } from './components/update-email-form/update-email-form.module'
 
 export const ngbsAuthRoutes: Route[] = [
   {
@@ -73,6 +74,7 @@ export const ngbsAuthRoutes: Route[] = [
     NgbsAvatarModule,
     ReactiveFormsModule,
     NgbsAuthLogInFormModule,
+    NgbsAuthUpdateEmailFormModule,
     RouterModule.forChild(ngbsAuthRoutes),
     StoreModule.forFeature(fromAuth.AUTH_FEATURE_KEY, fromAuth.reducer),
     EffectsModule.forFeature([AuthEffects]),
