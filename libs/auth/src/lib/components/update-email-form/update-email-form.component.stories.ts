@@ -3,7 +3,7 @@ import { moduleMetadata, Story, Meta } from '@storybook/angular'
 import { NgbsAuthUpdateEmailFormComponent } from './update-email-form.component'
 
 export default {
-  title: 'NgbsAuthUpdateEmailFormComponent',
+  title: 'Update Email Form',
   component: NgbsAuthUpdateEmailFormComponent,
   decorators: [
     moduleMetadata({
@@ -21,7 +21,9 @@ export default {
 const Template: Story<NgbsAuthUpdateEmailFormComponent> = (
   args: NgbsAuthUpdateEmailFormComponent
 ) => ({
-  template: `<ngbs-auth-update-email-form (action)="action($event)"></ngbs-auth-update-email-form>`,
+  template: `
+  <ngbs-auth-update-email-form (action)="action($event)" [props]="null">
+  </ngbs-auth-update-email-form>`,
   props: args,
 })
 

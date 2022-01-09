@@ -23,10 +23,10 @@ export class NgbsAuthUpdateEmailFormComponent implements OnDestroy {
   }>(1)
 
   private readonly props$ =
-    new ReplaySubject<NgbsUpdateEmailFormComponentProps>(1)
+    new ReplaySubject<NgbsUpdateEmailFormComponentProps | null>(1)
 
   public readonly currentEmail$ = this.props$.pipe(
-    map((props) => props.currentEmail)
+    map((props) => props?.currentEmail)
   )
 
   public readonly updateEmailForm$ = this.currentEmail$.pipe(
@@ -35,7 +35,6 @@ export class NgbsAuthUpdateEmailFormComponent implements OnDestroy {
 
   @Input()
   set props(props: NgbsUpdateEmailFormComponentProps | null) {
-    if (!props) return
     this.props$.next(props)
   }
 
