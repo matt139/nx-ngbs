@@ -83,6 +83,7 @@ export const ngbsAuthRoutes: Route[] = [
     NgbsAuthLogInView,
     NgbsAuthSignUpView,
     NgbsAuthSettingsView,
+    NgbsAuthGuardView,
   ],
   providers: [NgbsAuthFacade, AuthService],
   exports: [NgbsAvatarModule],
