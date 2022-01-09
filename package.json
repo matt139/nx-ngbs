@@ -4,14 +4,16 @@
   "license": "MIT",
   "scripts": {
     "start": "nx serve",
-    "build": "nx affected:build --all",
-    "test": "nx affected:test --all",
+    "build": "nx affected:build && npm run docs",
+    "test": "nx affected:test",
+    "test-e2e": "nx affected:e2e",
     "docs": "npm run docs:auth && npm run docs:utils",
     "docs:auth": "compodoc -p ./libs/auth/tsconfig.json -d dist/compodoc/auth",
     "docs:utils": "compodoc -p ./libs/utils/tsconfig.json -d dist/compodoc/utils",
     "postinstall": "ngcc --properties es2015 browser module main",
     "docs:json": "compodoc -p ./libs/auth/tsconfig.json -e json -d .",
-    "deploy": "firebase deploy --only hosting"
+    "deploy": "firebase deploy --only hosting",
+    "test-build-deploy": "npm run test && npm run test-e2e && npm run build && npm run deploy"
   },
   "private": true,
   "devDependencies": {
