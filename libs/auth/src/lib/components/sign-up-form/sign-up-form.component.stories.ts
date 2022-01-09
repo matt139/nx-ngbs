@@ -4,7 +4,7 @@ import { NgbsAuthSignUpFormComponent } from './sign-up-form.component';
 import { SelectStylesheetDirective } from '@ngbs/utils';
 
 export default {
-  title: 'SignUpComponent',
+  title: 'Sign Up  Form',
   component: NgbsAuthSignUpFormComponent,
   decorators: [
     moduleMetadata({
@@ -21,9 +21,7 @@ export default {
 
 const Template: Story<NgbsAuthSignUpFormComponent> = (args: NgbsAuthSignUpFormComponent) => ({
   template: `
-  <select class="form-select" ngbsSelectStylesheet>
-  </select>
-  <ngbs-sign-up-form (action)="action($event)"></ngbs-sign-up-form>`,
+  <ngbs-auth-sign-up-form (action)="action($event)"></ngbs-auth-sign-up-form>`,
   props: args,
 });
 
