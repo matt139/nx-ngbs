@@ -20,28 +20,25 @@
     style="width: 10rem"
     *ngIf="user$ | async as user; else loggedOutMenu"
   >
-      <li>
-        <a
-          routerLink="/auth/settings"
-          data-test="avatar-link-settings"
-          (click)="clickSettings$.next({ event: $event })"
-          >Settings</a
-        >
-      </li>
-      <li>
-        <a
-          (click)="clickLogOut$.next({ event: $event })"
-          data-test="avatar-link-log-out"
-          >Log Out</a
-        >
-      </li>
+    <li>
+      <a
+        routerLink="/auth/settings"
+        data-test="avatar-link-settings"
+        (click)="clickSettings$.next({ event: $event })"
+        >Settings</a
+      >
+    </li>
+    <li>
+      <a
+        (click)="clickLogOut$.next({ event: $event })"
+        data-test="avatar-link-log-out"
+        >Log Out</a
+      >
+    </li>
   </menu>
 
   <ng-template #loggedOutMenu>
-    <menu
-      class="input-toggle position-absolute bg-light"
-      style="width: 10rem"
-    >
+    <menu class="input-toggle position-absolute bg-light" style="width: 10rem">
       <li>
         <a
           routerLink="/auth/sign-up"

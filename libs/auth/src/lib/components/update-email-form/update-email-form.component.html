@@ -1,0 +1,23 @@
+<form
+  *ngIf="updateEmailForm$ | async as updateEmailForm"
+  (ngSubmit)="
+    submitUpdateEmailForm$.next({ event: $event, form: updateEmailForm })
+  "
+  [formGroup]="updateEmailForm"
+>
+  <h4>
+    Update Email Address
+    <small class="d-block text-muted" [class.d-none]="!(currentEmail$ | async)"
+      >current: {{ currentEmail$ | async }}
+    </small>
+  </h4>
+  <label for="new-email-input" class="form-label">New Email:</label>
+  <input
+    formControlName="newEmail"
+    type="text"
+    id="new-email-input"
+    class="form-control"
+  />
+</form>
+
+{{currentEmail$ | async}}

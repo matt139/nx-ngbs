@@ -77,6 +77,18 @@ export class AuthEffects {
     )
   )
 
+  public readonly updateEmail = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.updateEmail),
+      switchMap(({ newEmail }) => this.authService.updateEmail(newEmail)),
+      map(() => AuthActions.updateEmailSuccess()),
+      catchError((error) => {
+        console.log(error)
+        return of(AuthActions.updateEmailFailure({ error }))
+      })
+    )
+  )
+
   public readonly navigateOnLogInOrSignUpSuccess$ = createEffect(
     () =>
       this.actions$.pipe(

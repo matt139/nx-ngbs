@@ -68,11 +68,29 @@ export const changePasswordSubmit = createAction(
 )
 
 export const changePasswordSuccess = createAction(
-  '[NgbsAuth] Change Password Success',
-  props<{ user: NgbsUser }>()
+  '[NgbsAuth] Change Password Success'
 )
 
 export const changePasswordFailure = createAction(
   '[NgbsAuth] Change Password Failure',
   props<{ error: NgbsError }>()
+)
+
+export const updateEmail = createAction(
+  '[NgbsAuth] Update Email',
+  props<{ newEmail: NonNullable<NgbsUser['email']> }>()
+)
+
+export const updateEmailSuccess = createAction(
+  '[NgbsAuth] Update Email Success'
+)
+
+export const updateEmailFailure = createAction(
+  '[NgbsAuth] Update Email Failure',
+  props<{ error: NgbsError }>()
+)
+
+export const updatePassword = createAction(
+  '[NgbsAuth] Update Password',
+  props<{ newPassword: string }>()
 )

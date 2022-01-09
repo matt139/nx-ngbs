@@ -18,7 +18,7 @@ import { NgbsUser } from '../../+state/auth.models'
     .input-toggle {
       display: none;
     }
-    input:checked + menu.input-toggle {
+    input:checked + .input-toggle {
       display: block;
     }
   `]

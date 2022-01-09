@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core'
+import { NgbsUser } from '@ngbs/auth'
 import { select, Store } from '@ngrx/store'
 
 import * as AuthActions from './auth.actions'
@@ -38,5 +39,15 @@ export class NgbsAuthFacade {
 
   public logIn(credentials: NgbsAuthCredentials) {
     this.store.dispatch(AuthActions.logInSubmit({ credentials }))
+  }
+
+  public updateEmail(newEmail: NgbsUser['email']) {
+    if(!newEmail) return
+    this.store.dispatch(AuthActions.updateEmail({ newEmail }))
+  }
+
+  public updatePassword(newPassword: string) {
+    if(!newPassword) return
+    this.store.dispatch(AuthActions.updatePassword({ newPassword }))
   }
 }
