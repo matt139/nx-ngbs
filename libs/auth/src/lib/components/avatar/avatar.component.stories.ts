@@ -13,7 +13,7 @@ export default {
   ],
   argTypes: {
     action: {
-      action: (x: unknown) => console.log(x)
+      action: () => void 0,
     },
     props: {
       options: ['loggedIn', 'loggedOut'],
@@ -21,7 +21,7 @@ export default {
         loggedIn: { user: testUser },
         loggedOut: { user: null },
       },
-      control: { type: 'select' },
+      control: { type: 'radio' },
     },
   },
 } as Meta<NgbsAuthAvatarComponent>
@@ -30,7 +30,7 @@ const Template: Story<NgbsAuthAvatarComponent> = (
   args: NgbsAuthAvatarComponent
 ) => ({
   template: `
-  <ngbs-auth-avatar [props]="props" (action$)="action($event)"></ngbs-auth-avatar>`,
+    <ngbs-auth-avatar [props]="props" (action$)="action($event)"></ngbs-auth-avatar>`,
   props: args,
 })
 

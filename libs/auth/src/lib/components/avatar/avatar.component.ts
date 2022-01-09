@@ -24,7 +24,7 @@ import { NgbsUser } from '../../+state/auth.models'
   `]
 })
 export class NgbsAuthAvatarComponent {
-  private readonly props$ = new ReplaySubject<NgbsAvatarComponentProps>(1)
+  private readonly props$ = new ReplaySubject<NgbsAvatarComponentProps | null>(1)
   public readonly clickLogOut$ = new ReplaySubject<{ event: Event }>(1)
   public readonly clickLogIn$ = new ReplaySubject<{ event: Event }>(1)
   public readonly clickSettings$ = new ReplaySubject<{ event: Event }>(1)
@@ -32,7 +32,6 @@ export class NgbsAuthAvatarComponent {
 
   @Input()
   public set props(props: NgbsAvatarComponentProps | null) {
-    if (!props) return
     this.props$.next(props)
   }
 
@@ -44,7 +43,7 @@ export class NgbsAuthAvatarComponent {
     this.clickSettings$.pipe(map(clickSettings))
   )
 
-  public readonly user$ = this.props$.pipe(map((props) => props.user))
+  public readonly user$ = this.props$.pipe(map((props) => props?.user))
 
   public readonly imgSrc$ = this.user$.pipe(
     map((user) => {
