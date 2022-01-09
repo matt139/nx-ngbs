@@ -32,6 +32,28 @@
           "destination": "/index.html"
         }
       ]
+    },
+    {
+      "site": "ngbs-utils",
+      "public": "dist/storybook/utils",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    },
+    {
+      "site": "ngbs-utils-docs",
+      "public": "dist/compodoc/utils",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
     }
   ]
 }
