@@ -15,8 +15,11 @@ import { NgbsUser } from '../../+state/auth.models'
   selector: 'ngbs-auth-avatar',
   templateUrl: './avatar.component.html',
   styles: [`
-    input:checked + menu.d-none {
-    display: block !important;
+    .input-toggle {
+      display: none;
+    }
+    input:checked + menu.input-toggle {
+      display: block;
     }
   `]
 })

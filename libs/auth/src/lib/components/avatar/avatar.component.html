@@ -15,8 +15,11 @@
     class="d-none"
     ngbsUncheckOnDocumentClick
   />
-  <menu class="d-none position-absolute bg-light" style="width: 10rem">
-    <ng-template *ngIf="user$ | async as user; else loggedOutMenu">
+  <menu
+    class="input-toggle position-absolute bg-light"
+    style="width: 10rem"
+    *ngIf="user$ | async as user; else loggedOutMenu"
+  >
       <li>
         <a
           routerLink="/auth/settings"
@@ -32,25 +35,29 @@
           >Log Out</a
         >
       </li>
-    </ng-template>
   </menu>
 
   <ng-template #loggedOutMenu>
-    <li>
-      <a
-        routerLink="/auth/sign-up"
-        data-test="avatar-link-sign-up"
-        (click)="clickSignUp$.next({ event: $event })"
-        >Sign Up</a
-      >
-    </li>
-    <li>
-      <a
-        routerLink="/auth/log-in"
-        data-test="avatar-link-log-in"
-        (click)="clickLogIn$.next({ event: $event })"
-        >Log In</a
-      >
-    </li>
+    <menu
+      class="input-toggle position-absolute bg-light"
+      style="width: 10rem"
+    >
+      <li>
+        <a
+          routerLink="/auth/sign-up"
+          data-test="avatar-link-sign-up"
+          (click)="clickSignUp$.next({ event: $event })"
+          >Sign Up</a
+        >
+      </li>
+      <li>
+        <a
+          routerLink="/auth/log-in"
+          data-test="avatar-link-log-in"
+          (click)="clickLogIn$.next({ event: $event })"
+          >Log In</a
+        >
+      </li>
+    </menu>
   </ng-template>
 </div>
