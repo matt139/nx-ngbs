@@ -4,7 +4,7 @@ import { NgbsAuthSignUpFormComponent } from './sign-up-form.component';
 import { SelectStylesheetDirective } from '@ngbs/utils';
 
 export default {
-  title: 'Sign Up  Form',
+  title: 'Sign Up Form',
   component: NgbsAuthSignUpFormComponent,
   decorators: [
     moduleMetadata({

@@ -3,7 +3,7 @@ import { moduleMetadata, Story, Meta } from '@storybook/angular'
 import { NgbsAuthLogInFormComponent } from './log-in-form.component'
 
 export default {
-  title: 'LogInComponent',
+  title: 'Log In Form',
   component: NgbsAuthLogInFormComponent,
   decorators: [
     moduleMetadata({
