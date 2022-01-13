@@ -85,6 +85,8 @@ This allows us to specify the `LogInComponentAction` type to consuming component
 })
 export class AuthView implements OnDestroy {
   public readonly action$ = new Subject<AuthViewAction>()
+  constructor(private readonly store: Store) { }
+  dispatch = this.action$.subscribe(action => this.store.dispatch(action))
 }
 export type AuthViewAction = LogInComponentAction | SignUpComponentAction
 ```
