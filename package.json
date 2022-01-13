@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "start": "nx serve",
-    "build": "nx affected:build && npm run docs",
+    "build": "nx affected:build --all && npm run docs",
     "test": "nx affected:test",
     "test-e2e": "nx affected:e2e",
     "docs": "npm run docs:auth && npm run docs:utils",
