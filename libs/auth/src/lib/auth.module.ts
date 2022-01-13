@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core'
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { ReactiveFormsModule } from '@angular/forms'
 import { Route, RouterModule } from '@angular/router'
@@ -24,6 +24,7 @@ import { NgbsAuthSettingsView } from './views/settings/settings.view'
 import { NgbsAuthFacade } from './+state/auth.facade'
 import { NgbsAuthGuardView } from './views/guard/guard.view'
 import { NgbsAuthUpdateEmailFormModule } from './components/update-email-form/update-email-form.module'
+import { NgbsUtilsModule } from '@ngbs/utils'
 
 export const ngbsAuthRoutes: Route[] = [
   {
@@ -74,6 +75,7 @@ export const ngbsAuthRoutes: Route[] = [
     NgbsAvatarModule,
     ReactiveFormsModule,
     NgbsAuthLogInFormModule,
+    NgbsUtilsModule,
     NgbsAuthUpdateEmailFormModule,
     RouterModule.forChild(ngbsAuthRoutes),
     StoreModule.forFeature(fromAuth.AUTH_FEATURE_KEY, fromAuth.reducer),

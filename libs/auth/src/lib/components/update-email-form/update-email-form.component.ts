@@ -1,12 +1,10 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnDestroy,
-  Output,
-} from '@angular/core'
+import { ChangeDetectionStrategy, Component, Output } from '@angular/core'
 import { NgbsUser } from '@ngbs/auth'
-import { ComponentActions } from '@ngbs/utils'
+import {
+  CompleteOnDestroy$,
+  ComponentActions,
+  ComponentWithProps,
+} from '@ngbs/utils'
 import { createAction, props } from '@ngrx/store'
 import { map, ReplaySubject } from 'rxjs'
 import { UpdateEmailForm } from './update-email.form'
@@ -16,14 +14,12 @@ import { UpdateEmailForm } from './update-email.form'
   templateUrl: './update-email-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NgbsAuthUpdateEmailFormComponent implements OnDestroy {
+export class NgbsAuthUpdateEmailFormComponent extends ComponentWithProps<NgbsUpdateEmailFormComponentProps> {
+  @CompleteOnDestroy$()
   public readonly submitUpdateEmailForm$ = new ReplaySubject<{
     event: Event
     form: UpdateEmailForm
   }>(1)
-
-  private readonly props$ =
-    new ReplaySubject<NgbsUpdateEmailFormComponentProps | null>(1)
 
   public readonly currentEmail$ = this.props$.pipe(
     map((props) => props?.currentEmail)
@@ -33,11 +29,6 @@ export class NgbsAuthUpdateEmailFormComponent implements OnDestroy {
     map((currentEmail) => new UpdateEmailForm({ currentEmail }))
   )
 
-  @Input()
-  set props(props: NgbsUpdateEmailFormComponentProps | null) {
-    this.props$.next(props)
-  }
-
   @Output()
   public readonly action$ = this.submitUpdateEmailForm$.pipe(
     map(({ form, event }) => {
@@ -45,16 +36,11 @@ export class NgbsAuthUpdateEmailFormComponent implements OnDestroy {
       return submitUpdateEmailForm({ event, form })
     })
   )
-
-  public ngOnDestroy() {
-    this.submitUpdateEmailForm$.complete()
-    this.props$.complete()
-  }
 }
 
-export interface NgbsUpdateEmailFormComponentProps {
+export type NgbsUpdateEmailFormComponentProps = {
   currentEmail: NgbsUser['email']
-}
+} | null
 
 export const submitUpdateEmailForm = createAction(
   '[NgbsAuthUpdateEmailFormComponent] Submit update email form',

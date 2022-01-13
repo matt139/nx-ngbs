@@ -5,3 +5,4 @@ export * from './lib/directives/uncheck-on-document-click/uncheck-on-document-cl
 export * from './lib/directives/uncheck-on-document-click/uncheck-on-document-click.module';
 export * from './lib/decorators/lifecycle'
 export * from './lib/decorators/props'
+export * from './lib/components/component-with-props'

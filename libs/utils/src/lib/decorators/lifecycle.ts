@@ -164,9 +164,9 @@ export function NgOnDestroy$() {
  */
 
 export function CompleteOnDestroy$() {
-  return (target: { ngOnDestroy: Function }, propName: string): void => {
+  return (target: object, propName: string): void => {
     const subject = new ReplaySubject<unknown>(1)
-    const oldDestroyFn = target.ngOnDestroy
+    const oldDestroyFn = (target as { ngOnDestroy: Function }).ngOnDestroy
     const newDestroyFn = () => {
       subject.complete()
       oldDestroyFn && oldDestroyFn()
