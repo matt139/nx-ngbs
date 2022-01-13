@@ -4,7 +4,7 @@ import {
   Input,
   Output,
 } from '@angular/core'
-import { ComponentActions } from '@ngbs/utils'
+import { ComponentActions, Props$ } from '@ngbs/utils'
 import { createAction, props } from '@ngrx/store'
 import { merge, ReplaySubject } from 'rxjs'
 import { map } from 'rxjs/operators'
@@ -14,26 +14,27 @@ import { NgbsUser } from '../../+state/auth.models'
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ngbs-auth-avatar',
   templateUrl: './avatar.component.html',
-  styles: [`
-    .input-toggle {
-      display: none;
-    }
-    input:checked + .input-toggle {
-      display: block;
-    }
-  `]
+  styles: [
+    `
+      .input-toggle {
+        display: none;
+      }
+      input:checked + .input-toggle {
+        display: block;
+      }
+    `,
+  ],
 })
 export class NgbsAuthAvatarComponent {
-  private readonly props$ = new ReplaySubject<NgbsAvatarComponentProps | null>(1)
   public readonly clickLogOut$ = new ReplaySubject<{ event: Event }>(1)
   public readonly clickLogIn$ = new ReplaySubject<{ event: Event }>(1)
   public readonly clickSettings$ = new ReplaySubject<{ event: Event }>(1)
   public readonly clickSignUp$ = new ReplaySubject<{ event: Event }>(1)
 
   @Input()
-  public set props(props: NgbsAvatarComponentProps | null) {
-    this.props$.next(props)
-  }
+  @Props$()
+  public props!: NgbsAvatarComponentProps
+  private readonly props$!: ReplaySubject<NgbsAvatarComponentProps>
 
   @Output()
   public readonly action$ = merge(
@@ -62,7 +63,7 @@ export class NgbsAuthAvatarComponent {
   )
 }
 
-export interface NgbsAvatarComponentProps {
+export type NgbsAvatarComponentProps = null | {
   readonly user?: Pick<NgbsUser, 'photoURL' | 'displayName' | 'email'> | null
 }
 
