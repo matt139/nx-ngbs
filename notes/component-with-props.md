@@ -6,6 +6,20 @@ create an abstract component so that we can easliy use the `props` convention
 in any component as follows
 
 ```typescript
+@Component({ template: '' }) // @Component decorator is required by angular for @Input decorator
+export class ComponentWithProps<T> {
+  @Input()
+  @Input$()
+  public props!: T
+  protected readonly props$!: Observable<T>
+}
+```
+
+The abstract class uses the `@Input$()` decorator. `props$` is marked as
+`protected` in typescript so that it is exposed to consuming components but not
+directly availble outside the component
+
+```typescript
 interface MyComponentProps {
   foo: string
 }
@@ -40,20 +54,6 @@ support in angular templates
 
 ---
 
-The abstract class uses the `@Input$()` decorator. `props$` is marked as
-`protected` in typescript so that it is exposed to consuming components but not
-directly availble outside the component
-
-```typescript
-@Component({ template: '' }) // @Component decorator is required by angular for @Input decorator
-export class ComponentWithProps<T> {
-  @Input()
-  @Input$()
-  public props!: T
-  protected readonly props$!: Observable<T>
-}
-```
-
-
 see
- - https://github.com/matt139/nx-ngbs/blob/master/libs/utils/src/lib/components/component-with-props.ts
+
+- https://github.com/matt139/nx-ngbs/blob/master/libs/utils/src/lib/components/component-with-props.ts
