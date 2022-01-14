@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core'
 import { Input$ } from '../decorators/input-props'
-import { ReplaySubject } from 'rxjs'
+import { Observable } from 'rxjs'
 
 /*
  *
@@ -33,5 +33,5 @@ export class ComponentWithProps<T> {
   @Input()
   @Input$()
   public props!: T
-  protected readonly props$!: ReplaySubject<T>
+  protected readonly props$!: Observable<T>
 }
