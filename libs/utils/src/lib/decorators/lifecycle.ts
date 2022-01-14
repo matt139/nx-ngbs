@@ -98,10 +98,10 @@ export function NgAfterContentChecked$() {
 }
 
 export function NgAfterViewInit$() {
-  return (target: { ngAfterViewInit: Function }, propName: string): void => {
+  return (target: object, propName: string): void => {
     const ngAfterViewInit$ = new ReplaySubject<void>(1)
 
-    const oldInitFn = target.ngAfterViewInit
+    const oldInitFn = (target as { ngAfterViewInit: Function }).ngAfterViewInit
     const newInitFn = () => {
       ngAfterViewInit$.next()
       ngAfterViewInit$.complete()

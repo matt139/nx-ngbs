@@ -1,14 +1,14 @@
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT } from '@angular/common'
 import {
-  AfterViewInit,
   Directive,
   ElementRef,
   Inject,
   Renderer2,
-} from '@angular/core';
-import { combineLatest, fromEvent, of, ReplaySubject } from 'rxjs';
+} from '@angular/core'
+import { NgAfterViewInit$ } from '../../decorators/lifecycle'
+import { combineLatest, fromEvent, of, ReplaySubject } from 'rxjs'
 
-const LINK_ID = 'link-ngbs-select-stylesheet';
+const LINK_ID = 'link-ngbs-select-stylesheet'
 
 /**
  * Allow users to customize themes by selecting a stylesheet and update link in <head>
@@ -17,12 +17,13 @@ const LINK_ID = 'link-ngbs-select-stylesheet';
 @Directive({
   selector: 'select[ngbsSelectStylesheet]',
 })
-export class SelectStylesheetDirective implements AfterViewInit {
-  private readonly ngAfterViewInit$ = new ReplaySubject<void>(1);
+export class SelectStylesheetDirective {
+  @NgAfterViewInit$()
+  private readonly ngAfterViewInit$!: ReplaySubject<void>
 
   private readonly linkElement =
     this.document.querySelector(`#${LINK_ID}`) ||
-    this.renderer.createElement('link');
+    this.renderer.createElement('link')
 
   constructor(
     private readonly elementRef: ElementRef<HTMLSelectElement>,
@@ -32,50 +33,44 @@ export class SelectStylesheetDirective implements AfterViewInit {
 
   private readonly options$ = of(
     stylesheets.map((stylesheet) => {
-      const option = this.renderer.createElement('option');
-      option.value = stylesheet.url;
-      option.innerText = stylesheet.name;
-      return option;
+      const option = this.renderer.createElement('option')
+      option.value = stylesheet.url
+      option.innerText = stylesheet.name
+      return option
     })
-  );
+  )
 
   public readonly setOptions = combineLatest([
     this.options$,
-    this.ngAfterViewInit$
+    this.ngAfterViewInit$,
   ]).subscribe(([options]) =>
     options.forEach((option) =>
       this.elementRef.nativeElement.appendChild(option)
     )
-  );
+  )
 
   public readonly initLinkElement = this.ngAfterViewInit$.subscribe(() => {
-    this.renderer.setAttribute(this.linkElement, 'id', LINK_ID);
-    this.renderer.setAttribute(this.linkElement, 'rel', 'stylesheet');
-    const existingLinkElement = this.document.querySelector(`#${LINK_ID}`);
+    this.renderer.setAttribute(this.linkElement, 'id', LINK_ID)
+    this.renderer.setAttribute(this.linkElement, 'rel', 'stylesheet')
+    const existingLinkElement = this.document.querySelector(`#${LINK_ID}`)
     if (existingLinkElement) {
       this.elementRef.nativeElement.value =
-        existingLinkElement.getAttribute('href')?.valueOf() || defaultUrl;
+        existingLinkElement.getAttribute('href')?.valueOf() || defaultUrl
     } else {
-      const head = this.document.head;
-      this.renderer.appendChild(head, this.linkElement);
+      const head = this.document.head
+      this.renderer.appendChild(head, this.linkElement)
     }
-  });
+  })
 
   public readonly updateStylesheet = fromEvent(
     this.elementRef.nativeElement,
     'change'
   ).subscribe(() => {
-    this.setLinkElement(this.elementRef.nativeElement.value);
-
-  });
+    this.setLinkElement(this.elementRef.nativeElement.value)
+  })
 
   private setLinkElement(href: string = defaultUrl) {
-    this.renderer.setAttribute(this.linkElement, 'href', href);
-  }
-
-  public ngAfterViewInit() {
-    this.ngAfterViewInit$.next();
-    this.ngAfterViewInit$.complete();
+    this.renderer.setAttribute(this.linkElement, 'href', href)
   }
 }
 
@@ -184,6 +179,6 @@ const stylesheets = [
     url: 'https://bootswatch.com/5/zephyr/bootstrap.css',
     name: 'zephyr',
   },
-];
+]
 
-const defaultUrl = stylesheets[0].url;
+const defaultUrl = stylesheets[0].url

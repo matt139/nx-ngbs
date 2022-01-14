@@ -19,7 +19,7 @@ We can create a custom decorator to shorten this to
 ```typescript
 export class MyComponent {
   @NgOnInit$()
-  private readonly ngOnInit$!: ReplaySubject<void>
+  private readonly ngOnInit$!: Observable<void>
 }
 ```
 
@@ -51,7 +51,7 @@ functionality is unaffected.
 
 ```typescript
 export class MyComponent {
-  private readonly ngOnInit$!: ReplaySubject<void>
+  private readonly ngOnInit$!: Observable<void>
    test$ = this.ngOnInit$.subscribe(() => console.log('component.test$'))
 
    public ngOnInit: void() {
