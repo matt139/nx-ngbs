@@ -73,3 +73,6 @@ class MyComponent {
   private readonly bar$!: Observable<Bar>
 }
 ```
+
+see:
+ - https://github.com/matt139/nx-ngbs/blob/master/libs/utils/src/lib/decorators/input-props.ts
