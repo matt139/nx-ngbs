@@ -4,7 +4,12 @@ import {
   Input,
   Output,
 } from '@angular/core'
-import { ComponentActions, Props$ } from '@ngbs/utils'
+import {
+  CompleteOnDestroy$,
+  ComponentActions,
+  ComponentWithProps,
+  Props$,
+} from '@ngbs/utils'
 import { createAction, props } from '@ngrx/store'
 import { merge, ReplaySubject } from 'rxjs'
 import { map } from 'rxjs/operators'
@@ -25,24 +30,15 @@ import { NgbsUser } from '../../+state/auth.models'
     `,
   ],
 })
-export class NgbsAuthAvatarComponent {
+export class NgbsAuthAvatarComponent extends ComponentWithProps<NgbsAvatarComponentProps> {
+  @CompleteOnDestroy$()
   public readonly clickLogOut$ = new ReplaySubject<{ event: Event }>(1)
+  @CompleteOnDestroy$()
   public readonly clickLogIn$ = new ReplaySubject<{ event: Event }>(1)
+  @CompleteOnDestroy$()
   public readonly clickSettings$ = new ReplaySubject<{ event: Event }>(1)
+  @CompleteOnDestroy$()
   public readonly clickSignUp$ = new ReplaySubject<{ event: Event }>(1)
-
-  @Input()
-  @Props$()
-  public props!: NgbsAvatarComponentProps
-  private readonly props$!: ReplaySubject<NgbsAvatarComponentProps>
-
-  @Output()
-  public readonly action$ = merge(
-    this.clickLogOut$.pipe(map(clickLogOut)),
-    this.clickLogIn$.pipe(map(clickLogIn)),
-    this.clickSignUp$.pipe(map(clickSignUp)),
-    this.clickSettings$.pipe(map(clickSettings))
-  )
 
   public readonly user$ = this.props$.pipe(map((props) => props?.user))
 
@@ -61,11 +57,19 @@ export class NgbsAuthAvatarComponent {
       return user.displayName
     })
   )
+
+  @Output()
+  public readonly action$ = merge(
+    this.clickLogOut$.pipe(map(clickLogOut)),
+    this.clickLogIn$.pipe(map(clickLogIn)),
+    this.clickSignUp$.pipe(map(clickSignUp)),
+    this.clickSettings$.pipe(map(clickSettings))
+  )
 }
 
-export type NgbsAvatarComponentProps = null | {
+export type NgbsAvatarComponentProps = {
   readonly user?: Pick<NgbsUser, 'photoURL' | 'displayName' | 'email'> | null
-}
+} | null
 
 export const clickLogOut = createAction(
   `[NgbsAuthAvatarComponent] Log Out Clicked`,
