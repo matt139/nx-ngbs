@@ -2,43 +2,44 @@ import { ReplaySubject } from 'rxjs'
 
 /*
  *
- *  Class method decorator to convert an angular @Input() property to an
+ *  Class method decorator to convert an angular `@Input()` property to an
  *  observable stream that completes on ngOnDestroy. Parent components pass down
  *  inputs just like normal (eg `<my-component [props]="propsFromParent"></my-component>`
  *  or `<my-component [props]="propsStreamFromParent$ |
  *  async"></my-component>`). note that the both the input and observable
  *  properties must be declared on the component
- *  with similar names `props` and `props$`
+ *  with similar names `props` and `props$`. The `@Input()` decorator from
+*  `@angular/core` is required in addition to this one
  *
  * @example
  *
  * ```typescript
  *  class MyComponent {
  *    @Input()
- *    @InputProps$()
+ *    @Input$()
  *    public props!: MyComponentProps
- *    private readonly props$!: ReplaySubject<MyComponentProps>
+ *    private readonly prop$!: Observable<MyComponentProps>
  *
- *    private foo$ = this.props$.pipe(map(props => props.foo))
+ *    private foo$ = this.prop$.pipe(map(props => props.foo))
  *  }
  *  ```
  *
  */
-export function InputProps() {
+export function Input$() {
   return (target: object, propName: string): void => {
-    const props$ = new ReplaySubject<unknown>(1)
+    const prop$ = new ReplaySubject<unknown>(1)
     const propName$ = propName + '$'
 
     Object.defineProperty(target, propName, {
       set: (value) => {
-        props$.next(value)
+        prop$.next(value)
       },
     })
     const oldOnDestroyFn = (target as { ngOnDestroy: Function }).ngOnDestroy
     const newOnDestroyFn = () => {
-      props$.complete()
+      prop$.complete()
       oldOnDestroyFn && oldOnDestroyFn()
     }
-    Object.assign(target, { [propName$]: props$, ngOnDestroy: newOnDestroyFn })
+    Object.assign(target, { [propName$]: prop$, ngOnDestroy: newOnDestroyFn })
   }
 }
