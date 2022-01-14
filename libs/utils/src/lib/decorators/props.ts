@@ -19,12 +19,12 @@ import { ReplaySubject } from 'rxjs'
  *    public props!: MyComponentProps
  *    private readonly props$!: ReplaySubject<MyComponentProps>
  *
- *     private myProp$ = this.props$.pipe(map(props => props.myProp))
+ *    private foo$ = this.props$.pipe(map(props => props.foo))
  *  }
  *  ```
  *
  */
-export function InputProps (){
+export function InputProps() {
   return (target: object, propName: string): void => {
     const props$ = new ReplaySubject<unknown>(1)
     const propName$ = propName + '$'

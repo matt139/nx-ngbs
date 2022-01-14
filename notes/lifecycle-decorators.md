@@ -26,14 +26,16 @@ export class MyComponent {
 note that we use the `!` operator to signal to typescript that the `ngOnInit$`
 property will be defined later in the decorator.
 
+---
+
 The decorator implementation is fairly straightforward
 
 ```typescript
 export function NgOnInit$() {
-  return (target: { ngOnInit: Function }, propName: string): void => {
+  return (target: object, propName: string): void => {
     const ngOnInit$ = new ReplaySubject<void>(1)
 
-    const oldInitFn = target.ngOnInit
+    const oldInitFn = (target as { ngOnInit: Function }).ngOnInit
     const newInitFn = () => {
       ngOnInit$.next()
       ngOnInit$.complete()

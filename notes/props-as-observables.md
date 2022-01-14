@@ -33,7 +33,10 @@ export class MyComponent implements OnChanges {
 
 Angular encourages us to use RxJs. Let's treat our input as an observable
 stream and react accordingly. We can create a `ReplaySubject` from our props
-and use the TypeScript `set` operator to turn our input into a stream.
+and use the TypeScript `set` operator to turn our input into a stream. Note
+that in TypeScript the use of `set` does not mandate the use of `get`. In this
+case, instead of using an intermediary value `_props` and reading from a method
+`get props`, we are piping values from `set` into readable stream `props$`
 
 ```typescript
 @Component({
@@ -65,11 +68,13 @@ class MyComponent {
   set props(props: MyComponentProps) {
     this.props$.next(props)
   }
-  foo$ = this.props$.pipe(
+
+  public foo$ = this.props$.pipe(
     map((props) => props.foo),
     filter((foo) => !!foo)
   )
-  bar$ = this.props$.pipe(
+
+  public bar$ = this.props$.pipe(
     map((props) => props.bar),
     filter((foo) => !!bar)
   )
