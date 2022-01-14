@@ -1,14 +1,8 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  Output,
-} from '@angular/core'
+import { ChangeDetectionStrategy, Component, Output } from '@angular/core'
 import {
   CompleteOnDestroy$,
   ComponentActions,
   ComponentWithProps,
-  Props$,
 } from '@ngbs/utils'
 import { createAction, props } from '@ngrx/store'
 import { merge, ReplaySubject } from 'rxjs'

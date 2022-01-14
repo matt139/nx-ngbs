@@ -15,7 +15,7 @@ import { ReplaySubject } from 'rxjs'
  * ```typescript
  *  class MyComponent {
  *    @Input()
- *    @Props$()
+ *    @InputProps$()
  *    public props!: MyComponentProps
  *    private readonly props$!: ReplaySubject<MyComponentProps>
  *
@@ -24,7 +24,7 @@ import { ReplaySubject } from 'rxjs'
  *  ```
  *
  */
-export function Props$() {
+export function InputProps (){
   return (target: object, propName: string): void => {
     const props$ = new ReplaySubject<unknown>(1)
     const propName$ = propName + '$'
