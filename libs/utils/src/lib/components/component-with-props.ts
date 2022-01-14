@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core'
-import { InputProps } from '../decorators/props'
+import { InputProps } from '../decorators/input-props'
 import { ReplaySubject } from 'rxjs'
 
 /*
