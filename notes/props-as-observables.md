@@ -1,5 +1,5 @@
-Reacting to changes in Angular can be cumbersome even in the simplest cases. Say we have some values that
-we don't want to update of the input is null
+Reacting to changes in Angular can be cumbersome even in the simplest cases.
+Say we have some values that we don't want to update of the input is null
 
 ```typescript
 @Component({
