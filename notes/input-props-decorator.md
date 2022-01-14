@@ -1,4 +1,5 @@
-Wrapping angular input properties in observable streams requires some boilerplate code
+Wrapping angular input properties in observable streams requires some
+boilerplate code
 
 ```typescript
 @Component({
@@ -13,7 +14,8 @@ class MyComponent {
 }
 ```
 
-We can create a decorator `@Input$()` to supplement the native `@Input()` from `@angular/core`.
+We can create a decorator `@Input$()` to supplement the native `@Input()` from
+`@angular/core`.
 
 ```typescript
 export function Input$() {
@@ -46,9 +48,28 @@ class MyComponent {
   @Input()
   @Input$()
   public props!: MyComponentProps
-  private readonly prop$!: Observable<MyComponentProps>
+  private readonly props$!: Observable<MyComponentProps>
 
   // pluck a property from our `props$`
-  private foo$ = this.prop$.pipe(map((props) => props.foo))
+  private foo$ = this.props$.pipe(map((props) => props.foo))
+}
+```
+
+This can be used with any number of inputs, so long as both the input property
+`foo` and stream property `foo$` are both declared on the component. The
+provided implementation requires that the observable property `foo$` has the
+same name as the input `foo` with the trailing `$`
+
+```typescript
+class MyComponent {
+  @Input()
+  @Input$()
+  public foo!: Foo
+  private readonly foo$!: Observable<Foo>
+
+  @Input()
+  @Input$()
+  public bar!: Bar
+  private readonly bar$!: Observable<Bar>
 }
 ```
