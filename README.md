@@ -29,4 +29,4 @@ Misceleneous Angular Utilities
 
 
 
-### [Notes](https://github.com/matt139/nx-ngbs/tree/master/notes)
+### [Wiki](./*wiki*/index.md)
