@@ -24,13 +24,13 @@
       <a
         routerLink="/auth/settings"
         data-test="avatar-link-settings"
-        (click)="clickSettings$.next({ event: $event })"
+        (click)="clickSettings({ event: $event })"
         >Settings</a
       >
     </li>
     <li>
       <a
-        (click)="clickLogOut$.next({ event: $event })"
+        (click)="clickLogOut({ event: $event })"
         data-test="avatar-link-log-out"
         >Log Out</a
       >
@@ -43,7 +43,7 @@
         <a
           routerLink="/auth/sign-up"
           data-test="avatar-link-sign-up"
-          (click)="clickSignUp$.next({ event: $event })"
+          (click)="clickSignUp({ event: $event })"
           >Sign Up</a
         >
       </li>
@@ -51,7 +51,7 @@
         <a
           routerLink="/auth/log-in"
           data-test="avatar-link-log-in"
-          (click)="clickLogIn$.next({ event: $event })"
+          (click)="clickLogIn({ event: $event })"
           >Log In</a
         >
       </li>

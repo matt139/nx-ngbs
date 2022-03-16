@@ -1,11 +1,6 @@
-import { ChangeDetectionStrategy, Component, Output } from '@angular/core'
-import {
-  CompleteOnDestroy$,
-  ComponentActions,
-  ComponentWithProps,
-} from '@ngbs/utils'
+import { ChangeDetectionStrategy, Component } from '@angular/core'
+import { ObservableComponent } from '@matttelliott/ngx-observable-components'
 import { createAction, props } from '@ngrx/store'
-import { merge, ReplaySubject } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { NgbsUser } from '../../+state/auth.models'
 
@@ -24,16 +19,10 @@ import { NgbsUser } from '../../+state/auth.models'
     `,
   ],
 })
-export class NgbsAuthAvatarComponent extends ComponentWithProps<NgbsAvatarComponentProps> {
-  @CompleteOnDestroy$()
-  public readonly clickLogOut$ = new ReplaySubject<{ event: Event }>(1)
-  @CompleteOnDestroy$()
-  public readonly clickLogIn$ = new ReplaySubject<{ event: Event }>(1)
-  @CompleteOnDestroy$()
-  public readonly clickSettings$ = new ReplaySubject<{ event: Event }>(1)
-  @CompleteOnDestroy$()
-  public readonly clickSignUp$ = new ReplaySubject<{ event: Event }>(1)
-
+export class NgbsAuthAvatarComponent extends ObservableComponent<
+  NgbsAvatarComponentProps,
+  NgbsAuthAvatarComponentAction
+> {
   public readonly user$ = this.props$.pipe(map((props) => props?.user))
 
   public readonly imgSrc$ = this.user$.pipe(
@@ -52,13 +41,10 @@ export class NgbsAuthAvatarComponent extends ComponentWithProps<NgbsAvatarCompon
     })
   )
 
-  @Output()
-  public readonly action$ = merge(
-    this.clickLogOut$.pipe(map(clickLogOut)),
-    this.clickLogIn$.pipe(map(clickLogIn)),
-    this.clickSignUp$.pipe(map(clickSignUp)),
-    this.clickSettings$.pipe(map(clickSettings))
-  )
+  public readonly clickLogOut = (props: {event: Event}) => this.action$.next(clickLogOut(props))
+  public readonly clickLogIn = (props: {event: Event}) => this.action$.next(clickLogIn(props))
+  public readonly clickSignUp = (props: {event: Event}) => this.action$.next(clickSignUp(props))
+  public readonly clickSettings = (props: {event: Event}) => this.action$.next(clickSettings(props))
 }
 
 export type NgbsAvatarComponentProps = {
@@ -85,5 +71,11 @@ export const clickSettings = createAction(
   props<{ event: Event }>()
 )
 
+export type NgbsAuthAvatarComponentActionCreator =
+  | typeof clickSettings
+  | typeof clickSignUp
+  | typeof clickLogIn
+  | typeof clickLogOut
+
 export type NgbsAuthAvatarComponentAction =
-  ComponentActions<NgbsAuthAvatarComponent>
+  ReturnType<NgbsAuthAvatarComponentActionCreator>
